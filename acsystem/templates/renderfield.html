@@ -1,0 +1,47 @@
+{% macro render_field(field, ph="") %}
+<div class="form-group">
+    {{ field.label(class="form-control-label") }}
+    {% if field.errors %}
+    {{ field(class="form-control is-invalid", placeholder=ph)}}
+    <div class="invalid-feedback">
+        {% for error in field.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+    {% else %}
+    {{ field(class="form-control", placeholder=ph)}}
+    {% endif %}
+</div>
+{% endmacro %}
+
+
+{% macro render_doublefield(field1, field2, ph1="", ph2="") %}
+<div class="form-row">
+    <div class="form-group col">
+        {{ field1.label(class="form-control-label") }}
+        {% if field1.errors %}
+        {{ field1(class="form-control is-invalid", placeholder=ph1)}}
+        <div class="invalid-feedback">
+            {% for error in field1.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{ field1(class="form-control", placeholder=ph1)}}
+        {% endif %}
+    </div>
+    <div class="form-group col">
+        {{ field2.label(class="form-control-label") }}
+        {% if field2.errors %}
+        {{ field2(class="form-control is-invalid", placeholder=ph2)}}
+        <div class="invalid-feedback">
+            {% for error in field2.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{ field2(class="form-control", placeholder=ph2)}}
+        {% endif %}
+    </div>
+</div>
+{% endmacro %}

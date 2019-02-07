@@ -1,0 +1,28 @@
+{% from "renderfield.html" import render_field %}
+{% extends "loginregisterlayout.html"%}
+{% block content %}
+<div class="formcontainer">
+        <div class="loginheading">
+                <h1>Login</h1>
+                <p>Please Enter your Account details</p>
+            </div>
+    <form action="" method="POST">
+        {{ render_field(form.email,"Enter Your Email") }}
+        
+        {{ render_field(form.password,"Enter your Password")}}
+        
+        <div class="form-group">
+            {{ form.remember()}}
+            {{ form.remember.label(class="ml-2") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn", style="background-color: #75ff9b;")}}
+        </div>
+        <div class="form-group">
+            <p class="text-muted mt-3">I don't have an Account! <a href="{{url_for('register')}}">SignUp</a></p>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+
