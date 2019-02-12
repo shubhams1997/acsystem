@@ -1,7 +1,7 @@
-from flask import render_template, url_for, flash, redirect, json
+from flask import render_template, url_for, flash, redirect
 from acsystem import app, bcrypt, db
 from acsystem.forms import LoginForm, RegisterForm, CompanyForm
-from acsystem.models import User
+from acsystem.models import User, Company
 from flask_login import login_user
 
 @app.route("/")
@@ -17,12 +17,13 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
+        print("after query")
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            flash(f"You logined Successfully!","Success")
-            return redirect(url_for('home'))
+            flash("You loged in Successfully!","success")
+            return redirect(url_for('dashboard'))
         else:
-            flash(f"Login Unsuccessful!", "warning")
+            flash("Login Unsuccessful!", "warning")
     return render_template("login.html", title = "login", form=form)
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -49,6 +50,14 @@ def companies():
 def addcompany():
     form = CompanyForm()
     if form.validate_on_submit():
+        print("inside validation route")
+        print(form.country.data)
+        # company = Company(companyname = form.name, mailingname = form.mailingname
+        #             , address = form.address, country = form.country, state = form.state
+        #             , pin = form.pin, email = form.email, phoneno = form.phone
+        #             , website = form.website, gstno = form.gstno, description = form.description )
+        # db.session.add(company)
+        # db.session.commit()
         flash(f"Company Created Succefully!","success")
         return redirect(url_for('companies'))
     return render_template("addcompany.html", title="Company", form=form)

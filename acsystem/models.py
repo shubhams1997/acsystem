@@ -54,3 +54,13 @@ class Company(db.Model):
 
     def __repr__(self):
         return f"Company('{self.companyname}', '{self.state}')"
+
+class Countries(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+    states = db.relationship('States', backref='countries', lazy=True)
+
+class States(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+    country = db.Column(db.Integer, db.ForeignKey('countries.id'))

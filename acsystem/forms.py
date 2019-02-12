@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, DateField, TextField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, URL, ValidationError
 from acsystem.models import User
+from wtforms.fields.html5 import DateField
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -26,10 +27,10 @@ class CompanyForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=3, max=40)])
     mailingname = StringField('Mailing Name', validators=[DataRequired(), Length(min=3, max=40)])
     address = StringField('Address', validators=[DataRequired(), Length(min=5, max=100)])
-    country = SelectField('Country', choices=[('','')])
-    state = SelectField('State', choices=[('','')])
-    pin = IntegerField('ZIP')
-    phone = IntegerField('Phone', validators=[Length(min=10, max=13)])
+    country = SelectField('Country', choices=[('0','Select'), ("1","india")])
+    state = SelectField('State', choices=[('0','Select'), ("2","delhi")])
+    pin = StringField('ZIP')
+    phone = IntegerField('Phone', validators=[Length(min=9, max=13)])
     email = StringField('Email', validators=[Email()])
     website = StringField('Website', validators=[URL()])
     financialyear = DateField('Financial year')

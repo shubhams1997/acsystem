@@ -22058,7 +22058,7 @@ var obj = {
 // });
 function loadstates(){
     console.log($("#inputState").html());
-    // $("#inputState").empty();
+    $("#inputState").empty();
     // $.getJSON('/states.json', function(data) {
     //     var st = data;
         var countery = $("#inputCountry").val();
