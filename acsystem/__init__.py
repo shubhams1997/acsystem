@@ -18,15 +18,8 @@ manager.add_command('db', MigrateCommand)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-app._static_folder = "/static/"
-# with open('acsystem/countries.json') as c:
-#     cdata = json.load(c)
-
+login_manager.login_view ='login'
+login_manager.login_message_category = 'info'
 
 from acsystem import routes
 
-# for i in cdata['countries']:
-#      print(i['name'])
-#      country = Countries(name=i['name'])
-#      db.session.add(country)
-#      db.session.commit()

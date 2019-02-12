@@ -6,10 +6,10 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-employees = db.Table('employees',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('company_id', db.Integer, db.ForeignKey('company.id'), primary_key=True)
-)
+# employees = db.Table('employees',
+#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+#     db.Column('company_id', db.Integer, db.ForeignKey('company.id'), primary_key=True)
+# )
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     first = db.Column(db.String(60), nullable=False)
@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), default='default.jpg', nullable=False)
     phone = db.Column(db.Integer, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    companies = db.relationship('Company', secondary=employees, backref = db.backref('users', lazy='dynamic'))
+    companies = db.relationship('Company', backref ='owner', lazy = True)
     
     def __init__(self, first, last, email, phone, password):
         self.first = first
@@ -29,6 +29,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.first} {self.email}' )"
+
 
 class Company(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -44,16 +45,11 @@ class Company(db.Model):
     datecreated = db.Column(db.DateTime, default = datetime.utcnow, nullable=False)
     gstno = db.Column(db.Integer)
     description = db.Column(db.Text)
-
-    def __init__(self, companyname,mailingname, address, country, state):
-        self.companyname = companyname
-        self.mailingname = mailingname
-        self.address = address
-        self.country = country
-        self.state = state
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Company('{self.companyname}', '{self.state}')"
+
 
 class Countries(db.Model):
     id = db.Column(db.Integer, primary_key=True)

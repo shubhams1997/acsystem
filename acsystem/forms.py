@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, URL, ValidationError, Optional
-from acsystem.models import User, Countries
+from acsystem.models import User, Company
 from wtforms.fields.html5 import DateField
 
 class LoginForm(FlaskForm):
@@ -38,6 +38,11 @@ class CompanyForm(FlaskForm):
     gstno = IntegerField('GST NO', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Create')
+
+    def validate_name(self, name):
+        company = Company.query.filter_by(companyname = name.data).first()
+        if company:
+            raise ValidationError('Company with this Name already exist!')
 
 class CustomerForm(FlaskForm):
     name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
