@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField, TextField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, URL, ValidationError
-from acsystem.models import User
+from wtforms.validators import DataRequired, Email, Length, EqualTo, URL, ValidationError, Optional
+from acsystem.models import User, Countries
 from wtforms.fields.html5 import DateField
 
 class LoginForm(FlaskForm):
@@ -27,15 +27,15 @@ class CompanyForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=3, max=40)])
     mailingname = StringField('Mailing Name', validators=[DataRequired(), Length(min=3, max=40)])
     address = StringField('Address', validators=[DataRequired(), Length(min=5, max=100)])
-    country = SelectField('Country', choices=[('0','Select'), ("1","india")])
-    state = SelectField('State', choices=[('0','Select'), ("2","delhi")])
+    country = SelectField('Country', choices=[], validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
     pin = StringField('ZIP')
-    phone = IntegerField('Phone', validators=[Length(min=9, max=13)])
-    email = StringField('Email', validators=[Email()])
-    website = StringField('Website', validators=[URL()])
-    financialyear = DateField('Financial year')
-    booksbegin = DateField('Books Begin From')
-    gstno = IntegerField('GST NO')
+    phone = IntegerField('Phone', validators=[Optional(), Length(min=9, max=13)])
+    email = StringField('Email', validators=[Optional(), Email()])
+    website = StringField('Website', validators=[Optional(), URL()])
+    financialyear = DateField('Financial year', validators=[Optional()])
+    booksbegin = DateField('Books Begin From', validators=[Optional()])
+    gstno = IntegerField('GST NO', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Create')
 

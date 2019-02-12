@@ -18,6 +18,7 @@ manager.add_command('db', MigrateCommand)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+app._static_folder = "/static/"
 # with open('acsystem/countries.json') as c:
 #     cdata = json.load(c)
 

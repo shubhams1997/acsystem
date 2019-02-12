@@ -1,7 +1,7 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, jsonify
 from acsystem import app, bcrypt, db
 from acsystem.forms import LoginForm, RegisterForm, CompanyForm
-from acsystem.models import User, Company
+from acsystem.models import User, Company, Countries, States
 from flask_login import login_user
 
 @app.route("/")
@@ -49,8 +49,8 @@ def companies():
 @app.route("/addcompany", methods=['GET','POST'])
 def addcompany():
     form = CompanyForm()
+    form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():
-        print("inside validation route")
         print(form.country.data)
         # company = Company(companyname = form.name, mailingname = form.mailingname
         #             , address = form.address, country = form.country, state = form.state
@@ -62,4 +62,15 @@ def addcompany():
         return redirect(url_for('companies'))
     return render_template("addcompany.html", title="Company", form=form)
 
+# @app.route("/states/<ctry>")
+# def state(ctry):
+#     print("inside state route") 
+#     relatedstates = States.query.filter_by(country = ctry).all()
+#     statearray =[]
+#     for state in relatedstates:
+#         stateobj ={}
+#         stateobj['id'] = str(state.id)
+#         stateobj['name']= str(state.name)
+#         statearray.append(stateobj)
+#     return jsonify({'states': statearray})
 
