@@ -1,8 +1,10 @@
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, abort
 from acsystem import app, bcrypt, db
 from acsystem.forms import LoginForm, RegisterForm, CompanyForm
 from acsystem.models import User, Company, Countries, States
 from flask_login import login_user, current_user, login_required, logout_user
+
+activecomp=""
 
 @app.route("/")
 def home():
@@ -45,13 +47,17 @@ def register():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-	return render_template("dashboard.html", title="Dashboard")
+    global activecomp
+    activecomp = Company.query.get(current_user.activecompany)
+    print(activecomp)
+    print(current_user.activecompany)
+    return render_template("dashboard.html", title="Dashboard", activecomp=activecomp)
 
 @app.route("/companies")
 @login_required
 def companies():
     companies = Company.query.filter_by(owner = current_user).order_by(Company.datecreated.desc())
-    return render_template("companies.html", title="Company", companies = companies)
+    return render_template("companies.html", title="Company", companies = companies, activecomp = activecomp)
 
 @app.route("/addcompany", methods=['GET','POST'])
 @login_required
@@ -67,12 +73,26 @@ def addcompany():
         db.session.commit()
         flash(f"Company Created Succefully!","success")
         return redirect(url_for('companies'))
-    return render_template("addcompany.html", title="Company", form=form)
+    return render_template("addcompany.html", title="Company", form=form, activecomp=activecomp)
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/activate/<int:compid>')
+def activatecompany(compid):
+    comp = Company.query.get(compid)
+    if comp in current_user.companies:
+        current_user.activecompany = compid
+        db.session.commit()
+        return redirect(url_for('dashboard'))
+    else:
+        abort(403)
+    
+
+
+
 
 # @app.route("/states/<ctry>")
 # def state(ctry):

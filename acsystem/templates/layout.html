@@ -4,7 +4,7 @@
     <div class="container">
         <ul class="navbar-nav">
             <li>
-                <a class="navbar-brand" href="{{ url_for('companies') }}">Company Name</a>
+                <a class="navbar-brand" href="{{ url_for('companies') }}">{{ activecomp.companyname }} </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('dashboard')}}">Dashboard</a>

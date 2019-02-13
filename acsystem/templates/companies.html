@@ -24,7 +24,7 @@
             <tbody>
                 {% for company in companies %}
                 <tr>
-                    <th scope="row">{{company.companyname }} </th>
+                    <th scope="row"> <a href="{{url_for('activatecompany', compid= company.id) }}">{{company.companyname }}</a> </th>
                     <td>{{ company.email }}</td>
                     <td>{{ company.address }}</td>
                     <td >{{ company.description }}</td>
