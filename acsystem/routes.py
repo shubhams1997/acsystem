@@ -1,4 +1,4 @@
-from flask import render_template, url_for, flash, redirect, jsonify
+from flask import render_template, url_for, flash, redirect
 from acsystem import app, bcrypt, db
 from acsystem.forms import LoginForm, RegisterForm, CompanyForm
 from acsystem.models import User, Company, Countries, States
@@ -14,12 +14,12 @@ def about():
 
 @app.route("/login", methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     form = LoginForm()
-    print("after form login")
     if form.validate_on_submit():
         print(form.email.data)
         user = User.query.filter_by(email = form.email.data).first()
-        print("after query")
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             flash("You loged in Successfully!","success")

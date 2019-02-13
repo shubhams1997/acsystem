@@ -52,6 +52,7 @@
                     <img src="{{ url_for('static', filename='images/user.png')}}" alt="Account">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropaccount">
+                    <a class="dropdown-item" href="#" id="uprofilehead">{{ current_user.first }}</a>
                     <a class="dropdown-item" href="#">Account Info</a>
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>

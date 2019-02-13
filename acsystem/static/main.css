@@ -10,5 +10,15 @@
     top:0;
 }
 
+#uprofilehead{
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+#uprofilehead:hover{
+    background-color: #c1c1c1 !important;
+}
+
 
 /* # sourceMappingURL=style.css.map */
