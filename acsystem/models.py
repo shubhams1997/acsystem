@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), default='default.jpg', nullable=False)
     phone = db.Column(db.Integer, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    companies = db.relationship('Company', backref ='owner', lazy = True)
+    companies = db.relationship('Company', backref ='owner', lazy = True, cascade="all, delete-orphan")
     activecompany = db.Column(db.Integer)
     
     def __init__(self, first, last, email, phone, password):
@@ -42,7 +42,7 @@ class Company(db.Model):
     datecreated = db.Column(db.DateTime, default = datetime.utcnow, nullable=False)
     gstno = db.Column(db.Integer)
     description = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
         return f"Company('{self.companyname}', '{self.owner.first}')"

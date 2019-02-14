@@ -1,6 +1,7 @@
 {% extends "layout.html"%}
 {% block content %}
 
+
 <div class="container">
     <div class="container-fluid">
         <ul class="nav justify-content-end">
@@ -11,7 +12,7 @@
     </div>
 
     <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
@@ -24,12 +25,54 @@
             <tbody>
                 {% for company in companies %}
                 <tr>
-                    <th scope="row"> <a href="{{url_for('activatecompany', compid= company.id) }}">{{company.companyname }}</a> </th>
+                    {% if company.id != activecomp.id %}
+                    <th scope="row"> <a href="{{url_for('activatecompany', compid= company.id) }}"
+                            style="color:rgb(41, 41, 41);">{{company.companyname }}</a> </th>
+                    {% else %}
+                    <th scope="row"> <a href="#"
+                            style="color:#18ad47; text-shadow: 0px 1px 1px rgb(197, 197, 197);">{{company.companyname }}</a>
+                    </th>
+                    {% endif %}
                     <td>{{ company.email }}</td>
                     <td>{{ company.address }}</td>
-                    <td >{{ company.description }}</td>
-                    <td><a href="#"><img class="mr-2" src="{{ url_for('static',filename='images/delete.png') }}" alt="delete">
-                        </a> <a href="#"><img class="ml-2" src="{{ url_for('static',filename='images/edit.png') }}" alt="edit"></a></td>
+                    <td>{{ company.description }}</td>
+                    <td><a href="#">
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#deletecompany">
+                                <img src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
+                            </button>
+                        </a>
+
+                        <div class="modal fade" id="deletecompany" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Delete Company</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      All the related transactions, Customers and other data will also be deleted.
+                                      And it won't be recovered.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <form action="{{ url_for('deletecompany', compid = company.id) }}", method="POST">
+                                          <input type="submit" class="btn btn-danger" value="Delete">
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        
+                        
+
+                        <a href="#">
+                            <button type="button" class="btn btn-info">
+                                <img src="{{ url_for('static',filename='images/edit.png') }}" alt="Edit">
+                            </button>
+                        </a></td>
                 </tr>
                 {% endfor %}
             </tbody>

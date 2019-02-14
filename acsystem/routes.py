@@ -4,7 +4,7 @@ from acsystem.forms import LoginForm, RegisterForm, CompanyForm
 from acsystem.models import User, Company, Countries, States
 from flask_login import login_user, current_user, login_required, logout_user
 
-activecomp=""
+activecomp="click dashboard"
 
 @app.route("/")
 def home():
@@ -49,8 +49,6 @@ def register():
 def dashboard():
     global activecomp
     activecomp = Company.query.get(current_user.activecompany)
-    print(activecomp)
-    print(current_user.activecompany)
     return render_template("dashboard.html", title="Dashboard", activecomp=activecomp)
 
 @app.route("/companies")
@@ -62,6 +60,12 @@ def companies():
 @app.route("/addcompany", methods=['GET','POST'])
 @login_required
 def addcompany():
+    companies = Company.query.filter_by(owner = current_user).all()
+    if len(companies)>=5:
+        flash(f"You have reached the maximum limit for creating companies Under this account!","info")
+        return redirect(url_for('companies'))
+    if len(companies)>=4:
+        flash(f"You can only create 5 companies Under this account!","warning")
     form = CompanyForm()
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():
@@ -89,7 +93,17 @@ def activatecompany(compid):
         return redirect(url_for('dashboard'))
     else:
         abort(403)
-    
+
+@app.route('/company/<int:compid>/deletecompany', methods=["POST"])
+@login_required
+def deletecompany(compid):
+    company = Company.query.get_or_404(compid)
+    if company.owner != current_user:
+        abort(403)
+    db.session.delete(company)
+    db.session.commit()
+    flash(f"Company {company.companyname} deleted Successfully","success")
+    return redirect(url_for('dashboard'))
 
 
 
