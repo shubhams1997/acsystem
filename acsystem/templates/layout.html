@@ -4,7 +4,11 @@
     <div class="container">
         <ul class="navbar-nav">
             <li>
+                {% if activecomp %}
                 <a class="navbar-brand" href="{{ url_for('companies') }}">{{ activecomp.companyname }} </a>
+                {% else %}
+                <a class="navbar-brand" href="{{ url_for('companies') }}">Select Company </a>
+                {% endif %}
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('dashboard')}}">Dashboard</a>

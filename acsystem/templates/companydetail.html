@@ -1,0 +1,117 @@
+{% extends "layout.html"%}
+{% block content %}
+
+<div class="modal fade" id="deletecompany" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Company</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All the related transactions, Customers and other data will also be deleted.
+                And it won't be recovered.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('deletecompany', compid = company.id) }}" , method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <h1 class="mb-4">{{ company.companyname }} Details</h1>
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Company Owner</td>
+                <td>{{company.owner.first}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Mailing Name</td>
+                <td>{{company.mailingname}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Address</td>
+                <td>{{company.address}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> State</td>
+                <td>{{company.state}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Country </td>
+                <td>{{company.country}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> PIN</td>
+                <td>{{company.pin}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">email </td>
+                <td>{{company.email}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Phone Number</td>
+                <td>{{company.phoneno}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Website</td>
+                <td>{{company.website}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> GST Number</td>
+                <td>{{company.gstno}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Description</td>
+                <td>{{company.description}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Date Created</td>
+                <td>{{company.datecreated}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="mt-4">
+        <tbody>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletecompany">
+                        <img src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete"> Delete
+                    </button>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-light" href="{{ url_for('updatecompany', compid=company.id) }}"><img
+                            src="{{ url_for('static',filename='images/update.png') }}" alt="Delete"> Update
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+{% endblock content %}

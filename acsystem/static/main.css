@@ -9,5 +9,11 @@
     background-color: #c1c1c1 !important;
 }
 
+a{
+    color: rgb(34, 34, 34) !important;
+}
+a:hover{
+    text-decoration: none !important;
+}
 
 /* # sourceMappingURL=style.css.map */

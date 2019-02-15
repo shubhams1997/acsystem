@@ -1,0 +1,36 @@
+{% from "renderfield.html" import render_field, render_doublefield %}
+{% extends "layout.html"%}
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <h3 style="margin-bottom:30px;">Update Company</h3>
+    <form style="max-width:600px; margin:0 auto;" action="", method="POST">
+            {{form.hidden_tag()}}
+            {{ form.csrf_token}}
+            {{ render_doublefield(form.name,form.mailingname,"Name","Mailing Name") }}
+
+            {{ render_field(form.address, "Address") }}
+            
+
+        {{ render_doublefield(form.state,form.country,"State","") }}
+
+        {{ render_doublefield(form.pin,form.phone,"PIN","Contact No.") }}
+
+        {{ render_doublefield(form.email,form.website,"Company Email ID","Company Website") }}
+
+            {{ render_doublefield(form.financialyear,form.booksbegin) }}
+
+            {{ render_field(form.gstno) }}
+
+            {{ render_field(form.description) }}
+
+            <div class="form-group">
+                {{ form.submit(class="btn", style="background-color: #75ff9b;")}}
+            </div>
+        </div>
+
+    </form>
+</div>
+</div>
+
+{% endblock content %}

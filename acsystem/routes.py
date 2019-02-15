@@ -1,6 +1,6 @@
-from flask import render_template, url_for, flash, redirect, abort
+from flask import render_template, url_for, flash, redirect, abort, request
 from acsystem import app, bcrypt, db
-from acsystem.forms import LoginForm, RegisterForm, CompanyForm
+from acsystem.forms import LoginForm, RegisterForm, CompanyForm, UpdateCompanyForm
 from acsystem.models import User, Company, Countries, States
 from flask_login import login_user, current_user, login_required, logout_user
 
@@ -86,13 +86,12 @@ def logout():
 
 @app.route('/activate/<int:compid>')
 def activatecompany(compid):
-    comp = Company.query.get(compid)
-    if comp in current_user.companies:
-        current_user.activecompany = compid
-        db.session.commit()
-        return redirect(url_for('dashboard'))
-    else:
+    comp = Company.query.get_or_404(compid)
+    if comp.owner != current_user:
         abort(403)
+    current_user.activecompany = compid
+    db.session.commit()
+    return redirect(url_for('dashboard'))
 
 @app.route('/company/<int:compid>/deletecompany', methods=["POST"])
 @login_required
@@ -101,11 +100,57 @@ def deletecompany(compid):
     if company.owner != current_user:
         abort(403)
     db.session.delete(company)
+    current_user.activecompany = 0
     db.session.commit()
     flash(f"Company {company.companyname} deleted Successfully","success")
     return redirect(url_for('dashboard'))
 
 
+@app.route('/company/<int:compid>/update', methods=['GET','POST'])
+@login_required
+def updatecompany(compid):
+    company = Company.query.get_or_404(compid)
+    if company.owner != current_user:
+        abort(403)
+    form = UpdateCompanyForm()
+    form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
+    if form.validate_on_submit():
+        company.companyname = form.name.data
+        company.mailingname = form.mailingname.data
+        company.address = form.address.data
+        company.country = form.country.data
+        company.state = form.state.data
+        company.pin = form.pin.data
+        company.email = form.email.data
+        company.phoneno = form.phone.data 
+        company.website = form.website.data
+        company.gstno = form.gstno.data
+        company.description = form.description.data
+        db.session.commit()
+        flash(f'Your Company details has been Updated!', 'success')
+        return redirect(url_for('showcompany', compid = compid))
+    elif request.method == 'GET':
+        form.name.data = company.companyname 
+        form.mailingname.data = company.mailingname 
+        form.address.data = company.address 
+        form.country.data = company.country 
+        form.state.data = company.state 
+        form.pin.data = company.pin 
+        form.email.data = company.email 
+        form.phone.data  = company.phoneno 
+        form.website.data = company.website 
+        form.gstno.data = company.gstno 
+        form.description.data = company.description
+    return render_template('updatecompany.html', title=company.companyname, form=form, activecomp=activecomp) 
+
+
+@app.route('/company/details/<int:compid>', methods=['GET','POST'])
+@login_required
+def showcompany(compid):
+    company = Company.query.get_or_404(compid)
+    if company.owner != current_user:
+        abort(403)
+    return render_template('companydetail.html', title=company.companyname, company = company, activecomp=activecomp)
 
 
 # @app.route("/states/<ctry>")

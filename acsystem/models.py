@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     phone = db.Column(db.Integer, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     companies = db.relationship('Company', backref ='owner', lazy = True, cascade="all, delete-orphan")
-    activecompany = db.Column(db.Integer)
+    activecompany = db.Column(db.Integer, default=0)
     
     def __init__(self, first, last, email, phone, password):
         self.first = first
