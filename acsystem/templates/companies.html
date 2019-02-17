@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <ul class="nav justify-content-end">
             <li class="btn btn-success">
-                <a class="nav-link" href="{{ url_for('addcompany') }}">Add Company</a>
+                <a class="nav-link" href="{{ url_for('company.addcompany') }}">Add Company</a>
             </li>
         </ul>
     </div>
@@ -26,23 +26,20 @@
                 {% for company in companies %}
                 <tr>
                     {% if company.id != activecomp.id %}
-                    <th scope="row"> <a href="{{url_for('activatecompany', compid= company.id) }}"
-                            style="color:rgb(41, 41, 41);">{{company.companyname }}</a> </th>
+                    <th scope="row"> <a href="{{url_for('company.activatecompany', compid= company.id) }}"
+                            style="color:rgb(41, 41, 41); display:block;">{{company.companyname }}</a> </th>
                     <td>{{ company.email }}</td>
                     <td>{{ company.address }}</td>
                     <td>{{ company.description }}</td>
                     <td></td>
                     {% else %}
-                    <th scope="row"> <a href="#"
-                            style="color:#18ad47; text-shadow: 0px 1px 1px rgb(197, 197, 197);">{{company.companyname }}</a>
-                    </th>
-
+                    <th scope="row" style="text-transform:uppercase;"> {{company.companyname }}</th>
                     <td>{{ company.email }}</td>
                     <td>{{ company.address }}</td>
                     <td>{{ company.description }}</td>
                     <td>
                         <button type="submit" class="btn btn-light">
-                            <a href="{{ url_for('showcompany', compid = company.id) }}">
+                            <a href="{{ url_for('company.showcompany', compid = company.id) }}">
                                 <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
                             </a>
                         </button>

@@ -5,13 +5,13 @@
         <ul class="navbar-nav">
             <li>
                 {% if activecomp %}
-                <a class="navbar-brand" href="{{ url_for('companies') }}">{{ activecomp.companyname }} </a>
+                <a class="navbar-brand" href="{{ url_for('company.companies') }}">{{ activecomp.companyname }} </a>
                 {% else %}
-                <a class="navbar-brand" href="{{ url_for('companies') }}">Select Company </a>
+                <a class="navbar-brand" href="{{ url_for('company.companies') }}">Select Company </a>
                 {% endif %}
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('dashboard')}}">Dashboard</a>
+                <a class="nav-link" href="{{ url_for('users.dashboard')}}">Dashboard</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="drop1" data-toggle="dropdown">
@@ -59,7 +59,7 @@
                     <a class="dropdown-item" href="#" id="uprofilehead">{{ current_user.first }}</a>
                     <a class="dropdown-item" href="#">Account Info</a>
                     <a class="dropdown-item" href="#">Settings</a>
-                    <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                    <a class="dropdown-item" href="{{ url_for('users.logout') }}">Logout</a>
                 </div>
             </li>
         </ul>
