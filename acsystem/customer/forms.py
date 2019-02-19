@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, SubmitField, TextField
-from wtforms.validators import DataRequired, Length, Optional
+from wtforms.validators import DataRequired, Length, Optional, Email
 
 class CustomerForm(FlaskForm):
     name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
@@ -11,8 +11,10 @@ class CustomerForm(FlaskForm):
     country = SelectField('Country',choices=[], validators=[Optional()])
     state = StringField('State', validators=[Optional()])
     pin = IntegerField('ZIP', validators=[Optional()])
+    email = StringField('Email', validators=[Optional(), Email()])
     phone = IntegerField('Phone', validators=[Length(min=10, max=13), Optional()])
     gstno = IntegerField('GST NO', validators=[Optional()])
+    openingbalance = IntegerField('Opening Balance', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Save')
 

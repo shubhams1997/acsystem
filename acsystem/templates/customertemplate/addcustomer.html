@@ -13,10 +13,13 @@
 
             {{ render_field(form.address, "Address") }}
             
+            {{ render_doublefield(form.state,form.country,"State","") }}
 
-        {{ render_doublefield(form.state,form.country,"State","") }}
+            {{ render_doublefield(form.pin,form.phone,"PIN","Contact No.") }}
 
-        {{ render_doublefield(form.pin,form.phone,"PIN","Contact No.") }}
+            {{ render_field(form.email) }}
+
+            {{ render_field(form.openingbalance) }}
 
             {{ render_field(form.gstno) }}
 

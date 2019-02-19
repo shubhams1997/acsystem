@@ -1,7 +1,8 @@
 import json
 from acsystem.models import Countries
-from acsystem import db
-
+from acsystem import db, create_app
+app = create_app()
+app.app_context().push()
 with open('acsystem/countries.json') as c:
     cdata = json.load(c)
 
