@@ -21,7 +21,7 @@ def login():
             return redirect(url_for('users.dashboard'))
         else:
             flash("Login Unsuccessful!", "warning")
-    return render_template("login.html", title = "login", form=form)
+    return render_template("usertemplate/login.html", title = "login", form=form)
 
 
 @users.route("/register", methods=['GET', 'POST'])
@@ -36,14 +36,14 @@ def register():
         db.session.commit()
         flash(f"Your Account for {form.firstname.data} has Been Created Successfully!","success")
         return redirect(url_for('users.login'))
-    return render_template('register.html', title = "register", form=form)
+    return render_template('usertemplate/register.html', title = "register", form=form)
 
 
 @users.route("/dashboard")
 @login_required
 def dashboard():
     activecomp = Company.query.get(current_user.activecompany)
-    return render_template("dashboard.html", title="Dashboard", activecomp=activecomp)
+    return render_template("usertemplate/dashboard.html", title="Dashboard", activecomp=activecomp)
 
 
 @users.route('/logout')

@@ -1,0 +1,41 @@
+{% extends "layout.html"%}
+{% block content %}
+
+
+<div class="container">
+    <div class="container-fluid">
+        <ul class="nav justify-content-end">
+            <li class="btn btn-success">
+                <a class="nav-link" href="{{ url_for('customers.addcustomer') }}">Add Customer</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <th scope="row"> <a href="#"
+                            style="color:rgb(41, 41, 41); display:block;">{{customer.name }}</a> </th>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.description }}</td>
+                    <td></td>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock content %}

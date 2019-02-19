@@ -11,7 +11,7 @@ company = Blueprint('company', __name__)
 def companies():
     companies = Company.query.filter_by(owner = current_user).order_by(Company.datecreated.desc())
     activecomp = Company.query.get(current_user.activecompany)
-    return render_template("companies.html", title="Company", companies = companies, activecomp = activecomp)
+    return render_template("companytemplate/companies.html", title="Company", companies = companies, activecomp = activecomp)
 
 
 @company.route('/activate/<int:compid>')
@@ -43,7 +43,7 @@ def showcompany(compid):
     company = Company.query.get_or_404(compid)
     if company.owner != current_user:
         abort(403)
-    return render_template('companydetail.html', title=company.companyname, company = company)
+    return render_template('companytemplate/companydetail.html', title=company.companyname, company = company)
 
 
 @company.route("/addcompany", methods=['GET','POST'])
@@ -66,7 +66,7 @@ def addcompany():
         db.session.commit()
         flash(f"Company Created Succefully!","success")
         return redirect(url_for('company.companies'))
-    return render_template("addcompany.html", title="Company", form=form)
+    return render_template("companytemplate/addcompany.html", title="Add Company", form=form)
 
 
 @company.route('/company/<int:compid>/update', methods=['GET','POST'])
@@ -104,6 +104,6 @@ def updatecompany(compid):
         form.website.data = company.website 
         form.gstno.data = company.gstno 
         form.description.data = company.description
-    return render_template('updatecompany.html', title=company.companyname, form=form) 
+    return render_template('companytemplate/updatecompany.html', title=company.companyname, form=form) 
 
 

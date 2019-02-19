@@ -42,6 +42,7 @@ class Company(db.Model):
     datecreated = db.Column(db.DateTime, default = datetime.utcnow, nullable=False)
     gstno = db.Column(db.Integer)
     description = db.Column(db.Text)
+    customers = db.relationship('Customer', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
@@ -51,9 +52,23 @@ class Company(db.Model):
 class Countries(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30))
-    states = db.relationship('States', backref='countries', lazy=True)
 
-class States(db.Model):
+
+class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30))
-    country = db.Column(db.Integer, db.ForeignKey('countries.id'))
+    name = db.Column(db.String(40), nullable=False)
+    first = db.Column(db.String(40))
+    last = db.Column(db.String(40))
+    mailingname = db.Column(db.String(40))
+    address = db.Column(db.String(100))
+    country = db.Column(db.String(30))
+    state = db.Column(db.String(30))
+    pin = db.Column(db.Integer)
+    phoneno = db.Column(db.Integer)
+    gstno = db.Column(db.Integer)
+    description = db.Column(db.Text)
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+    def __repr__(self):
+        return f"Customer('{self.name}', '{self.company_id}')"
+
