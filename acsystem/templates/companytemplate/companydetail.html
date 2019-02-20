@@ -25,8 +25,11 @@
 </div>
 
 
-<div class="container">
-    <h1 class="mb-4">{{ company.companyname }} Details</h1>
+<div class="container mt-4">
+    <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+        <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+    </button> 
+    <h2 class="mb-4">{{ company.companyname }} Details</h2>
     <table class="table table-sm">
         <tbody>
             <tr>

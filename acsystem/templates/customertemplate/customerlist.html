@@ -26,8 +26,7 @@
             <tbody>
                 {% for customer in customers %}
                 <tr>
-                    <th scope="row"> <a href="#"
-                            style="color:rgb(41, 41, 41); display:block;">{{customer.name }}</a> </th>
+                    <th scope="row">{{customer.name }}</th>
                     <td>{{ customer.email }}</td>
                     <td>{{ customer.address }}</td>
                     <td>{{ customer.description }}</td>

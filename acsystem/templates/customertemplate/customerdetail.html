@@ -1,6 +1,5 @@
 {% extends "layout.html"%}
 {% block content %}
-
 <div class="modal fade" id="deletecustomer" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -16,7 +15,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <form action="#" , method="POST">
+                <form action="{{ url_for('customers.deletecustomer', customer_id=customer.id) }}" , method="POST">
                     <input type="submit" class="btn btn-danger" value="Delete">
                 </form>
             </div>
@@ -25,8 +24,11 @@
 </div>
 
 
-<div class="container">
-    <h1 class="mb-4">{{ customer.name }} Details</h1>
+<div class="container mt-4">
+    <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+        <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+    </button> 
+    <h2 class="mb-4">{{ customer.name }} Details</h2>
     <table class="table table-sm">
         <tbody>
             <tr>
@@ -107,7 +109,7 @@
                     </button>
                 </td>
                 <td>
-                    <a type="button" class="btn btn-light" href="#"><img
+                    <a type="button" class="btn btn-light" href="{{ url_for('customers.updatecustomer', customer_id = customer.id) }}"><img
                             src="{{ url_for('static',filename='images/update.png') }}" alt="Delete"> Update
                     </a>
                 </td>

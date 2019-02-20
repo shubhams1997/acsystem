@@ -6,11 +6,11 @@ from flask_login import current_user, login_required
 
 company = Blueprint('company', __name__)
 
-@company.route("/companies")
+@company.route("/company")
 @login_required
 def companies():
     companies = Company.query.filter_by(owner = current_user).order_by(Company.datecreated.desc())
-    activecomp = Company.query.get(current_user.activecompany)
+    activecomp = Company.query.get_or_404(current_user.activecompany)
     return render_template("companytemplate/companies.html", title="Company", companies = companies, activecomp = activecomp)
 
 
@@ -46,7 +46,7 @@ def showcompany(compid):
     return render_template('companytemplate/companydetail.html', title=company.companyname, company = company)
 
 
-@company.route("/addcompany", methods=['GET','POST'])
+@company.route("/company/addcompany", methods=['GET','POST'])
 @login_required
 def addcompany():
     companies = Company.query.filter_by(owner = current_user).all()
@@ -69,7 +69,7 @@ def addcompany():
     return render_template("companytemplate/addcompany.html", title="Add Company", form=form)
 
 
-@company.route('/company/<int:compid>/update', methods=['GET','POST'])
+@company.route('/company/details/<int:compid>/update', methods=['GET','POST'])
 @login_required
 def updatecompany(compid):
     company = Company.query.get_or_404(compid)
