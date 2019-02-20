@@ -1,0 +1,125 @@
+{% extends "layout.html"%}
+{% block content %}
+<div class="modal fade" id="deletesupplier" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Supplier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All the related transactions and other data will also be deleted.
+                And it won't be recovered.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('suppliers.deletesupplier', supplier_id=supplier.id) }}" , method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+        <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+    </button> 
+    <h2 class="mb-4">{{ supplier.name }} Details</h2>
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Supplier Company</td>
+                <td>{{supplier.company_id}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Mailing Name</td>
+                <td>{{supplier.mailingname}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> First Name </td>
+                <td>{{supplier.first}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Last Name </td>
+                <td>{{supplier.last}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Opening Balance </td>
+                <td>{{supplier.openingbalance}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Address</td>
+                <td>{{supplier.address}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> State</td>
+                <td>{{supplier.state}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Country </td>
+                <td>{{supplier.country}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> PIN</td>
+                <td>{{supplier.pin}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">email </td>
+                <td>{{supplier.email}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Phone Number</td>
+                <td>{{supplier.phoneno}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> GST Number</td>
+                <td>{{supplier.gstno}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Description</td>
+                <td>{{supplier.description}}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <table class="mt-4">
+        <tbody>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletesupplier">
+                        <img src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete"> Delete
+                    </button>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-light" href="{{ url_for('suppliers.updatesupplier', supplier_id = supplier.id) }}"><img
+                            src="{{ url_for('static',filename='images/update.png') }}" alt="Update"> Update
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+
+
+{% endblock content %}

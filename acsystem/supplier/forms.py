@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, SubmitField, TextField
 from wtforms.validators import DataRequired, Length, Optional, Email
 
-class CustomerForm(FlaskForm):
+class SupplierForm(FlaskForm):
     name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
     first = StringField('First Name', validators=[Optional(), Length(min=3, max=40)])
     last = StringField('Last Name', validators=[Optional(), Length(min=3, max=40)])

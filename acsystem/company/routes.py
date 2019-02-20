@@ -10,7 +10,7 @@ company = Blueprint('company', __name__)
 @login_required
 def companies():
     companies = Company.query.filter_by(owner = current_user).order_by(Company.datecreated.desc())
-    activecomp = Company.query.get_or_404(current_user.activecompany)
+    activecomp = Company.query.get(current_user.activecompany)
     return render_template("companytemplate/companies.html", title="Company", companies = companies, activecomp = activecomp)
 
 

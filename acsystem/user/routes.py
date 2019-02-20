@@ -42,7 +42,7 @@ def register():
 @users.route("/dashboard")
 @login_required
 def dashboard():
-    activecomp = Company.query.get_or_404(current_user.activecompany)
+    activecomp = Company.query.get(current_user.activecompany)
     return render_template("usertemplate/dashboard.html", title="Dashboard", activecomp=activecomp)
 
 

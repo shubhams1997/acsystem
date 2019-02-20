@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, current_app, flash, redirect, abort, request
 from flask_login import login_required, current_user
 from acsystem import db
-from acsystem.models import Customer, Countries, Company
+from acsystem.models import Customer, Countries
 from acsystem.customer.forms import CustomerForm
 
 customers = Blueprint('customers', __name__)
