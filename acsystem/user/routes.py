@@ -31,7 +31,7 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(form.firstname.data, form.lastname.data, form.email.data, 9876543210, hashed_password)
+        user = User(form.firstname.data, form.lastname.data, form.email.data, 0, hashed_password)
         db.session.add(user)
         db.session.commit()
         flash(f"Your Account for {form.firstname.data} has Been Created Successfully!","success")
@@ -52,3 +52,16 @@ def logout():
     return redirect(url_for('users.login'))
 
 
+@users.route('/user/accountinfo')
+@login_required
+def account():
+    return render_template('usertemplate/accountinfo.html', title="Account")
+
+
+@users.route('/user/deleteuser', methods=['GET','POST'])
+@login_required
+def deleteuser():
+    db.session.delete(current_user)
+    db.session.commit()
+    return redirect(url_for('users.register'))
+    

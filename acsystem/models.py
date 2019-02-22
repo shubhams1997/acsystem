@@ -44,6 +44,8 @@ class Company(db.Model):
     description = db.Column(db.Text)
     customers = db.relationship('Customer', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     suppliers = db.relationship('Supplier', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    fixedgrups = db.relationship('FixedGroup', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    groups = db.relationship('Supplier', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
@@ -92,3 +94,17 @@ class Supplier(db.Model):
 
     def __repr__(self):
         return f"Supplier('{self.name}', '{self.company_id}')"
+
+class FixedGroup(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    under = db.Column(db.String(20), nullable=False)
+    affectpl = db.Column(db.Boolean())
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    under = db.Column(db.String(20), nullable=False)
+    affectpl = db.Column(db.Boolean())
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)

@@ -9,6 +9,9 @@ suppliers = Blueprint('suppliers', __name__)
 @suppliers.route('/supplier')
 @login_required
 def supplierlist():
+    if current_user.activecompany == 0:
+        flash(f"No Company is Activated! ","warning")
+        return redirect(url_for('company.companies'))
     suppliers = Supplier.query.filter_by(company_id = current_user.activecompany).all()
     return render_template('suppliertemplate/supplierlist.html', title='suppliers', suppliers=suppliers)
 
@@ -16,6 +19,9 @@ def supplierlist():
 @suppliers.route("/supplier/addsupplier", methods=['GET','POST'])
 @login_required
 def addsupplier():
+    if current_user.activecompany == 0:
+        flash(f"No Company is Activated! ","warning")
+        return redirect(url_for('company.companies'))
     form = SupplierForm()
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():

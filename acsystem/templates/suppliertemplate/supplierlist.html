@@ -31,11 +31,11 @@
                     <td>{{ supplier.address }}</td>
                     <td>{{ supplier.description }}</td>
                     <td>
+                        <a href="{{ url_for('suppliers.showsupplier', supplier_id = supplier.id) }}">
                         <button type="submit" class="btn btn-light">
-                            <a href="{{ url_for('suppliers.showsupplier', supplier_id = supplier.id) }}">
                                 <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                     </td>
                 {% endfor %}
             </tbody>

@@ -39,11 +39,11 @@
                     <td>{{ company.address }}</td>
                     <td>{{ company.description }}</td>
                     <td>
-                        <button type="submit" class="btn btn-light">
-                            <a href="{{ url_for('company.showcompany', compid = company.id) }}">
+                        <a href="{{ url_for('company.showcompany', compid = company.id) }}">
+                            <button type="submit" class="btn btn-light">
                                 <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
-                            </a>
-                        </button>
+                            </button>
+                        </a>
                     </td>
                 </tr>
                 {% endif %}

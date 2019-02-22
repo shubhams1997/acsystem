@@ -9,6 +9,9 @@ customers = Blueprint('customers', __name__)
 @customers.route('/customer')
 @login_required
 def customerlist():
+    if current_user.activecompany == 0:
+        flash(f"No Company is Activated! ","warning")
+        return redirect(url_for('company.companies'))
     customers = Customer.query.filter_by(company_id = current_user.activecompany).all()
     return render_template('customertemplate/customerlist.html', title='Customers', customers=customers)
 
@@ -16,6 +19,9 @@ def customerlist():
 @customers.route("/customer/addcustomer", methods=['GET','POST'])
 @login_required
 def addcustomer():
+    if current_user.activecompany == 0:
+        flash(f"No Company is Activated! ","warning")
+        return redirect(url_for('company.companies'))
     form = CustomerForm()
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():

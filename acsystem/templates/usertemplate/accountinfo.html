@@ -1,0 +1,94 @@
+{% extends "layout.html"%}
+{% block content %}
+<div class="modal fade" id="deleteuser" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Supplier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All the Companies and other data will also be deleted.
+                And it won't be recovered.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('users.deleteuser') }}" , method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <h2 class="mb-4 ml-4">{{ current_user.first }} Details</h2>
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">User Companies</td>
+                <td>{% for company in current_user.companies %}
+                        <span>{{ company.companyname }}</span>
+                        <br>    
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> First Name </td>
+                <td>{{current_user.first}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Last Name </td>
+                <td>{{current_user.last}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Email</td>
+                <td>{{current_user.email}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Phone Number </td>
+                <td>{{current_user.phone}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Active Company </td>
+                <td id="useractivecomp"></td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <table class="mt-4">
+        <tbody>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteuser">
+                        <img src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete"> Delete
+                    </button>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-light" href="#"><img
+                            src="{{ url_for('static',filename='images/update.png') }}" alt="Update"> Update
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+        $('#useractivecomp').text(localStorage.getItem('companyname'));
+</script>
+
+
+
+{% endblock content %}

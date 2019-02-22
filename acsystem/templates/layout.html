@@ -57,8 +57,8 @@
                     <img src="{{ url_for('static', filename='images/user.png')}}" alt="Account">
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropaccount">
-                    <a class="dropdown-item" href="#" id="uprofilehead">{{ current_user.first }}</a>
-                    <a class="dropdown-item" href="#">Account Info</a>
+                    <p class="dropdown-item" href="#" id="uprofilehead">{{ current_user.first }}</p>
+                    <a class="dropdown-item" href="{{ url_for('users.account') }}">Account Info</a>
                     <a class="dropdown-item" href="#">Settings</a>
                     <a class="dropdown-item" href="{{ url_for('users.logout') }}">Logout</a>
                 </div>
@@ -66,5 +66,15 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    if("{{ activecomp }}")
+    {
+        localStorage.setItem('companyname',$(".navbar-brand").text());
+    }
+    else{
+        $('.navbar-brand').text(localStorage.getItem('companyname'));
+    }
+</script>
     {% block content%} {% endblock %}
 {% endblock %}
