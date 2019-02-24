@@ -26,7 +26,7 @@ def addcustomer():
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():
         customer = Customer(name = form.name.data, first= form.first.data, last = form.last.data
-                    , mailingname = form.mailingname.data
+                    , mailingname = form.mailingname.data, openingbalance = form.openingbalance.data, currentbalance = form.openingbalance.data
                     , address = form.address.data, country = form.country.data, state = form.state.data
                     , pin = form.pin.data, email = form.email.data, phoneno = form.phone.data
                     , gstno = form.gstno.data, description = form.description.data, company_id = current_user.activecompany)

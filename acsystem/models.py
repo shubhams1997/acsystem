@@ -40,12 +40,13 @@ class Company(db.Model):
     phoneno = db.Column(db.Integer)
     website = db.Column(db.String(60))
     datecreated = db.Column(db.DateTime, default = datetime.utcnow, nullable=False)
+    financialyear = db.Column(db.DateTime, nullable=False)
+    booksbegin = db.Column(db.DateTime, nullable=False)
     gstno = db.Column(db.Integer)
     description = db.Column(db.Text)
     customers = db.relationship('Customer', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     suppliers = db.relationship('Supplier', backref='undercompany', lazy=True, cascade="all, delete-orphan")
-    fixedgrups = db.relationship('FixedGroup', backref='undercompany', lazy=True, cascade="all, delete-orphan")
-    groups = db.relationship('Supplier', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    groups = db.relationship('Group', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
@@ -70,6 +71,8 @@ class Customer(db.Model):
     email = db.Column(db.String(50))
     phoneno = db.Column(db.Integer)
     gstno = db.Column(db.Integer)
+    openingbalance = db.Column(db.Integer, default=0, nullable=False)
+    currentbalance = db.Column(db.Integer, default=0, nullable=False)
     description = db.Column(db.Text)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
@@ -89,6 +92,8 @@ class Supplier(db.Model):
     email = db.Column(db.String(50))
     phoneno = db.Column(db.Integer)
     gstno = db.Column(db.Integer)
+    openingbalance = db.Column(db.Integer, default=0, nullable=False)
+    currentbalance = db.Column(db.Integer, default=0, nullable=False)
     description = db.Column(db.Text)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
@@ -99,12 +104,12 @@ class FixedGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     under = db.Column(db.String(20), nullable=False)
-    affectpl = db.Column(db.Boolean())
-    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     under = db.Column(db.String(20), nullable=False)
-    affectpl = db.Column(db.Boolean())
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+    def __repr__(self):
+        return f"Group('{self.name}','{self.under}')"

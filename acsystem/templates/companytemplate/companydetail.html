@@ -79,6 +79,16 @@
             </tr>
             <tr>
                 <td>&Tab;</td>
+                <td class="h5"> Financial year Begin From</td>
+                <td>{{company.financialyear.day}}/{{company.financialyear.month}}/{{company.financialyear.year}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Books Begin From</td>
+                <td>{{company.booksbegin.day}}/{{company.booksbegin.month}}/{{company.booksbegin.year }}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
                 <td class="h5"> GST Number</td>
                 <td>{{company.gstno}}</td>
             </tr>
@@ -89,7 +99,7 @@
             </tr>
             <tr>
                 <td>&Tab;</td>
-                <td class="h5"> Date Created</td>
+                <td class="h5"> Date Created (UTC Time)</td>
                 <td>{{company.datecreated}}</td>
             </tr>
         </tbody>

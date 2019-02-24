@@ -34,7 +34,7 @@
             <tr>
                 <td>&Tab;</td>
                 <td class="h5">Customer Company</td>
-                <td>{{customer.company_id}}</td>
+                <td id="setcountry"></td>
             </tr>
             <tr>
                 <td>&Tab;</td>
@@ -58,6 +58,11 @@
             </tr>
             <tr>
                 <td>&Tab;</td>
+                <td class="h5"> Current Balance </td>
+                <td>{{customer.currentbalance}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
                 <td class="h5"> Address</td>
                 <td>{{customer.address}}</td>
             </tr>
@@ -78,7 +83,7 @@
             </tr>
             <tr>
                 <td>&Tab;</td>
-                <td class="h5">email </td>
+                <td class="h5">Email </td>
                 <td>{{customer.email}}</td>
             </tr>
             <tr>
@@ -119,7 +124,9 @@
 
 </div>
 
-
+<script>
+    $("#setcountry").text(localStorage.getItem('companyname'));
+</script>
 
 
 {% endblock content %}

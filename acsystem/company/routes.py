@@ -3,6 +3,7 @@ from acsystem import bcrypt, db
 from acsystem.company.forms import CompanyForm, UpdateCompanyForm
 from acsystem.models import Company, Countries
 from flask_login import current_user, login_required
+from datetime import datetime
 
 company = Blueprint('company', __name__)
 
@@ -59,13 +60,17 @@ def addcompany():
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():
         company = Company(companyname = form.name.data, mailingname = form.mailingname.data
-                    , address = form.address.data, country = form.country.data, state = form.state.data
-                    , pin = form.pin.data, email = form.email.data, phoneno = form.phone.data
+                    , address = form.address.data, country = form.country.data, state = form.state.data, booksbegin = form.booksbegin.data
+                    , pin = form.pin.data, email = form.email.data, phoneno = form.phone.data, financialyear = form.financialyear.data
                     , website = form.website.data, gstno = form.gstno.data, description = form.description.data, owner = current_user)
         db.session.add(company)
         db.session.commit()
         flash(f"Company Created Succefully!","success")
         return redirect(url_for('company.companies'))
+    elif request.method == 'GET':
+        dt = datetime.utcnow()
+        form.financialyear.data = datetime(dt.year, 4,1)
+        form.booksbegin.data = dt
     return render_template("companytemplate/addcompany.html", title="Add Company", form=form)
 
 
@@ -87,6 +92,8 @@ def updatecompany(compid):
         company.email = form.email.data
         company.phoneno = form.phone.data 
         company.website = form.website.data
+        company.financialyear = form.financialyear.data
+        company.booksbegin = form.booksbegin.data
         company.gstno = form.gstno.data
         company.description = form.description.data
         db.session.commit()
@@ -102,6 +109,8 @@ def updatecompany(compid):
         form.email.data = company.email 
         form.phone.data  = company.phoneno 
         form.website.data = company.website 
+        form.financialyear.data = company.financialyear
+        form.booksbegin.data = company.booksbegin
         form.gstno.data = company.gstno 
         form.description.data = company.description
     return render_template('companytemplate/updatecompany.html', title=company.companyname, form=form) 
