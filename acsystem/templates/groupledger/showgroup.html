@@ -52,6 +52,15 @@
                 </tr>
             </thead>
             <tbody>
+                {% for group in fixedgroups %}
+                <tr>
+                    <th scope="row">{{group.id}}</th>
+                    <td>{{ group.name }}</td>
+                    <td>{{ group.under }}</td>
+                    <td>
+                        
+                    </td>
+                {% endfor %}
                 {% for group in groups %}
                 <tr>
                     <th scope="row">{{group.id}}</th>

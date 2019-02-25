@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, flash, request, url_for
 from acsystem import db
-from acsystem.models import Group
+from acsystem.models import Group, FixedGroup
 from acsystem.groupledger.forms import GroupForm
 from flask_login import current_user, login_required
 
@@ -18,5 +18,6 @@ def group():
         flash(f"Group Added Successfully.","success")
         return redirect(url_for('groupledgers.group'))
     groups = Group.query.filter_by(company_id = current_user.activecompany).all()
-    return render_template('groupledger/showgroup.html', title="Groups", form=form, groups = groups )
+    fixedgroups = FixedGroup.query.all()
+    return render_template('groupledger/showgroup.html', title="Groups", form=form, groups = groups, fixedgroups=fixedgroups )
 

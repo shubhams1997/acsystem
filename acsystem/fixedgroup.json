@@ -1,0 +1,125 @@
+
+{
+    "fixedgroups":[
+        {
+            "id":1,
+            "name":"Capital A/C",
+            "under":"Liabilities"
+        },
+        {
+            "id":2,
+            "name":"Loans (liability)",
+            "under":"Liabilities"
+        },
+        {
+            "id":3,
+            "name":"Current Liability",
+            "under":"Liabilities"
+        },
+        {
+            "id":4,
+            "name":"Fixed Assets",
+            "under":"Assets"
+        },
+        {
+            "id":5,
+            "name":"Investments",
+            "under":"Assets"
+        },
+        {
+            "id":6,
+            "name":"Current Asstes",
+            "under":"Assets"
+        },
+        {
+            "id":7,
+            "name":"Misc. Expenses (Assets)",
+            "under":"Assets"
+        },
+        {
+            "id":8,
+            "name":"Branch / Division",
+            "under":"Liabilities"
+        },
+        {
+            "id":9,
+            "name":"Suspense A/C",
+            "under":"Liabilities"
+        },
+        {
+            "id":10,
+            "name":"Direct Income",
+            "under":"Income"
+        },
+        {
+            "id":11,
+            "name":"Direct Expense",
+            "under":"Expenses"
+        },
+        {
+            "id":12,
+            "name":"Indirect Income",
+            "under":"Income"
+        },
+        {
+            "id":13,
+            "name":"Indirect Expense",
+            "under":"Expenses"
+        },
+        {
+            "id":14,
+            "name":"Reserve & Surplus",
+            "under":"Liabilities"
+        },
+        {
+            "id":15,
+            "name":"Secured Loans",
+            "under":"Liabilities"
+        },
+        {
+            "id":16,
+            "name":"Unsecured Loans",
+            "under":"Liabilities"
+        },
+        {
+            "id":17,
+            "name":"Duties & Taxes",
+            "under":"Liabilities"
+        },
+        {
+            "id":18,
+            "name":"Provisions",
+            "under":"Liabilities"
+        },
+        {
+            "id":19,
+            "name":"Stock-in-Hand",
+            "under":"Assets"
+        },
+        {
+            "id":20,
+            "name":"Deposits (Assets)",
+            "under":"Assets"
+        },
+        {
+            "id":21,
+            "name":"Loans & Advances (Assets)",
+            "under":"Assets"
+        },
+        {
+            "id":22,
+            "name":"Cash-in-Hand",
+            "under":"Assets"
+        },
+        {
+            "id":23,
+            "name":"Bank Account",
+            "under":"Assets"
+        },
+        {
+            "id":24,
+            "name":"Bank Overdraft A/C",
+            "under":"Liabilities"
+        }
+    ]
+}
