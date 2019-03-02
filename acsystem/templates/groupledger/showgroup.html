@@ -2,7 +2,7 @@
 {% extends "layout.html"%}
 {% block content %}
 
-<div class="modal fade" id="deletecustomer" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="creategroup" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,19 +24,39 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deletegroup" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you Sure!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <form id="deleteform" action="" , method="POST">
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div class="container">
     <div class="container-fluid">
         <h2 class="float-left">Groups</h2>
         <ul class="nav justify-content-end">
             <li class="btn btn-success">
-                <a class="nav-link" data-toggle="modal" data-target="#deletecustomer">Add Group</a>
+                <a class="nav-link" data-toggle="modal" data-target="#creategroup">Add Group</a>
             </li>
         </ul>
     </div>
@@ -63,15 +83,12 @@
                 {% endfor %}
                 {% for group in groups %}
                 <tr>
-                    <th scope="row">{{group.id}}</th>
+                    <th scope="row">#</th>
                     <td>{{ group.name }}</td>
                     <td>{{ group.under }}</td>
-                    <td>
-                        <a href="#">
-                        <button type="submit" class="btn btn-light">
-                                <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
-                            </button>
-                        </a>
+                    <td  class="deletegrp" >
+                        <span style="display:none;">{{ url_for('groupledgers.deletegroup', group_id=group.id) }}</span>
+                        <img style="cursor:pointer;" data-toggle="modal" data-target="#deletegroup" src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
                     </td>
                 {% endfor %}
             </tbody>
@@ -79,5 +96,14 @@
 
     </div>
 </div>
+
+<script>
+    var deletegrp = document.getElementsByClassName("deletegrp");
+    for(let i=0; i<deletegrp.length; i++){
+        deletegrp[i].lastElementChild.addEventListener("click",()=>{
+            document.getElementById('deleteform').action = deletegrp[i].firstElementChild.textContent;
+        })
+    }
+</script>
 
 {% endblock content %}

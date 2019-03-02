@@ -1,3 +1,9 @@
+#loginform{
+    background-image: url("images/loginback.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
 
 #uprofilehead{
     font-size: 20px;

@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, flash, request, url_for
+from flask import Blueprint, redirect, render_template, flash, request, url_for, abort
 from acsystem import db
 from acsystem.models import Group, FixedGroup
 from acsystem.groupledger.forms import GroupForm
@@ -21,3 +21,14 @@ def group():
     fixedgroups = FixedGroup.query.all()
     return render_template('groupledger/showgroup.html', title="Groups", form=form, groups = groups, fixedgroups=fixedgroups )
 
+
+@groupledgers.route("/groups/delete/<int:group_id>", methods=['POST'])
+@login_required
+def deletegroup(group_id):
+    group = Group.query.get_or_404(group_id);
+    if group.company_id != current_user.activecompany:
+        abort(403)
+    db.session.delete(group)
+    db.session.commit()
+    flash(f"Group Deleted Successfully.","success")
+    return redirect(url_for('groupledgers.group'))

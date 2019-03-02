@@ -32,9 +32,7 @@
                     <td>{{ supplier.description }}</td>
                     <td>
                         <a href="{{ url_for('suppliers.showsupplier', supplier_id = supplier.id) }}">
-                        <button type="submit" class="btn btn-light">
-                                <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
-                            </button>
+                            <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
                         </a>
                     </td>
                 {% endfor %}
