@@ -124,6 +124,7 @@ class Ledger(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     affectinventory = db.Column(db.Boolean)
+    undername = db.Column(db.String(40))
     under = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
     

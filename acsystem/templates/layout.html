@@ -10,6 +10,8 @@
                 <a class="navbar-brand" href="{{ url_for('company.companies') }}">Select Company </a>
                 {% endif %}
             </li>
+        </ul>
+        <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('users.dashboard')}}">Dashboard</a>
             </li>
@@ -30,8 +32,8 @@
                     Inventory
                 </a>
                 <div class="dropdown-menu" aria-labelledby="drop2">
-                    <a class="dropdown-item" href="#">Product Category and Unit</a>
-                    <a class="dropdown-item" href="#">Products</a>
+                    <a class="dropdown-item" href="{{ url_for('products.categoryunit') }}">Product Category and Unit</a>
+                    <a class="dropdown-item" href="{{ url_for('products.product') }}">Products</a>
                 </div>
             </li>
             <li class="nav-item dropdown">

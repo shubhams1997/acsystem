@@ -71,7 +71,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Under</th>
+                    <th scope="col">Under Group</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -80,7 +80,7 @@
                 <tr>
                     <th scope="row">#</th>
                     <td>{{ ledger.name }}</td>
-                    <td>{{ ledger.under }}</td>
+                    <td>{{ ledger.undername }}</td>
                     <td>{{ ledger.affectinventory }}</td>
                     <td  class="deletelgr" >
                         <span style="display:none;">{{ url_for('groupledgers.deleteledger', ledger_id=ledger.id) }}</span>

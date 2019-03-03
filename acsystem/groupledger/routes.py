@@ -46,7 +46,7 @@ def ledger():
     form.under.choices+= [(str(group.name), group.name) for group in Group.query.filter_by(company_id = current_user.activecompany).all()]
     if form.validate_on_submit():
         group = Group.query.filter_by(name = form.under.data).first()
-        userledger = Ledger(name = form.name.data, under = group.id, affectinventory = form.affectinventory.data, company_id=current_user.activecompany)
+        userledger = Ledger(name = form.name.data, under = group.id, undername=group.name, affectinventory = form.affectinventory.data, company_id=current_user.activecompany)
         db.session.add(userledger)
         db.session.commit()
         flash(f"Ledger Added Successfully.","success")

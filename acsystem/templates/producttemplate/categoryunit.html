@@ -1,0 +1,192 @@
+{% from "renderfield.html" import render_field, render_doublefield %}
+{% extends "layout.html"%}
+{% block content %}
+
+<div class="modal fade" id="createcategory" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Product Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {{form.hidden_tag()}}
+                    {{ render_field(form.name, "Category Name") }}
+                    <div class="form-group">
+                        {{ form.submit(class="btn mt-3", style="background-color: #75ff9b;")}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deletecategory" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All the Products Under this Product Category will also be Deleted!<br>
+                Are you sure!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form id="deleteform" action="" , method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createunit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Unit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {{form.hidden_tag()}}
+                    {{ render_field(form2.symbol, "Symbol or leters of Unit") }}
+                    {{ render_field(form2.name, "Category Name") }}
+                    <div class="form-group">
+                        {{ form2.submit(class="btn mt-3", style="background-color: #75ff9b;")}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteunit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Unit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All the Products Under this Product Unit will also be Deleted!<br>
+                Are you sure!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form id="deleteform2" action="" , method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="container-fluid">
+                <h2 class="float-left">Groups</h2>
+                <ul class="nav justify-content-end">
+                    <li class="btn btn-success">
+                        <a class="nav-link" data-toggle="modal" data-target="#createcategory">Add Category</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pc in pcs %}
+                        <tr>
+                            <th scope="row">#</th>
+                            <td>{{ pc.name }}</td>
+                            <td class="deletecategory">
+                                <span
+                                    style="display:none;">{{ url_for('products.deleteproductcategory', pc_id=pc.id) }}</span>
+                                <img style="cursor:pointer;" data-toggle="modal" data-target="#deletecategory"
+                                    src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
+                            </td>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+        <!-- UNITS STARTS FROM HERE -->
+
+
+        <div class="col-sm">
+            <div class="container-fluid">
+                <h2 class="float-left">Units</h2>
+                <ul class="nav justify-content-end">
+                    <li class="btn btn-success">
+                        <a class="nav-link" data-toggle="modal" data-target="#createunit">Add Unit</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Symbol</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for unit in units %}
+                        <tr>
+                            <th scope="row">#</th>
+                            <td>{{ unit.symbol }}</td>
+                            <td>{{ unit.name }}</td>
+                            <td class="deleteunit">
+                                <span style="display:none;">{{ url_for('products.deleteunit', unit_id=unit.id) }}</span>
+                                <img style="cursor:pointer;" data-toggle="modal" data-target="#deleteunit"
+                                    src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
+                            </td>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var deletecategory = document.getElementsByClassName("deletecategory");
+    for (let i = 0; i < deletecategory.length; i++) {
+        deletecategory[i].lastElementChild.addEventListener("click", () => {
+            document.getElementById('deleteform').action = deletecategory[i].firstElementChild.textContent;
+        })
+    }
+    var deleteunit = document.getElementsByClassName("deleteunit");
+    for (let i = 0; i < deleteunit.length; i++) {
+        deleteunit[i].lastElementChild.addEventListener("click", () => {
+            document.getElementById('deleteform2').action = deleteunit[i].firstElementChild.textContent;
+        })
+    }
+</script>
+
+{% endblock content %}
