@@ -2,11 +2,11 @@
 {% extends "layout.html"%}
 {% block content %}
 
-<div class="modal fade" id="creategroup" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="createledger" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Group</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Ledger</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,23 +14,30 @@
             <div class="modal-body">
                 <form method="POST">
                     {{form.hidden_tag()}} 
-                    {{ render_field(form.name, "Group Name") }}
+                    {{ render_field(form.name, "Ledger Name") }}
                     
                     {{ render_field(form.under,"") }}
+
+                    <div class="form-group">
+                        {{ form.affectinventory()}}
+                        {{ form.affectinventory.label(class="ml-2") }}
+                    </div>
+
                     <div class="form-group">
                         {{ form.submit(class="btn mt-3", style="background-color: #75ff9b;")}}
                     </div>
                   </form>
             </div>
+            
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="deletegroup" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="deleteledger" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete Group</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Ledger</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -50,10 +57,10 @@
 
 <div class="container">
     <div class="container-fluid">
-        <h2 class="float-left">Groups</h2>
+        <h2 class="float-left">Ledgers</h2>
         <ul class="nav justify-content-end">
             <li class="btn btn-success">
-                <a class="nav-link" data-toggle="modal" data-target="#creategroup">Add Group</a>
+                <a class="nav-link" data-toggle="modal" data-target="#createledger">Add Ledger</a>
             </li>
         </ul>
     </div>
@@ -69,23 +76,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for group in fixedgroups %}
-                <tr>
-                    <th scope="row">{{group.id}}</th>
-                    <td>{{ group.name }}</td>
-                    <td>{{ group.under }}</td>
-                    <td>
-                        
-                    </td>
-                {% endfor %}
-                {% for group in groups %}
+                {% for ledger in ledgers %}
                 <tr>
                     <th scope="row">#</th>
-                    <td>{{ group.name }}</td>
-                    <td>{{ group.under }}</td>
-                    <td  class="deletegrp" >
-                        <span style="display:none;">{{ url_for('groupledgers.deletegroup', group_id=group.id) }}</span>
-                        <img style="cursor:pointer;" data-toggle="modal" data-target="#deletegroup" src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
+                    <td>{{ ledger.name }}</td>
+                    <td>{{ ledger.under }}</td>
+                    <td>{{ ledger.affectinventory }}</td>
+                    <td  class="deletelgr" >
+                        <span style="display:none;">{{ url_for('groupledgers.deleteledger', ledger_id=ledger.id) }}</span>
+                        <img style="cursor:pointer;" data-toggle="modal" data-target="#deleteledger" src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
                     </td>
                 {% endfor %}
             </tbody>
@@ -95,10 +94,10 @@
 </div>
 
 <script>
-    var deletegrp = document.getElementsByClassName("deletegrp");
-    for(let i=0; i<deletegrp.length; i++){
-        deletegrp[i].lastElementChild.addEventListener("click",()=>{
-            document.getElementById('deleteform').action = deletegrp[i].firstElementChild.textContent;
+    var deletelgr = document.getElementsByClassName("deletelgr");
+    for(let i=0; i<deletelgr.length; i++){
+        deletelgr[i].lastElementChild.addEventListener("click",()=>{
+            document.getElementById('deleteform').action = deletelgr[i].firstElementChild.textContent;
         })
     }
 </script>

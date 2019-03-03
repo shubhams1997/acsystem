@@ -47,6 +47,10 @@ class Company(db.Model):
     customers = db.relationship('Customer', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     suppliers = db.relationship('Supplier', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     groups = db.relationship('Group', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    ledgers = db.relationship('Ledger', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    productcategories = db.relationship('Productcategory', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    products = db.relationship('Product', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    units = db.relationship('Unit', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
@@ -109,7 +113,44 @@ class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     under = db.Column(db.String(20), nullable=False)
+    ledgers = db.relationship('Ledger', backref='undergroup', lazy=True, cascade="all, delete-orphan")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
         return f"Group('{self.name}','{self.under}')"
+
+
+class Ledger(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    affectinventory = db.Column(db.Boolean)
+    under = db.Column(db.Integer, db.ForeignKey('group.id', ondelete="CASCADE"), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+    
+    def __repr__(self):
+        return f"Ledger('{self.name}','{self.under}')"
+
+
+class Productcategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    products = db.relationship('Product', backref='undercategory', lazy=True, cascade="all, delete-orphan")
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+
+class Unit(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    symbol = db.Column(db.String(10), nullable=False)
+    name = db.Column(db.String(40))
+    products = db.relationship('Product', backref='underunit', lazy=True, cascade="all, delete-orphan")
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    category = db.Column(db.Integer, db.ForeignKey('productcategory.id', ondelete="CASCADE"), nullable=False)
+    unit = db.Column(db.Integer, db.ForeignKey('unit.id'), nullable=False)
+    quantity = db.Column(db.Integer)
+    rate = db.Column(db.Integer)
+    salesprice = db.Column(db.Integer)
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
