@@ -1,0 +1,96 @@
+{% extends "layout.html"%}
+{% block content %}
+<div class="modal fade" id="deleteproduct" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                All the related transactions and other data will also be deleted.
+                And it won't be recovered.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('products.deleteproduct', product_id=prod.id) }}" , method="POST">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+        <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+    </button> 
+    <h2 class="mb-4">{{ prod.name }} Details</h2>
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5">Product Company</td>
+                <td id="setcountry"></td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Product Name </td>
+                <td>{{prod.name}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Category </td>
+                <td>{{prod.categoryname}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Unit </td>
+                <td>{{prod.unitname}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Quantity </td>
+                <td>{{prod.quantity}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Rate</td>
+                <td>{{prod.rate}}</td>
+            </tr>
+            <tr>
+                <td>&Tab;</td>
+                <td class="h5"> Sales Price</td>
+                <td>{{prod.salesprice}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="mt-4">
+        <tbody>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteproduct">
+                        <img src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete"> Delete
+                    </button>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-light" href="{{ url_for('products.updateproduct', product_id=prod.id) }}"><img
+                            src="{{ url_for('static',filename='images/update.png') }}" alt="Delete"> Update
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $("#setcountry").text(localStorage.getItem('companyname'));
+</script>
+
+
+{% endblock content %}

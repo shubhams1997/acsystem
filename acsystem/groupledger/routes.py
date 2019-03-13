@@ -42,10 +42,10 @@ def ledger():
         flash(f"No Company is Activated! ","warning")
         return redirect(url_for('company.companies'))
     form = LedgerForm()
-    form.under.choices+= [(str(fixedgroup.name), fixedgroup.name) for fixedgroup in FixedGroup.query.all()]
-    form.under.choices+= [(str(group.name), group.name) for group in Group.query.filter_by(company_id = current_user.activecompany).all()]
+    form.under.choices+= [(str(fixedgroup.id), fixedgroup.name) for fixedgroup in FixedGroup.query.all()]
+    form.under.choices+= [(str(group.id), group.name) for group in Group.query.filter_by(company_id = current_user.activecompany).all()]
     if form.validate_on_submit():
-        group = Group.query.filter_by(name = form.under.data).first()
+        group = Group.query.get(int(form.under.data))
         userledger = Ledger(name = form.name.data, under = group.id, undername=group.name, affectinventory = form.affectinventory.data, company_id=current_user.activecompany)
         db.session.add(userledger)
         db.session.commit()

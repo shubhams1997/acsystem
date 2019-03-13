@@ -1,7 +1,45 @@
-{% from "renderfield.html" import render_field, render_doublefield %}
 {% extends "layout.html"%}
 {% block content %}
 
-<h1 class="display-1">Product Page (Under Development)</h1>
+
+<div class="container">
+    <div class="container-fluid">
+        <h2 class="float-left">Products</h2>
+        <ul class="nav justify-content-end">
+            <li class="btn btn-success float-right">
+                <a class="nav-link" href="{{ url_for('products.addproduct') }}">Add Product</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in productlist %}
+                <tr>
+                    <th scope="row">{{product.name }}</th>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.categoryname }}</td>
+                    <td>{{ product.unitname }}</td>
+                    <td>
+                        <a href="{{ url_for('products.productdetail', product_id = product.id) }}">
+                        <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
+                        </a>
+                    </td>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
 
 {% endblock content %}

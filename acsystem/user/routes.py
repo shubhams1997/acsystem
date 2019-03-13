@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, url_for, flash, redirect
+from flask import Blueprint, render_template, url_for, flash, redirect, request
 from acsystem import bcrypt, db
-from acsystem.user.forms import LoginForm, RegisterForm
+from acsystem.user.forms import LoginForm, RegisterForm, UpdateUserForm
 from acsystem.models import User, Company
 from flask_login import login_user, current_user, login_required, logout_user
 
@@ -56,6 +56,27 @@ def logout():
 @login_required
 def account():
     return render_template('usertemplate/accountinfo.html', title="Account")
+
+
+@users.route('/user/accountinfo/update', methods=['GET','POST'])
+@login_required
+def updateuser():
+    form = UpdateUserForm()
+    if form.validate_on_submit():
+        current_user.first = form.firstname.data 
+        current_user.last = form.lastname.data
+        current_user.email = form.email.data
+        current_user.phone = form.phoneno.data
+        db.session.commit()
+        flash(f'Your details has been Updated!', 'success')
+        return redirect(url_for('users.account'))
+
+    if request.method == "GET":
+        form.firstname.data = current_user.first
+        form.lastname.data = current_user.last
+        form.email.data = current_user.email
+        form.phoneno.data = current_user.phone
+    return render_template('usertemplate/update.html', title='Update', form=form)
 
 
 @users.route('/user/deleteuser', methods=['GET','POST'])

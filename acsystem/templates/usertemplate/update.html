@@ -1,0 +1,27 @@
+{% from "renderfield.html" import render_field, render_doublefield %}
+{% extends "layout.html"%}
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+            <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+        </button>
+        <h2 style="margin-bottom:30px;">Update {{current_user.first}}</h2>
+        <form style="max-width:600px; margin:0 auto;" action="" , method="POST">
+            {{form.hidden_tag()}}
+            {{ form.csrf_token}}
+
+            {{ render_doublefield(form.firstname,form.lastname,"First Name","Last Name") }}
+
+            {{ render_field(form.email, "Enter your Email") }}
+
+            {{ render_field(form.phoneno, "Enter Phone Number") }}
+            <div class="form-group">
+                {{ form.submit(class="btn", style="background-color: #75ff9b;")}}
+            </div>     
+        </form>
+    </div>
+</div>
+</div>
+
+{% endblock content %}

@@ -33,7 +33,7 @@ class UnitForm(FlaskForm):
 
 class ProductForm(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
-    category = SelectField("Product Category", choices=[("","Select Category"),("0","Primary")], validators=[DataRequired()])
+    category = SelectField("Product Category", choices=[("","Select Category"),("Primary","Primary")], validators=[DataRequired()])
     unit = SelectField("Unit", choices=[("","Select Unit")])
     quantity = IntegerField("Quantity", validators=[Optional()])
     rate = IntegerField("Rate", validators=[Optional()])
@@ -46,3 +46,24 @@ class ProductForm(FlaskForm):
             if product.name == name.data:
                 flash(f"Name already exist with this name!","warning")
                 raise ValidationError("Name already exist!")
+
+
+class ProductUpdateForm(FlaskForm):
+    vdname = StringField('Product Name', validators=[DataRequired()])
+    name = StringField('Product Name', validators=[DataRequired()])
+    category = SelectField("Product Category", choices=[("","Select Category"),("Primary","Primary")], validators=[DataRequired()])
+    unit = SelectField("Unit", choices=[("","Select Unit")])
+    quantity = IntegerField("Quantity", validators=[Optional()])
+    rate = IntegerField("Rate", validators=[Optional()])
+    salesprice = IntegerField("Sales Price", validators=[Optional()])
+    submit = SubmitField('Save')
+
+    def validate_name(self, name):
+        if self.vdname.data != name.data:  
+            print(self.vdname.data)  
+            print(name.data)
+            products = Product.query.filter_by(company_id = current_user.activecompany).all()
+            for product in products:
+                if product.name == name.data:
+                    flash(f"Name already exist with this name!","warning")
+                    raise ValidationError("Name already exist!")
