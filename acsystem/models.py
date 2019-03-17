@@ -51,6 +51,7 @@ class Company(db.Model):
     productcategories = db.relationship('Productcategory', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     products = db.relationship('Product', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     units = db.relationship('Unit', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    sale = db.relationship('Sales', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
@@ -157,3 +158,18 @@ class Product(db.Model):
     rate = db.Column(db.Integer)
     salesprice = db.Column(db.Integer)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+class Sales(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    customer = db.Column(db.String(40), nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    totalamount = db.Column(db.Integer)
+    salesitems = db.relationship('SalesItem', lazy=True, cascade="all, delete-orphan")
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+class SalesItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    product = db.Column(db.Integer, db.ForeignKey('product.id'))
+    quantity = db.Column(db.Integer, nullable=False)
+    rate = db.Column(db.Integer, nullable=False)
+    undersales = db.Column(db.Integer, db.ForeignKey('sales.id', ondelete="CASCADE"), nullable=False)

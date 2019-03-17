@@ -1,0 +1,42 @@
+{% extends "layout.html"%}
+{% block content %}
+
+<div class="container">
+    <div class="container-fluid">
+        <h2 class="float-left">Invoices</h2>
+        <ul class="nav justify-content-end">
+            <li class="btn btn-success float-right">
+                <a class="nav-link" href="{{ url_for('transactions.createinvoice') }}">Create Invoice</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr>
+                    <th scope="row">{{sale.date }}</th>
+                    <td>{{ sale.customer }}</td>
+                    <td>{{ sale.totalamount }}</td>
+                    <td>
+                        <a href="#">
+                        <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
+                        </a>
+                    </td>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock content %}

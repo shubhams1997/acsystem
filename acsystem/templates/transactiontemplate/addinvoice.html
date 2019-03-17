@@ -1,0 +1,47 @@
+{% from "renderfield.html" import render_field, render_doublefield %}
+{% extends "layout.html"%}
+{% block content %}
+<div class="container">
+    <div class="container-fluid">
+        <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+            <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+        </button> 
+        <h2 style="margin-bottom:30px;">Create Invoice</h2>
+    <form style="max-width:600px; margin:0 auto;" action="", method="POST">
+            {{form1.hidden_tag()}}
+            {{ form1.csrf_token}}
+            {{ render_doublefield(form1.date,form1.customer,"","") }}
+
+            {{ render_doublefield(form2.product,form2.quantity,"","Quantity") }}
+            {{ render_field(form2.rate,"rate") }}
+            <div class="form-group">
+                {{ form1.submit(class="btn", style="background-color: #75ff9b;")}}
+            </div>
+        </div>
+
+    </form>
+</div>
+</div>
+<script>
+    $('#mailingname').focus(()=>{
+        $('#mailingname').val($('#name').val());
+    })
+    let product_select = document.getElementById('product');
+    let quantity = document.getElementById('quantity');
+    let rate = document.getElementById('rate');
+    product_select.onchange = function(){
+     product = product_select.value;
+
+     fetch('/invoice/loadinvoicedetails/'+product).then(function(response){
+         response.json().then(function(data){
+             console.table(data);
+             $('#quantity').val(data.product.quantity);
+             $('#rate').val(data.product.rate);
+
+         })
+     })
+    }
+</script>
+
+
+{% endblock content %}

@@ -41,8 +41,8 @@
                     Transactions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="drop2">
-                    <a class="dropdown-item" href="#">Invoices</a>
-                    <a class="dropdown-item" href="#">Bills</a>
+                    <a class="dropdown-item" href="{{ url_for('transactions.invoice') }}">Invoices (Sales)</a>
+                    <a class="dropdown-item" href="#">Bills (Purchase)</a>
                     <a class="dropdown-item" href="#">Receipt</a>
                     <a class="dropdown-item" href="#">Payment</a>
                     <a class="dropdown-item" href="#">Journal</a>
