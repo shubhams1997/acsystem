@@ -7,13 +7,13 @@ from flask_login import current_user
 
 
 class ProductCategoryForm(FlaskForm):
-    name = StringField('Product Category Name', validators=[DataRequired()])
+    category_name = StringField('Product Category Name', validators=[DataRequired()])
     submit = SubmitField('Save')
 
-    def validate_name(self, name):
+    def validate_category_name(self, category_name):
         productcategories = Productcategory.query.filter_by(company_id = current_user.activecompany).all()
         for category in productcategories:
-            if category.name == name.data:
+            if category.name == category_name.data:
                 flash(f"Category already exist with this name!","warning")
                 raise ValidationError("Category already exist!")
 

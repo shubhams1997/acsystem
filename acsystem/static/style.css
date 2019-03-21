@@ -99,4 +99,46 @@
 .container-fluid {
   margin-top: 30px !important;
 }
+
+.autocomplete {
+  position: relative !important;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  overflow: scroll;
+  max-height: 300px;
+  position: absolute;
+  border: 2px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+  background-color: #70d686;
+}
+
+.autocomplete-active {
+  background-color: #33da5d !important;
+  color: #ffffff;
+}
+
+#producthead {
+  background-color: #d1d1d1;
+}
+
+#producthead > row > col {
+  margin: 15px;
+}
   /*# sourceMappingURL=style.css.map */

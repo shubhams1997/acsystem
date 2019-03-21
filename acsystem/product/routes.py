@@ -101,15 +101,15 @@ def categoryunit():
         return redirect(url_for('company.companies'))
     form = ProductCategoryForm()
     form2 = UnitForm()
-    if form2.validate_on_submit():
+    if form2.validate_on_submit() and form2.submit.data:
         unit = Unit(symbol = form2.symbol.data, name = form2.name.data, company_id = current_user.activecompany)
         db.session.add(unit)
         db.session.commit()
         flash(f"Unit Added Successfully!","success")
         return redirect(url_for("products.categoryunit"))
 
-    if form.validate_on_submit():
-        category = Productcategory(name = form.name.data, company_id = current_user.activecompany)
+    if form.validate_on_submit() and form.submit.data:
+        category = Productcategory(name = form.category_name.data, company_id = current_user.activecompany)
         db.session.add(category)
         db.session.commit()
         flash(f"Product Category {form.name.data} Added Successfully!","success")
