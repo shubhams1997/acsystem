@@ -4,9 +4,11 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from acsystem.config import Config
+from flask_wtf.csrf import CSRFProtect
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
+csrf = CSRFProtect()
 
 login_manager = LoginManager()
 
@@ -22,6 +24,7 @@ def create_app(config_class=Config):
     migrate = Migrate(app,db)
     migrate.init_app(app)
     login_manager.init_app(app)
+    csrf.init_app(app)
 
     from acsystem.user.routes import users
     from acsystem.company.routes import company

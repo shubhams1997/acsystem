@@ -2,276 +2,284 @@
 {% extends "layout.html"%}
 {% block content %}
 <div class="container">
-    <div class="container-fluid">
-        <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
-            <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
-        </button> 
-        <h2 style="margin-bottom:30px;"> Invoice</h2>
-    <div class="container border mt-5">
-		<div class="invoice">
-			<form action="" method="POST" class="mt-4">
-                
-                {{ form_list[0].csrf_token()}}
-                {{ form1.csrf_token}}
-				<div class="row">
-					<div class="col-md-6 col-lg-7">
-						<div>
-							<div class="form-group">
-								<label for="inputAddress">To: </label>
+	<div class="container-fluid">
+		<button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+			<img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+		</button>
+		<h2 style="margin-bottom:30px;"> Invoice</h2>
+		<div class="container border mt-5">
+			<div class="invoice">
+				<form action="" method="POST" class="mt-4">
+					{{ form1.csrf_token }}
+					<div class="row">
+						<div class="col-md-6 col-lg-7">
+							<div>
+								<div class="form-group">
+									<label for="inputAddress">To: </label>
 
-								<div class="autocomplete" style="width:80%;">
-                                        {{ form1.customer(class="form-control", id="myInput", autocomplete="off") }}
-								</div>
-								<br>
-								<div id="customer-detail">
+									<div class="autocomplete" style="width:80%;">
+										{{ form1.customer(class="form-control", id="myInput", autocomplete="off") }}
+									</div>
+									<br>
+									<div id="customer-detail">
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-6 col-lg-5">
-						<div>
-							<table class="table table-borderless">
-								<tbody>
-									<tr class="row">
-										<td class="col-sm-6 col-md-5">Invoice Number</td>
-										<td class="col-sm-5 col-md-7">{{ form1.invoiceno(class="form-control") }}</td>
-									</tr>
-									<tr class="row">
-										<td class="col-sm-6 col-md-5">Invoice Date</td>
-										<td class="col-sm-5 col-md-7">{{ form1.date(class="form-control") }}</td>
-									</tr>
-								</tbody>
-							</table>
+						<div class="col-md-6 col-lg-5">
+							<div>
+								<table class="table table-borderless">
+									<tbody>
+										<tr class="row">
+											<td class="col-sm-6 col-md-5">Invoice Number</td>
+											<td class="col-sm-5 col-md-7">{{ form1.invoiceno(class="form-control") }}
+											</td>
+										</tr>
+										<tr class="row">
+											<td class="col-sm-6 col-md-5">Invoice Date</td>
+											<td class="col-sm-5 col-md-7">{{ form1.date(class="form-control") }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
-				</div>
-				<hr>
+					<hr>
 
-				<table class="table table-borderless mt-4">
-					<thead>
-						<tr id="producthead" class="row">
-							<th class="col-1"></th>
-							<th class="col-4">Product</th>
-							<th class="col-2">Quantity</th>
-                            <th class="col-2">Rate</th>
-                            <th class="col-1">Unit</th>
-							<th class="col-1">Total</th>
-						</tr>
-					</thead>
-					<tbody id="itemslist">
-						<tr class="row">
-                            <form action="", method="POST">
-							<td class="col-1"> <a class='btn btn-outline-dark'>delete</a></td>
-							<th class="col-4">
-								<!-- <div class="autocomplete" style="width:100%;">
-									<input autocomplete="off" class="form-control" id="productlist" type="text"
-										placeholder="Add an Item">
-                                </div> -->
-                                {{ form_list[0].product(class="form-control") }}
-                                
-                            </th>
-                            <td class="col-2">{{form_list[0].quantity(class="form-control", onchange="calculatetotal()")}}</td>
-							<td class="col-2">{{ form_list[0].rate(class="form-control", onchange="calculatetotal()") }}</td>
-							<td class="col-1"><input type="text" disabled id="productunit" class="form-control"></td>
-                            <td class="col-1" id="total">-------</td>
-                            {{ form_list[0].submititem(style="display:none;") }}
-                            </form>
-						</tr>
-					</tbody>
-				</table>
-                <a id="additeminlist" class='btn btn-outline-dark'>Add</a>
-                <br>
-                <div class="disabled">
-                    {{ form1.totalamount(class="form-control", disabled=true) }}
-                </div>
-                <div class="form-group">
-                    {{ form1.submit(class="btn", style="background-color: #75ff9b;", onclick="submititems()")}}
-                </div>
-			</form>
+					<table class="table table-borderless mt-4">
+						<thead>
+							<tr id="producthead" class="row">
+								<th class="col-1"></th>
+								<th class="col-4">Product</th>
+								<th class="col-2">Quantity</th>
+								<th class="col-2">Rate</th>
+								<th class="col-1">Unit</th>
+								<th class="col-1">Total</th>
+							</tr>
+						</thead>
+						<tbody id="itemslist">
+							
+							<tr class="row">
+									<td class="col-1"> <a class='btn btn-outline-dark'>delete</a></td>
+									<th class="col-4">
+										{{ form1.items[0].form.product(class="form-control") }}
+
+									</th>
+									<td class="col-2">
+										{{form1.items[0].form.quantity(class="form-control", onchange="calculatetotal()")}}
+									</td>
+									<td class="col-2">
+										{{ form1.items[0].form.rate(class="form-control", onchange="calculatetotal()") }}</td>
+									<td class="col-1"><input type="text" disabled id="product-0-unit" class="form-control">
+									</td>
+									<td class="col-1" id="total-0">-------</td>
+							</tr>
+							
+						</tbody>
+					</table>
+					<a id="additeminlist" class='btn btn-outline-dark'>Add</a>
+					<br>
+				</table>				
+				<div class="float-right" id="total-0">{{ form1.totalamount(class="form-control", disabled=true) }}</div>
+		
+					<div class="form-group">
+						{{ form1.submit(class="btn", style="background-color: #75ff9b;")}}
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
-</div>
 <script>
-        $("#myInput").on("change", function () {
-            $("#customer-detail").html('');
-        })
+	var count=0;
+	$("#myInput").on("change", function () {
+		$("#customer-detail").html('');
+	})
 
-        function submititems(){
-            $("#submititem").click();
-            $(this).click();
-            console.log("clicked submit");
-        }
-        
-        let arrofobj = [{ "id": 1, "name": "name1" }, { "id": 2, "name": "name2" }, { "id": 3, "name": "name3" }, { "id": 4, "name": "name4" }];
-        /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-            
-        function autocomplete2(inp, arr) {
-          var currentFocus;
-          inp.addEventListener("input", function (e) {
-            var a, b, i, val = this.value;
-            /*close any already open lists of autocompleted values*/
-            closeAllLists();
-            if (!val) { return false; }
-            currentFocus = -1;
-            /*create a DIV element that will contain the items (values):*/
-            a = document.createElement("DIV");
-            a.setAttribute("id", this.id + "autocomplete-list");
-            a.setAttribute("class", "autocomplete-items");
-            /*append the DIV element as a child of the autocomplete container:*/
-            this.parentNode.appendChild(a);
-            /*for each item in the array...*/
-            for (i = 0; i < arr.length; i++) {
-              /*check if the item starts with the same letters as the text field value:*/
-              if (arr[i]["name"].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                /*create a DIV element for each matching element:*/
-                b = document.createElement("DIV");
-                /*make the matching letters bold:*/
-                b.innerHTML = "<strong>" + arr[i]["name"].substr(0, val.length) + "</strong>";
-                b.innerHTML += arr[i]["name"].substr(val.length);
-                /*insert a input field that will hold the current arr item's value:*/
-                b.innerHTML += "<input type='hidden' name='" + arr[i]["id"] + "' value='" + arr[i]["name"] + "'>";
-                /*execute a function when someone clicks on the item value (DIV element):*/
-                b.addEventListener("click", function (e) {
-                  /*insert the value for the autocomplete text field:*/
-                  inp.value = this.getElementsByTagName("input")[0].value;
-                  //console.log(this.getElementsByTagName("input")[0].name);
-                let customer_id = this.getElementsByTagName("input")[0].name;
-                  fetch('/invoice/loadcustomerdetail/'+customer_id).then(function(response){
-                    response.json().then(function(data){
-                        console.table(data.customer);
-                        
-                        $("#customer-detail").html(`<span id="customer-address">`+data.customer.address+`</span> <br>
-                        <span id="customer-state">`+data.customer.state+`</span><br>
-                        <span id="customer-country">`+data.customer.country+`</span><br>
-                        <span id="customer-phone">`+data.customer.phone+`</span><br>`);
-                        
-                    })
-                })
-                  /*close the list of autocompleted values,
-                  (or any other open lists of autocompleted values:*/
-                  closeAllLists();
-                });
-                a.appendChild(b);
-              }
-            }
-          });
-          /*execute a function presses a key on the keyboard:*/
-          inp.addEventListener("keydown", function (e) {
-            var x = document.getElementById(this.id + "autocomplete-list");
-            if (x) x = x.getElementsByTagName("div");
-            if (e.keyCode == 40) {
-              /*If the arrow DOWN key is pressed,
-              increase the currentFocus variable:*/
-              currentFocus++;
-              /*and and make the current item more visible:*/
-              addActive(x);
-            } else if (e.keyCode == 38) { //up
-              /*If the arrow UP key is pressed,
-              decrease the currentFocus variable:*/
-              currentFocus--;
-              /*and and make the current item more visible:*/
-              addActive(x);
-            } else if (e.keyCode == 13) {
-              /*If the ENTER key is pressed, prevent the form from being submitted,*/
-              e.preventDefault();
-              if (currentFocus > -1) {
-                /*and simulate a click on the "active" item:*/
-                if (x) x[currentFocus].click();
-              }
-            }
-          });
-          function addActive(x) {
-            /*a function to classify an item as "active":*/
-            if (!x) return false;
-            /*start by removing the "active" class on all items:*/
-            removeActive(x);
-            if (currentFocus >= x.length) currentFocus = 0;
-            if (currentFocus < 0) currentFocus = (x.length - 1);
-            /*add class "autocomplete-active":*/
-            x[currentFocus].classList.add("autocomplete-active");
-          }
-          function removeActive(x) {
-            /*a function to remove the "active" class from all autocomplete items:*/
-            for (var i = 0; i < x.length; i++) {
-              x[i].classList.remove("autocomplete-active");
-            }
-          }
-          function closeAllLists(elmnt) {
+	function autocomplete2(inp, arr) {
+		var currentFocus;
+		inp.addEventListener("input", function (e) {
+			var a, b, i, val = this.value;
+			/*close any already open lists of autocompleted values*/
+			closeAllLists();
+			if (!val) { return false; }
+			currentFocus = -1;
+			/*create a DIV element that will contain the items (values):*/
+			a = document.createElement("DIV");
+			a.setAttribute("id", this.id + "autocomplete-list");
+			a.setAttribute("class", "autocomplete-items");
+			/*append the DIV element as a child of the autocomplete container:*/
+			this.parentNode.appendChild(a);
+			/*for each item in the array...*/
+			for (i = 0; i < arr.length; i++) {
+				/*check if the item starts with the same letters as the text field value:*/
+				if (arr[i]["name"].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+					/*create a DIV element for each matching element:*/
+					b = document.createElement("DIV");
+					/*make the matching letters bold:*/
+					b.innerHTML = "<strong>" + arr[i]["name"].substr(0, val.length) + "</strong>";
+					b.innerHTML += arr[i]["name"].substr(val.length);
+					/*insert a input field that will hold the current arr item's value:*/
+					b.innerHTML += "<input type='hidden' name='" + arr[i]["id"] + "' value='" + arr[i]["name"] + "'>";
+					/*execute a function when someone clicks on the item value (DIV element):*/
+					b.addEventListener("click", function (e) {
+						/*insert the value for the autocomplete text field:*/
+						inp.value = this.getElementsByTagName("input")[0].value;
+						//console.log(this.getElementsByTagName("input")[0].name);
+						let customer_id = this.getElementsByTagName("input")[0].name;
+						fetch('/invoice/loadcustomerdetail/' + customer_id).then(function (response) {
+							response.json().then(function (data) {
+								console.table(data.customer);
+
+								$("#customer-detail").html(`<span id="customer-address">` + data.customer.address + `</span> <br>
+                        <span id="customer-state">`+ data.customer.state + `</span><br>
+                        <span id="customer-country">`+ data.customer.country + `</span><br>
+                        <span id="customer-phone">`+ data.customer.phone + `</span><br>`);
+
+							})
+						})
+						/*close the list of autocompleted values,
+						(or any other open lists of autocompleted values:*/
+						closeAllLists();
+					});
+					a.appendChild(b);
+				}
+			}
+		});
+		/*execute a function presses a key on the keyboard:*/
+		inp.addEventListener("keydown", function (e) {
+			var x = document.getElementById(this.id + "autocomplete-list");
+			if (x) x = x.getElementsByTagName("div");
+			if (e.keyCode == 40) {
+				/*If the arrow DOWN key is pressed,
+				increase the currentFocus variable:*/
+				currentFocus++;
+				/*and and make the current item more visible:*/
+				addActive(x);
+			} else if (e.keyCode == 38) { //up
+				/*If the arrow UP key is pressed,
+				decrease the currentFocus variable:*/
+				currentFocus--;
+				/*and and make the current item more visible:*/
+				addActive(x);
+			} else if (e.keyCode == 13) {
+				/*If the ENTER key is pressed, prevent the form from being submitted,*/
+				e.preventDefault();
+				if (currentFocus > -1) {
+					/*and simulate a click on the "active" item:*/
+					if (x) x[currentFocus].click();
+				}
+			}
+		});
+		function addActive(x) {
+			/*a function to classify an item as "active":*/
+			if (!x) return false;
+			/*start by removing the "active" class on all items:*/
+			removeActive(x);
+			if (currentFocus >= x.length) currentFocus = 0;
+			if (currentFocus < 0) currentFocus = (x.length - 1);
+			/*add class "autocomplete-active":*/
+			x[currentFocus].classList.add("autocomplete-active");
+		}
+		function removeActive(x) {
+			/*a function to remove the "active" class from all autocomplete items:*/
+			for (var i = 0; i < x.length; i++) {
+				x[i].classList.remove("autocomplete-active");
+			}
+		}
+		function closeAllLists(elmnt) {
             /*close all autocomplete lists in the document,
             except the one passed as an argument:*/
-            var x = document.getElementsByClassName("autocomplete-items");
-            for (var i = 0; i < x.length; i++) {
-              if (elmnt != x[i] && elmnt != inp) {
-                x[i].parentNode.removeChild(x[i]);
-              }
-            }
-          }
-          /*execute a function when someone clicks in the document:*/
-          document.addEventListener("click", function (e) {
-            closeAllLists(e.target);
-          });
-        }
-        
-        var count = 1;
-        $("#additeminlist").on("click", () => {
-          let arrofobj = [{ "id": 1, "name": "name1" }, { "id": 2, "name": "name2" }, { "id": 3, "name": "name3" }, { "id": 4, "name": "name4" }];
-          const data = `<tr class="row">
-                <td class="col-1"> <a class='btn btn-outline-dark'>delete</a></td>
-                <th class="col-4">
-                    <div class="autocomplete" style="width:100%;">
-                        <input autocomplete="off" class="form-control" id="`+count+`" type="text"
-                            placeholder="Add an Item">
-                    </div>
-                </th>
-                <td class="col-2">{{form_list[1].quantity(class="form-control")}}</td>
-                <td class="col-2">{{ form_list[1].rate(class="form-control") }}</td>
-                <td class="col-1"><input type="text" disabled id="productunit" class="form-control"></td>
-                <td class="col-1">@9999</td>
-            </tr>`;
-          $("#itemslist").append(data);
-          autocomplete2(document.getElementById(count), arrofobj);
-          count++;
-          $("#itemslist tr td .btn").click(function (event) {
-            console.log("delete clicked");
-            event.preventDefault();
-            $(this).parents(".row").remove();
-          });
-        });
-    
-    window.onload = ()=>{
-        fetch('/invoice/loadcustomer').then(function(response){
-            response.json().then(function(data){
-                autocomplete2(document.getElementById("myInput"), data.customer);
-            })
-        })
-        calculatetotal();
-        $("#myInput").val("");
+			var x = document.getElementsByClassName("autocomplete-items");
+			for (var i = 0; i < x.length; i++) {
+				if (elmnt != x[i] && elmnt != inp) {
+					x[i].parentNode.removeChild(x[i]);
+				}
+			}
+		}
+		/*execute a function when someone clicks in the document:*/
+		document.addEventListener("click", function (e) {
+			closeAllLists(e.target);
+		});
+	}
 
-    }
+	$("#additeminlist").on("click", () => {
+		if(count >= 4){
+			console.log("Can not add more rows");
+		}
+		else{
+			count++;
+			let data = `<tr class="row">
+				<td class="col-1"> <a class="btn btn-outline-dark">delete</a></td>
+				<th class="col-4">
+					<select class="form-control" id="items-`+count+`-product" name="items-`+count+`-product"><option value="">Select Product</option><option value="1">Monitor</option><option value="2">Book</option><option value="3">Keyboard</option><option value="4">Mouse</option></select>
+					
+				</th>
+				<td class="col-2">
+					<input class="form-control" id="items-`+count+`-quantity" name="items-`+count+`-quantity" onchange="calculatetotal()" required="" type="text" value="">
+				</td>
+				<td class="col-2">
+					<input class="form-control" id="items-`+count+`-rate" name="items-`+count+`-rate" onchange="calculatetotal()" required="" type="text" value=""></td>
+					<td class="col-1"><input type="text" disabled="" id="product-`+count+`-unit" class="form-control">
+					</td>
+					<td class="col-1" id="total-`+count+`">-----</td>
+				</tr>`;
+				
+				let newproduct = $("#itemslist").append(data);
+				let product_select = document.getElementById('items-'+count+'-product');
+				
+				product_select.onchange = function () {
+					product = product_select.value;
+					fetch('/invoice/loadproductdetail/' + product).then(function (response) {
+						response.json().then(function (data) {
+							console.table(data.product);
+							$('#items-'+count+'-rate').val(data.product.rate);
+							$('#product-'+count+'-unit').val(data.product.unit);
+							calculatetotal();
+						})
+					})
+				}
+				$("#itemslist tr td .btn").click(function (event) {
+					console.log("delete clicked");
+					event.preventDefault();
+					$(this).parents(".row").remove();
+				});
+			}
+		});
+			
+	window.onload = () => {
+		fetch('/invoice/loadcustomer').then(function (response) {
+			response.json().then(function (data) {
+				autocomplete2(document.getElementById("myInput"), data.customer);
+			})
+		})
+		calculatetotal();
+		$("#myInput").val("");
 
-    let product_select = document.getElementById('product');
+	}
 
-    product_select.onchange = function(){
-     product = product_select.value;
-     fetch('/invoice/loadproductdetail/'+product).then(function(response){
-         response.json().then(function(data){
-             $('#rate').val(data.product.rate);
-             $('#productunit').val(data.product.unit);
-             calculatetotal();
-         })
-     })
-    }
+	let product_select = document.getElementById('items-0-product');
 
-    function calculatetotal(){
-        let rate = $("#rate").val();
-        let quantity = $("#quantity").val();
-        $("#total").text(rate*quantity);
-    }
+	product_select.onchange = function () {
+		product = product_select.value;
+		fetch('/invoice/loadproductdetail/' + product).then(function (response) {
+			response.json().then(function (data) {
+				console.table(data.product);
+				$('#items-0-rate').val(data.product.rate);
+				$('#product-0-unit').val(data.product.unit);
+				calculatetotal();
+			})
+		})
+	}
 
-    $("#total").onchange = ()=>{
-        $("#totalamount").val($(this));
-    }
+	function calculatetotal() {
+		for(let i=0; i<=count; i++){
+			let rate = $("#items-"+i+"-rate").val();
+			let quantity = $("#items-"+i+"-quantity").val();
+			$("#total-"+i+"").text(rate * quantity);
+		}
+	}
+
 
 </script>
 

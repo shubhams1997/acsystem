@@ -1,15 +1,23 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, IntegerField, SubmitField
+from flask_wtf import FlaskForm, Form
+from wtforms import StringField, SelectField, IntegerField, SubmitField, FormField, FieldList, HiddenField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, ValidationError    
-from acsystem.models import Sales
+from wtforms.validators import DataRequired, ValidationError, Optional
+from acsystem.models import Sales, Product
 from flask_login import current_user
+
+
+class SalesItemForm(Form):
+    product = SelectField("", choices=[("","Select Product")],validators=[Optional()])
+    quantity = IntegerField("Quantity", validators=[])
+    rate = IntegerField("Rate", validators=[])
+
 
 class SalesForm(FlaskForm):
     date = DateField('Date', validators=[DataRequired()])
     customer = StringField('Customer', validators=[DataRequired()])
     invoiceno = IntegerField('Invoice Number', validators=[DataRequired()])
-    totalamount = IntegerField("Total", validators=[DataRequired()])
+    totalamount = IntegerField("Total")
+    items = FieldList(FormField(SalesItemForm), min_entries=2)
     submit = SubmitField('Save')
 
     def validate_invoiceno(self, invoiceno):
@@ -17,14 +25,4 @@ class SalesForm(FlaskForm):
         for sale in allsales:
             if sale.invoiceno == invoiceno.data:
                 raise ValidationError('Invoice with this Invoice Number already exist!')
-
-def SIF(arg):
-    class SalesItemForm(FlaskForm):
-        product = SelectField('Product', choices=[("","Select Product")])
-        quantity = IntegerField("Quantity", validators=[DataRequired()])
-        rate = IntegerField("Rate", validators=[DataRequired()])
-        submititem = SubmitField("Save")
-    setattr(SalesItemForm, 'attribute', StringField(arg))
-    # setattr(SalesItemForm,'attribute',IntegerField(args))
-    return SalesItemForm()
 

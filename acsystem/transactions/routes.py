@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, jsonify, abort
 from datetime import datetime
 from acsystem.models import Sales, SalesItem, Customer, Product, Company
-from acsystem.transactions.forms import SalesForm, SIF
+from acsystem.transactions.forms import SalesForm
 from flask_login import login_required, current_user
 
 transactions = Blueprint('transactions',__name__)
@@ -21,30 +21,25 @@ def createinvoice():
     if current_user.activecompany == 0:
         flash(f"No Company is Activated! ","warning")
         return redirect(url_for('company.companies'))
-    
-    # form2 = SalesItemForm()
-    arg_list = ["one","two","three"]
-    form_list = [SIF(arg = arg_list[i]) for i in range(3)]
-    for form in form_list:
-        form.product.choices+= [(str(product.id), product.name) for product in Product.query.filter_by(company_id = current_user.activecompany).all()]
+
     form1 = SalesForm()
+    for item in form1.items:
+        item.product.choices += [(str(prod.id),prod.name) for prod in Product.query.filter_by(company_id = current_user.activecompany).all()]
     if form1.validate_on_submit():
         print("First Form Validated")
-        if form_list[0].validate_on_submit():
-            sale = Sales(customer = form1.customer.data, date = form1.date.data, invoiceno = form1.invoiceno.data,
-                        totalamount = form1.totalamount.data, company_id = current_user.activecompany)
-            salesitem = SalesItem(product = form_list[0].product.data, quantity = form_list[0].quantity.data, rate = form_list[0].rate.data, undersales = sale.id)
-            db.session.add(sale)
-            db.session.add(form_list[0])
-            db.session.commit()
-            flash(f"Invoice Generated","success")
-            return redirect(url_for('transactions.invoice'))
-    elif request.method == 'GET':
+        for entry in form1.items.entries:
+            print(entry.product.data)
+            print(entry.quantity.data)
+            print(entry.rate.data)
+        flash(f"Invoice Generated","success")
+        return redirect(url_for('transactions.invoice'))
+    print(form1.errors)
+    if request.method == 'GET':
         dt = datetime.utcnow()
         form1.date.data = datetime(dt.year, dt.month, dt.day)
-        lastentry = Company.query.get_or_404(current_user.activecompany);
-        form1.invoiceno.data = lastentry.invoiceno+1;
-    return render_template('transactiontemplate/addinvoice.html', title='Create Invoice', form1=form1, form_list= form_list)
+        lastentry = Company.query.get_or_404(current_user.activecompany)
+        form1.invoiceno.data = lastentry.invoiceno+1
+    return render_template('transactiontemplate/addinvoice.html', title='Create Invoice', form1=form1)
 
 @transactions.route('/invoice/loadcustomer')
 @login_required
