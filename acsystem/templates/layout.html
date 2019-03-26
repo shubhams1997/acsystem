@@ -54,7 +54,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="dropadd" data-toggle="dropdown">
                     <img src="{{url_for('static', filename='images/add.png')}}" alt="+" width="25px;"></a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropadd">
-                    <a class="dropdown-item" href="#">Invoice</a>
+                    <a class="dropdown-item" href="{{url_for('transactions.createinvoice')}}">Invoice</a>
                     <a class="dropdown-item" href="#">Bill</a>
                     <a class="dropdown-item" href="{{ url_for('customers.addcustomer') }}">Customer</a>
                     <a class="dropdown-item" href="{{ url_for('suppliers.addsupplier') }}">Supplier</a>

@@ -28,12 +28,14 @@ def createinvoice():
     if form1.validate_on_submit():
         print("First Form Validated")
         for entry in form1.items.entries:
-            print(entry.product.data)
-            print(entry.quantity.data)
-            print(entry.rate.data)
+            pass
         flash(f"Invoice Generated","success")
         return redirect(url_for('transactions.invoice'))
     print(form1.errors)
+    if form1.errors:
+        print("rows are " + str(form1.rows.data))
+        form1.items.min_entries= form1.rows.data
+        flash(f"Quantity over saled","warning")
     if request.method == 'GET':
         dt = datetime.utcnow()
         form1.date.data = datetime(dt.year, dt.month, dt.day)

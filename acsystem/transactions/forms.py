@@ -11,13 +11,19 @@ class SalesItemForm(Form):
     quantity = IntegerField("Quantity", validators=[])
     rate = IntegerField("Rate", validators=[])
 
+    def validate_quantity(self,quantity):
+        prod = Product.query.get_or_404(self.product.data)
+        if quantity.data >prod.quantity:
+            raise ValidationError("quantity over specified")
+
 
 class SalesForm(FlaskForm):
+    rows = HiddenField("rows")
     date = DateField('Date', validators=[DataRequired()])
     customer = StringField('Customer', validators=[DataRequired()])
     invoiceno = IntegerField('Invoice Number', validators=[DataRequired()])
     totalamount = IntegerField("Total")
-    items = FieldList(FormField(SalesItemForm), min_entries=2)
+    items = FieldList(FormField(SalesItemForm), min_entries=1)
     submit = SubmitField('Save')
 
     def validate_invoiceno(self, invoiceno):
@@ -25,4 +31,21 @@ class SalesForm(FlaskForm):
         for sale in allsales:
             if sale.invoiceno == invoiceno.data:
                 raise ValidationError('Invoice with this Invoice Number already exist!')
+    
+    def validate_items(self, items):
+        items.min_entries= len(items)
+        self.rows.data = len(items)-1
+        obj = [{'p':entry.product.data, 'q':entry.quantity.data}for entry in items.entries]
+        pro =[]
+        qty =[]
+        for o in obj:
+            if o['p'] in pro:
+                qty[pro.index(o['p'])]+=o['q']
+            else:
+                pro.append(o['p'])
+                qty.append(o['q'])
+        for i in range(len(pro)):
+            prod = Product.query.get(pro[i])
+            if prod.quantity < qty[i]:
+                raise ValidationError("Quantity over Specified")      
 

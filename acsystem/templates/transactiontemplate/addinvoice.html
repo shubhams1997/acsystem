@@ -11,6 +11,7 @@
 			<div class="invoice">
 				<form action="" method="POST" class="mt-4">
 					{{ form1.csrf_token }}
+					{{ form1.rows }}
 					<div class="row">
 						<div class="col-md-6 col-lg-7">
 							<div>
@@ -49,8 +50,7 @@
 					<table class="table table-borderless mt-4">
 						<thead>
 							<tr id="producthead" class="row">
-								<th class="col-1"></th>
-								<th class="col-4">Product</th>
+								<th class="col-5">Product</th>
 								<th class="col-2">Quantity</th>
 								<th class="col-2">Rate</th>
 								<th class="col-1">Unit</th>
@@ -58,30 +58,42 @@
 							</tr>
 						</thead>
 						<tbody id="itemslist">
-							
+							{% for l in form1.items %}
 							<tr class="row">
-									<td class="col-1"> <a class='btn btn-outline-dark'>delete</a></td>
-									<th class="col-4">
-										{{ form1.items[0].form.product(class="form-control") }}
-
-									</th>
-									<td class="col-2">
-										{{form1.items[0].form.quantity(class="form-control", onchange="calculatetotal()")}}
-									</td>
-									<td class="col-2">
-										{{ form1.items[0].form.rate(class="form-control", onchange="calculatetotal()") }}</td>
-									<td class="col-1"><input type="text" disabled id="product-0-unit" class="form-control">
-									</td>
-									<td class="col-1" id="total-0">-------</td>
+								<th class="col-5">
+									{{ l.form.product(class="form-control") }}
+								</th>
+								<td class="col-2">
+									{% if l.form.errors %}
+									{{l.form.quantity(class="form-control is-invalid", onchange="calculatetotal()")}}
+									<div class="invalid-feedback">
+										{% for error in l.form.errors %}
+										<span>{{ error }}</span>
+										{% endfor %}
+									</div>
+									{% else %}
+									{{l.form.quantity(class="form-control", onchange="calculatetotal()")}}
+									{% endif %}
+								</td>
+								<td class="col-2">
+									{{ l.form.rate(class="form-control", onchange="calculatetotal()") }}</td>
+								<td class="col-1"><input type="text" disabled id="product-{{loop.index-1}}-unit"
+										class="form-control">
+								</td>
+								<td class="col-1" id="total-{{ loop.index-1}}">---------</td>
 							</tr>
-							
+							{% endfor %}
+
 						</tbody>
 					</table>
-					<a id="additeminlist" class='btn btn-outline-dark'>Add</a>
+					<img id="additeminlist" src="{{url_for('static', filename='images/add.png')}}" style="cursor: pointer;"">
+					    &nbsp;
+					<img src=" {{url_for('static', filename='images/delete.png')}}" id="deleteiteminlist" style="cursor: pointer;">
 					<br>
-				</table>				
-				<div class="float-right" id="total-0">{{ form1.totalamount(class="form-control", disabled=true) }}</div>
-		
+					</table>
+					<div class="float-right" id="total-0">{{ form1.totalamount(class="form-control", disabled=true) }}
+					</div>
+					<br>
 					<div class="form-group">
 						{{ form1.submit(class="btn", style="background-color: #75ff9b;")}}
 					</div>
@@ -91,7 +103,7 @@
 	</div>
 </div>
 <script>
-	var count=0;
+	var count = $("#rows").val();
 	$("#myInput").on("change", function () {
 		$("#customer-detail").html('');
 	})
@@ -204,50 +216,46 @@
 	}
 
 	$("#additeminlist").on("click", () => {
-		if(count >= 4){
+		if (count >= 4) {
 			console.log("Can not add more rows");
+			toastr.info("Can not add more items.");
 		}
-		else{
+		else {
 			count++;
+			console.log(count);
 			let data = `<tr class="row">
-				<td class="col-1"> <a class="btn btn-outline-dark">delete</a></td>
-				<th class="col-4">
-					<select class="form-control" id="items-`+count+`-product" name="items-`+count+`-product"><option value="">Select Product</option><option value="1">Monitor</option><option value="2">Book</option><option value="3">Keyboard</option><option value="4">Mouse</option></select>
-					
+				<th class="col-5">
+					<select class="form-control" id="items-`+ count + `-product" name="items-` + count + `-product"><option value="">Select Product</option><option value="1">Monitor</option><option value="2">Book</option><option value="3">Keyboard</option><option value="4">Mouse</option></select>
 				</th>
 				<td class="col-2">
-					<input class="form-control" id="items-`+count+`-quantity" name="items-`+count+`-quantity" onchange="calculatetotal()" required="" type="text" value="">
+					<input class="form-control" id="items-`+ count + `-quantity" name="items-` + count + `-quantity" onchange="calculatetotal()" required="" type="text" value="">
 				</td>
 				<td class="col-2">
-					<input class="form-control" id="items-`+count+`-rate" name="items-`+count+`-rate" onchange="calculatetotal()" required="" type="text" value=""></td>
-					<td class="col-1"><input type="text" disabled="" id="product-`+count+`-unit" class="form-control">
-					</td>
-					<td class="col-1" id="total-`+count+`">-----</td>
+					<input class="form-control" id="items-`+ count + `-rate" name="items-` + count + `-rate" onchange="calculatetotal()" required="" type="text" value="">
+				</td>
+				<td class="col-1">
+					<input type="text" disabled="" id="product-`+ count + `-unit" class="form-control">
+				</td>
+					<td class="col-1" id="total-`+ count + `">-----</td>
 				</tr>`;
-				
-				let newproduct = $("#itemslist").append(data);
-				let product_select = document.getElementById('items-'+count+'-product');
-				
-				product_select.onchange = function () {
-					product = product_select.value;
-					fetch('/invoice/loadproductdetail/' + product).then(function (response) {
-						response.json().then(function (data) {
-							console.table(data.product);
-							$('#items-'+count+'-rate').val(data.product.rate);
-							$('#product-'+count+'-unit').val(data.product.unit);
-							calculatetotal();
-						})
-					})
-				}
-				$("#itemslist tr td .btn").click(function (event) {
-					console.log("delete clicked");
-					event.preventDefault();
-					$(this).parents(".row").remove();
-				});
-			}
-		});
-			
+
+			let newproduct = $("#itemslist").append(data);
+		}
+	});
+
+	$("#deleteiteminlist").click(function () {
+		if (count >= 1) {
+			$("#itemslist tr:last-child").remove();
+			console.log(count);
+			count--;
+		}
+		else {
+			toastr.info("Can not Sale Zero item.");
+		}
+	});
+
 	window.onload = () => {
+		var count = $("#rows").val();
 		fetch('/invoice/loadcustomer').then(function (response) {
 			response.json().then(function (data) {
 				autocomplete2(document.getElementById("myInput"), data.customer);
@@ -258,28 +266,38 @@
 
 	}
 
-	let product_select = document.getElementById('items-0-product');
-
-	product_select.onchange = function () {
-		product = product_select.value;
+	$("#itemslist").on("change", "tr>th>select", function () {
+		product = $(this).val();
+		let id = $(this).attr("id").split("-")[1];
 		fetch('/invoice/loadproductdetail/' + product).then(function (response) {
 			response.json().then(function (data) {
 				console.table(data.product);
-				$('#items-0-rate').val(data.product.rate);
-				$('#product-0-unit').val(data.product.unit);
-				calculatetotal();
+				$("#items-" + id + "-rate").val(data.product.rate);
+				$("#product-" + id + "-unit").val(data.product.unit);
+				let rate = $("#items-" + id + "-rate").val();
+				let quantity = $("#items-" + id + "-quantity").val();
+				$("#total-" + id + "").text(rate * quantity);
+				calculatetotalamount();
 			})
 		})
-	}
+	})
 
 	function calculatetotal() {
-		for(let i=0; i<=count; i++){
-			let rate = $("#items-"+i+"-rate").val();
-			let quantity = $("#items-"+i+"-quantity").val();
-			$("#total-"+i+"").text(rate * quantity);
+		for (let i = 0; i <= count; i++) {
+			let rate = $("#items-" + i + "-rate").val();
+			let quantity = $("#items-" + i + "-quantity").val();
+			$("#total-" + i).text(rate * quantity);
 		}
+		calculatetotalamount();
 	}
 
+	function calculatetotalamount() {
+		let totalamount = 0
+		for (let i = 0; i <= count; i++) {
+			totalamount += Number($("#total-" + i).text());
+		}
+		$("#totalamount").val(totalamount);
+	}
 
 </script>
 
