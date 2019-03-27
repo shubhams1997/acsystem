@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, current_app, flash, redir
 from flask_login import login_required, current_user
 from acsystem import db
 from acsystem.models import Supplier, Countries
-from acsystem.supplier.forms import SupplierForm
+from acsystem.supplier.forms import SupplierForm, SupplierUpdateForm
 
 suppliers = Blueprint('suppliers', __name__)
 
@@ -64,7 +64,7 @@ def updatesupplier(supplier_id):
     supplier = Supplier.query.get_or_404(supplier_id)
     if supplier.company_id != current_user.activecompany:
         abort(403)
-    form = SupplierForm()
+    form = SupplierUpdateForm()
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():
         supplier.name = form.name.data
@@ -83,6 +83,7 @@ def updatesupplier(supplier_id):
         flash(f'Your supplier details has been Updated!', 'success')
         return redirect(url_for('suppliers.showsupplier', supplier_id = supplier_id))
     elif request.method == 'GET':
+        form.vdname.data = supplier.name
         form.name.data = supplier.name 
         form.mailingname.data = supplier.mailingname 
         form.first.data = supplier.first

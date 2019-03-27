@@ -1,3 +1,4 @@
+from flask import flash
 from flask_wtf import FlaskForm, Form
 from wtforms import StringField, SelectField, IntegerField, SubmitField, FormField, FieldList, HiddenField
 from wtforms.fields.html5 import DateField
@@ -22,7 +23,7 @@ class SalesForm(FlaskForm):
     date = DateField('Date', validators=[DataRequired()])
     customer = StringField('Customer', validators=[DataRequired()])
     invoiceno = IntegerField('Invoice Number', validators=[DataRequired()])
-    totalamount = IntegerField("Total")
+    totalamount = IntegerField("Total", validators=[DataRequired()])
     items = FieldList(FormField(SalesItemForm), min_entries=1)
     submit = SubmitField('Save')
 
@@ -30,6 +31,7 @@ class SalesForm(FlaskForm):
         allsales = Sales.query.filter_by(company_id = current_user.activecompany).all()
         for sale in allsales:
             if sale.invoiceno == invoiceno.data:
+                flash(f"Invoice with this Invoice Number already exist!","warning")
                 raise ValidationError('Invoice with this Invoice Number already exist!')
     
     def validate_items(self, items):
@@ -47,5 +49,6 @@ class SalesForm(FlaskForm):
         for i in range(len(pro)):
             prod = Product.query.get(pro[i])
             if prod.quantity < qty[i]:
+                flash(f"Same Product saled different time and the combined sailing quantity is greater then available quantity","warning")
                 raise ValidationError("Quantity over Specified")      
 

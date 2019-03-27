@@ -40,7 +40,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <form id="deleteform" action="" , method="POST">
-                    <input type="submit" class="btn btn-danger" value="Delete">
+                        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+                        <input type="submit" class="btn btn-danger" value="Delete">
                 </form>
             </div>
         </div>
@@ -86,6 +87,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <form id="deleteform2" action="" , method="POST">
+                        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
                     <input type="submit" class="btn btn-danger" value="Delete">
                 </form>
             </div>

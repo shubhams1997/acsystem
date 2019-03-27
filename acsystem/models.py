@@ -63,6 +63,9 @@ class Countries(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30))
 
+    def __repr__(self):
+        return f"Country('{self.name}')"
+
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -140,6 +143,9 @@ class Productcategory(db.Model):
     products = db.relationship('Product', backref='undercategory', lazy=True, cascade="all, delete-orphan")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
+    def __repr__(self):
+        return f"Product Category('{self.name}')"
+
 
 class Unit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -147,6 +153,9 @@ class Unit(db.Model):
     name = db.Column(db.String(40))
     products = db.relationship('Product', backref='underunit', lazy=True, cascade="all, delete-orphan")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
+
+    def __repr__(self):
+        return f"Unit('{self.symbol}', '{self.name}')"
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -160,6 +169,9 @@ class Product(db.Model):
     salesprice = db.Column(db.Integer)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
+    def __repr__(self):
+        return f"Product('{self.name}', '{self.quantity}')"
+
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer = db.Column(db.String(40), nullable=False)
@@ -169,9 +181,15 @@ class Sales(db.Model):
     salesitems = db.relationship('SalesItem', lazy=True, cascade="all, delete-orphan")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
+    def __repr__(self):
+        return f"Sales('{self.id}','{self.invoiceno}', '{self.date}', '{self.totalamount}','{self.customer}')"
+
 class SalesItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     product = db.Column(db.Integer, db.ForeignKey('product.id'))
     quantity = db.Column(db.Integer, nullable=False)
     rate = db.Column(db.Integer, nullable=False)
     undersales = db.Column(db.Integer, db.ForeignKey('sales.id', ondelete="CASCADE"), nullable=False)
+
+    def __repr__(self):
+        return f"Sales Item('{self.product}', '{self.quantity}', '{self.rate}')"

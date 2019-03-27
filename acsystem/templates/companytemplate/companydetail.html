@@ -17,7 +17,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <form action="{{ url_for('company.deletecompany', compid = company.id) }}" , method="POST">
-                        <input id="csrf_token" name="csrf_token" type="hidden" value="IjM1N2ZjYzA2MDNhZDlkMzZmZWQ5ZmI4ZDM4YjY2MGNiYmNhYThiY2Ii.D3um8g.R8R43VvBYk_ZN5BgXUsPbIgiCgk">
+                        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
                     <input type="submit" class="btn btn-danger" value="Delete">
                 </form>
             </div>

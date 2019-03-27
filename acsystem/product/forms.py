@@ -65,5 +65,5 @@ class ProductUpdateForm(FlaskForm):
             products = Product.query.filter_by(company_id = current_user.activecompany).all()
             for product in products:
                 if product.name == name.data:
-                    flash(f"Name already exist with this name!","warning")
+                    flash(f"Product already exist with this name!","warning")
                     raise ValidationError("Name already exist!")

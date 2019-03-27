@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, current_app, flash, redir
 from flask_login import login_required, current_user
 from acsystem import db
 from acsystem.models import Customer, Countries
-from acsystem.customer.forms import CustomerForm
+from acsystem.customer.forms import CustomerForm, CustomerUpdateForm
 
 customers = Blueprint('customers', __name__)
 
@@ -64,7 +64,7 @@ def updatecustomer(customer_id):
     customer = Customer.query.get_or_404(customer_id)
     if customer.company_id != current_user.activecompany:
         abort(403)
-    form = CustomerForm()
+    form = CustomerUpdateForm()
     form.country.choices+= [(str(country.name), country.name) for country in Countries.query.all()]
     if form.validate_on_submit():
         customer.name = form.name.data
@@ -83,6 +83,7 @@ def updatecustomer(customer_id):
         flash(f'Your Customer details has been Updated!', 'success')
         return redirect(url_for('customers.showcustomer', customer_id = customer_id))
     elif request.method == 'GET':
+        form.vdname.data = customer.name
         form.name.data = customer.name 
         form.mailingname.data = customer.mailingname 
         form.first.data = customer.first

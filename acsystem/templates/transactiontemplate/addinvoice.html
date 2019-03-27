@@ -33,7 +33,17 @@
 									<tbody>
 										<tr class="row">
 											<td class="col-sm-6 col-md-5">Invoice Number</td>
-											<td class="col-sm-5 col-md-7">{{ form1.invoiceno(class="form-control") }}
+											<td class="col-sm-5 col-md-7">
+													{% if form1.errors %}
+													{{ form1.invoiceno(class="form-control is-invalid") }}
+													<div class="invalid-feedback">
+														{% for error in form1.errors %}
+														<span>{{error}}</span>
+														{% endfor %}
+													</div>
+													{% else %}
+													{{ form1.invoiceno(class="form-control") }}
+													{% endif %}
 											</td>
 										</tr>
 										<tr class="row">
@@ -63,12 +73,13 @@
 								<th class="col-5">
 									{{ l.form.product(class="form-control") }}
 								</th>
+								{% set outer_loop = loop %}
 								<td class="col-2">
 									{% if l.form.errors %}
 									{{l.form.quantity(class="form-control is-invalid", onchange="calculatetotal()")}}
 									<div class="invalid-feedback">
 										{% for error in l.form.errors %}
-										<span>{{ error }}</span>
+										<span id="quantity-{{outer_loop.index-1}}"></span>
 										{% endfor %}
 									</div>
 									{% else %}
@@ -91,7 +102,9 @@
 					<img src=" {{url_for('static', filename='images/delete.png')}}" id="deleteiteminlist" style="cursor: pointer;">
 					<br>
 					</table>
-					<div class="float-right" id="total-0">{{ form1.totalamount(class="form-control", disabled=true) }}
+					<div class="float-right" id="overtotalamount" style="position: relative;" >
+						{{ form1.totalamount(class="form-control", style="height:40px;position:absolute; width:160px; top:0; right:0;") }}
+						<div class="btn disabled"  style="height:40px; width:160px; position:absolute; top:0; right:-12px;"></div>
 					</div>
 					<br>
 					<div class="form-group">
@@ -107,7 +120,6 @@
 	$("#myInput").on("change", function () {
 		$("#customer-detail").html('');
 	})
-
 	function autocomplete2(inp, arr) {
 		var currentFocus;
 		inp.addEventListener("input", function (e) {
@@ -264,6 +276,10 @@
 		calculatetotal();
 		$("#myInput").val("");
 
+		for(let i=0; i<=count;i++){
+			$('#quantity-'+i).text("Max Quantity "+localStorage.getItem("quantity-"+i));
+		}
+
 	}
 
 	$("#itemslist").on("change", "tr>th>select", function () {
@@ -272,6 +288,7 @@
 		fetch('/invoice/loadproductdetail/' + product).then(function (response) {
 			response.json().then(function (data) {
 				console.table(data.product);
+				localStorage.setItem("quantity-"+id,data.product.quantity);
 				$("#items-" + id + "-rate").val(data.product.rate);
 				$("#product-" + id + "-unit").val(data.product.unit);
 				let rate = $("#items-" + id + "-rate").val();

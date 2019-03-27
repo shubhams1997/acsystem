@@ -1,5 +1,6 @@
 from flask import Blueprint, flash, redirect, url_for, render_template, request, jsonify, abort
 from datetime import datetime
+from acsystem import db
 from acsystem.models import Sales, SalesItem, Customer, Product, Company
 from acsystem.transactions.forms import SalesForm
 from flask_login import login_required, current_user
@@ -12,7 +13,7 @@ def invoice():
     if current_user.activecompany == 0:
         flash(f"No Company is Activated! ","warning")
         return redirect(url_for('company.companies'))
-    sales = Sales.query.filter_by(company_id = current_user.activecompany).all()
+    sales = Sales.query.filter_by(company_id = current_user.activecompany).order_by(Sales.id.desc()).all()
     return render_template('transactiontemplate/invoice.html', title='Invoice', sales = sales)
 
 @transactions.route('/invoice/createinvoice', methods=['GET','POST'])
@@ -27,15 +28,32 @@ def createinvoice():
         item.product.choices += [(str(prod.id),prod.name) for prod in Product.query.filter_by(company_id = current_user.activecompany).all()]
     if form1.validate_on_submit():
         print("First Form Validated")
+        c = Company.query.get_or_404(current_user.activecompany)
+        customer = Customer.query.filter(Customer.company_id == current_user.activecompany).filter(Customer.name == form1.customer.data).first()
+        sale = Sales(customer = form1.customer.data, date = form1.date.data, 
+                    invoiceno = form1.invoiceno.data, totalamount = form1.totalamount.data,
+                    company_id = current_user.activecompany)
+        db.session.add(sale)
+        c.invoiceno = int(form1.invoiceno.data)
+        if customer:
+            customer.currentbalance += form1.totalamount.data
+        db.session.commit()
         for entry in form1.items.entries:
-            pass
+            saleitem = SalesItem(product = entry.form.product.data, 
+                                quantity = entry.form.quantity.data,
+                                rate = entry.form.rate.data, undersales=sale.id)
+            p = Product.query.get_or_404(entry.form.product.data)
+            p.quantity -= entry.form.quantity.data
+            db.session.add(saleitem)
+            db.session.commit()
+            print(saleitem)    
+        print(sale)
         flash(f"Invoice Generated","success")
         return redirect(url_for('transactions.invoice'))
     print(form1.errors)
     if form1.errors:
         print("rows are " + str(form1.rows.data))
         form1.items.min_entries= form1.rows.data
-        flash(f"Quantity over saled","warning")
     if request.method == 'GET':
         dt = datetime.utcnow()
         form1.date.data = datetime(dt.year, dt.month, dt.day)
