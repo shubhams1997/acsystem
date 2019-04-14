@@ -38,11 +38,10 @@
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-5">
-							<div>
 								<table class="table table-borderless">
 									<tbody>
 										<tr class="row">
-											<td class="col-sm-6 col-md-5">Invoice Number</td>
+											<td class="col-sm-6 col-md-5">Invoice No </td>
 											<td class="col-sm-5 col-md-7">
 													{% if form1.errors %}
 													{{ form1.invoiceno(class="form-control is-invalid") }}
@@ -62,7 +61,6 @@
 										</tr>
 									</tbody>
 								</table>
-							</div>
 						</div>
 					</div>
 					<hr>
@@ -111,7 +109,7 @@
 					    &nbsp;
 					<img src=" {{url_for('static', filename='images/delete.png')}}" id="deleteiteminlist" style="cursor: pointer;">
 					<br>
-					</table>
+					
 					<div class="float-right" id="overtotalamount" style="position: relative;" >
 						{{ form1.totalamount(class="form-control", style="height:40px;position:absolute; width:160px; top:0; right:0;", tabindex=-1) }}
 						<div class="btn disabled"  style="height:40px; width:160px; position:absolute; top:0; right:-12px;"></div>
@@ -332,13 +330,6 @@
 		$("#totalamount").val(totalamount);
 	}
 
-	function printinvoice(doc){
-		let restore = document.body.innerHTML;
-		let printcontent = document.getElementById(doc).innerHTML;
-		document.body.innerHTML = printcontent;
-		window.print();
-		document.body.innerHTML = restore;
-	}
 
 </script>
 

@@ -101,4 +101,23 @@ def loadcustomerdetail(customer_id):
         "currentbalance": customer.currentbalance
     }
     return jsonify({'customer':customerobj})
-    
+
+
+@transactions.route("/invoice/<int:invoice_id>")
+@login_required
+def invoice_detail(invoice_id):
+    invoice = Sales.query.get_or_404(invoice_id)
+    if invoice.company_id != current_user.activecompany:
+        abort(403)
+    return render_template('transactiontemplate/invoicedetail.html', title=invoice.customer, invoice = invoice)
+
+@transactions.route("/invoice/<int:invoice_id>/delete", methods=['POST','GET'])
+@login_required
+def delete_invoice(invoice_id):
+    invoice = Sales.query.get_or_404(invoice_id)
+    if invoice.company_id != current_user.activecompany:
+        abort(403)
+    db.session.delete(invoice)
+    db.session.commit()
+    flash(f"Inovice {invoice.invoiceno} deleted Successfully","success")
+    return redirect(url_for('transactions.invoice'))

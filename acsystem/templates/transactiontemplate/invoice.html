@@ -28,7 +28,7 @@
                     <td>{{ sale.customer }}</td>
                     <td>{{ sale.totalamount }}</td>
                     <td>
-                        <a href="#">
+                        <a href="{{url_for('transactions.invoice_detail', invoice_id = sale.id)}}">
                         <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">
                         </a>
                     </td>

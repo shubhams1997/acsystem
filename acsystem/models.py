@@ -167,6 +167,7 @@ class Product(db.Model):
     quantity = db.Column(db.Integer, default=0)
     rate = db.Column(db.Integer)
     salesprice = db.Column(db.Integer)
+    salesproduct = db.relationship('SalesItem',backref="productdetail", lazy=True)
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):

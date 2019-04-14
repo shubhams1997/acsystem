@@ -1,0 +1,143 @@
+{% extends "layout.html"%}
+{% block content %}
+<div class="modal fade" id="deleteinvoice" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Invoice</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are You Sure!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form action="{{url_for('transactions.delete_invoice',invoice_id = invoice.id)}}" , method="POST">
+                        <input name="csrf_token" type="hidden" value="{{ csrf_token() }}">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container mt-4">
+    <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
+        <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
+    </button> 
+    <h2 class="mb-4">Sales Invoice </h2>
+    <div class="container border mt-5">
+            <div class="invoice">
+                <form action="#" class="mt-4">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-7">
+                            <div id="customerarea">
+                                <div class="form-group">
+                                    <div class="autocomplete" style="width:80%;">
+                                        To : {{invoice.customer}}
+                                    </div>
+                                    <br>
+                                    <div id="customer-detail">
+                                        <span id="customer-address">Address</span> <br>
+                                        <span id="customer-state">State</span><br>
+                                        <span id="customer-country">India</span><br>
+                                        <span id="customer-phone">999999</span><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+    
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr class="row">
+                                        <td class="col-sm-6 col-md-5">Invoice No. :</td>
+                                        <td class="col-sm-5 col-md-7">{{invoice.invoiceno}}</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-sm-6 col-md-5">Invoice Date :</td>
+                                        <td class="col-sm-5 col-md-7">{{invoice.date}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+    
+                        </div>
+                    </div>
+    
+                    <table class="table mt-4">
+                        <thead>
+                            <tr id="producthead" class="row">
+                                <th class="col-6">Product</th>
+                                <th class="col-2">Quantity</th>
+                                <th class="col-2">Rate</th>
+                                <th class="col-1">Unit</th>
+                                <th class="col-1">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemslist">
+                            
+                            {% for l in invoice.salesitems %}
+							<tr class="row">
+								<th class="col-6" >
+									{{ l.productdetail.name }}
+								</th>
+								
+								<td class="col-2" id="items-{{loop.index-1}}-quantity">
+									{{l.quantity}}
+								</td>
+								<td class="col-2" id="items-{{loop.index-1}}-rate">
+									{{ l.rate }}</td>
+								<td class="col-1">{{l.productdetail.unitname}}
+								</td>
+								<td class="col-1" id="total-{{ loop.index-1}}">---------</td>
+							</tr>
+							{% endfor %}
+                           
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div style="margin-top:100px;"></div>
+                    <div class="float-right" style="position:relative; width:160px; top:0; right:80px; ">
+                        Total Amount : {{invoice.totalamount}}
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    <table class="mt-4">
+        <tbody>
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteinvoice">
+                        <img src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete"> Delete
+                    </button>
+                </td>
+                <td>
+                    <a type="button" class="btn btn-light" href="#"><img
+                            src="{{ url_for('static',filename='images/update.png') }}" alt="Update"> Update
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $("#setcountry").text(localStorage.getItem('companyname'));
+    count = 5;
+    function calculatetotal() {
+		for (let i = 0; i <= count; i++) {
+			let rate = $("#items-" + i + "-rate").text();
+            let quantity = $("#items-" + i + "-quantity").text();
+			$("#total-" + i).text(rate * quantity);
+        }
+    }
+    calculatetotal();
+</script>
+
+
+{% endblock content %}
