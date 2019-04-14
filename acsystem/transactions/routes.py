@@ -27,7 +27,6 @@ def createinvoice():
     for item in form1.items:
         item.product.choices += [(str(prod.id),prod.name) for prod in Product.query.filter_by(company_id = current_user.activecompany).all()]
     if form1.validate_on_submit():
-        print("First Form Validated")
         c = Company.query.get_or_404(current_user.activecompany)
         customer = Customer.query.filter(Customer.company_id == current_user.activecompany).filter(Customer.name == form1.customer.data).first()
         sale = Sales(customer = form1.customer.data, date = form1.date.data, 
@@ -50,13 +49,11 @@ def createinvoice():
         print(sale)
         flash(f"Invoice Generated","success")
         return redirect(url_for('transactions.invoice'))
-    print(form1.errors)
     if form1.errors:
         print("rows are " + str(form1.rows.data))
         form1.items.min_entries= form1.rows.data
     if request.method == 'GET':
-        dt = datetime.utcnow()
-        form1.date.data = datetime(dt.year, dt.month, dt.day)
+        form1.date.data = datetime.now()
         lastentry = Company.query.get_or_404(current_user.activecompany)
         form1.invoiceno.data = lastentry.invoiceno+1
     return render_template('transactiontemplate/addinvoice.html', title='Create Invoice', form1=form1)
@@ -80,7 +77,7 @@ def loadproductdetail(product_id):
         abort(403);
     productobj = {
         "quantity":product.quantity,
-        "rate" : product.rate,
+        "rate" : product.salesprice,
         "unit": product.unitname
     }
     return jsonify({'product':productobj})

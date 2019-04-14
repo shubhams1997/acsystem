@@ -112,7 +112,7 @@ def categoryunit():
         category = Productcategory(name = form.category_name.data, company_id = current_user.activecompany)
         db.session.add(category)
         db.session.commit()
-        flash(f"Product Category {form.name.data} Added Successfully!","success")
+        flash(f"Product Category {form.category_name.data} Added Successfully!","success")
         return redirect(url_for('products.categoryunit'))
     pcs = Productcategory.query.filter_by(company_id = current_user.activecompany).all()
 

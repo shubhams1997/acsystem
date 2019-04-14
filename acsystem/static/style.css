@@ -141,4 +141,45 @@
 #producthead > row > col {
   margin: 15px;
 }
+
+.tophead{
+  background-image: url("./images/topheadback.jpg");
+  background-position: 0 60%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-bottom: 100px;
+}
+
+.tophead > div > nav {
+  background-color: #ffffff00 !important;
+  text-shadow: 0px 3px 6px #f0f0f0;
+}
+
+.logo {
+  border: none !important;
+}
+
+.mainhead {
+  margin-top: 150px;
+  margin-bottom: 60px;
+  text-align: center;
+  text-shadow: 0px 3px 6px #f0f0f0;
+}
+
+.mainhead > .display {
+  font-size: 40px;
+  margin-bottom: 30px;
+}
+
+.mainhead > span {
+  color: #000000;
+}
+
+.card {
+  border: none !important;
+}
+
+.card-img-top {
+  width: 150px !important;
+}
   /*# sourceMappingURL=style.css.map */

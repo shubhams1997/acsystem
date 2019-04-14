@@ -33,8 +33,8 @@ class UnitForm(FlaskForm):
 
 class ProductForm(FlaskForm):
     name = StringField('Product Name', validators=[DataRequired()])
-    category = SelectField("Product Category", choices=[("","Select Category"),("Primary","Primary")], validators=[DataRequired()])
-    unit = SelectField("Unit", choices=[("","Select Unit")])
+    category = SelectField("Product Category", choices=[("","Select Category")], validators=[DataRequired()])
+    unit = SelectField("Unit", choices=[("","Select Unit")],validators=[DataRequired()])
     quantity = IntegerField("Quantity", validators=[Optional()])
     rate = IntegerField("Rate", validators=[Optional()])
     salesprice = IntegerField("Sales Price", validators=[Optional()])
@@ -52,7 +52,7 @@ class ProductUpdateForm(FlaskForm):
     vdname = StringField('Product Name', validators=[DataRequired()])
     name = StringField('Product Name', validators=[DataRequired()])
     category = SelectField("Product Category", choices=[("","Select Category"),("Primary","Primary")], validators=[DataRequired()])
-    unit = SelectField("Unit", choices=[("","Select Unit")])
+    unit = SelectField("Unit", choices=[("","Select Unit")],validators=[DataRequired()])
     quantity = IntegerField("Quantity", validators=[Optional()])
     rate = IntegerField("Rate", validators=[Optional()])
     salesprice = IntegerField("Sales Price", validators=[Optional()])

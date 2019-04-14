@@ -19,7 +19,17 @@
 									<label for="inputAddress">To: </label>
 
 									<div class="autocomplete" style="width:80%;">
+										
+										{% if form1.errors %}
+										{{ form1.customer(class="form-control is-invalid", id="myInput", autocomplete="off") }}
+										<div class="invalid-feedback">
+											{% for error in form1.errors %}
+											<span>{{error}}</span>
+											{% endfor %}
+										</div>
+										{% else %}
 										{{ form1.customer(class="form-control", id="myInput", autocomplete="off") }}
+										{% endif %}
 									</div>
 									<br>
 									<div id="customer-detail">
@@ -103,7 +113,7 @@
 					<br>
 					</table>
 					<div class="float-right" id="overtotalamount" style="position: relative;" >
-						{{ form1.totalamount(class="form-control", style="height:40px;position:absolute; width:160px; top:0; right:0;") }}
+						{{ form1.totalamount(class="form-control", style="height:40px;position:absolute; width:160px; top:0; right:0;", tabindex=-1) }}
 						<div class="btn disabled"  style="height:40px; width:160px; position:absolute; top:0; right:-12px;"></div>
 					</div>
 					<br>
@@ -116,6 +126,7 @@
 	</div>
 </div>
 <script>
+	var prodata = $('#itemslist>tr>th>select').first().html();
 	var count = $("#rows").val();
 	$("#myInput").on("change", function () {
 		$("#customer-detail").html('');
@@ -235,9 +246,12 @@
 		else {
 			count++;
 			console.log(count);
+			
 			let data = `<tr class="row">
 				<th class="col-5">
-					<select class="form-control" id="items-`+ count + `-product" name="items-` + count + `-product"><option value="">Select Product</option><option value="1">Monitor</option><option value="2">Book</option><option value="3">Keyboard</option><option value="4">Mouse</option></select>
+					<select class="form-control" id="items-`+ count + `-product" name="items-` + count + `-product">	
+						`+prodata+`
+					</select>
 				</th>
 				<td class="col-2">
 					<input class="form-control" id="items-`+ count + `-quantity" name="items-` + count + `-quantity" onchange="calculatetotal()" required="" type="text" value="">
@@ -260,6 +274,7 @@
 			$("#itemslist tr:last-child").remove();
 			console.log(count);
 			count--;
+			calculatetotalamount();
 		}
 		else {
 			toastr.info("Can not Sale Zero item.");
@@ -267,6 +282,7 @@
 	});
 
 	window.onload = () => {
+		
 		var count = $("#rows").val();
 		fetch('/invoice/loadcustomer').then(function (response) {
 			response.json().then(function (data) {
@@ -314,6 +330,14 @@
 			totalamount += Number($("#total-" + i).text());
 		}
 		$("#totalamount").val(totalamount);
+	}
+
+	function printinvoice(doc){
+		let restore = document.body.innerHTML;
+		let printcontent = document.getElementById(doc).innerHTML;
+		document.body.innerHTML = printcontent;
+		window.print();
+		document.body.innerHTML = restore;
 	}
 
 </script>
