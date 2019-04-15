@@ -31,7 +31,7 @@ def createinvoice():
         customer = Customer.query.filter(Customer.company_id == current_user.activecompany).filter(Customer.name == form1.customer.data).first()
         sale = Sales(customer = form1.customer.data, date = form1.date.data, 
                     invoiceno = form1.invoiceno.data, totalamount = form1.totalamount.data,
-                    company_id = current_user.activecompany)
+                    description = form1.description.data, company_id = current_user.activecompany)
         db.session.add(sale)
         c.invoiceno = int(form1.invoiceno.data)
         if customer:
@@ -78,7 +78,7 @@ def loadproductdetail(product_id):
     productobj = {
         "quantity":product.quantity,
         "rate" : product.salesprice,
-        "unit": product.unitname
+        "unit": product.underunit.symbol
     }
     return jsonify({'product':productobj})
 

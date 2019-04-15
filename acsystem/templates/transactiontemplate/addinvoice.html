@@ -20,10 +20,10 @@
 
 									<div class="autocomplete" style="width:80%;">
 										
-										{% if form1.errors %}
+										{% if form1.customer.errors %}
 										{{ form1.customer(class="form-control is-invalid", id="myInput", autocomplete="off") }}
 										<div class="invalid-feedback">
-											{% for error in form1.errors %}
+											{% for error in form1.customer.errors %}
 											<span>{{error}}</span>
 											{% endfor %}
 										</div>
@@ -43,10 +43,10 @@
 										<tr class="row">
 											<td class="col-sm-6 col-md-5">Invoice No </td>
 											<td class="col-sm-5 col-md-7">
-													{% if form1.errors %}
+													{% if form1.invoiceno.errors %}
 													{{ form1.invoiceno(class="form-control is-invalid") }}
 													<div class="invalid-feedback">
-														{% for error in form1.errors %}
+														{% for error in form1.invoiceno.errors %}
 														<span>{{error}}</span>
 														{% endfor %}
 													</div>
@@ -63,7 +63,6 @@
 								</table>
 						</div>
 					</div>
-					<hr>
 
 					<table class="table table-borderless mt-4">
 						<thead>
@@ -83,7 +82,7 @@
 								</th>
 								{% set outer_loop = loop %}
 								<td class="col-2">
-									{% if l.form.errors %}
+									{% if l.form.quantity.errors %}
 									{{l.form.quantity(class="form-control is-invalid", onchange="calculatetotal()")}}
 									<div class="invalid-feedback">
 										{% for error in l.form.errors %}
@@ -96,8 +95,8 @@
 								</td>
 								<td class="col-2">
 									{{ l.form.rate(class="form-control", onchange="calculatetotal()") }}</td>
-								<td class="col-1"><input type="text" disabled id="product-{{loop.index-1}}-unit"
-										class="form-control">
+								<td class="col-1">
+										{{ l.form.unit(class="form-control", disabled=True) }}
 								</td>
 								<td class="col-1" id="total-{{ loop.index-1}}">---------</td>
 							</tr>
@@ -115,6 +114,9 @@
 						<div class="btn disabled"  style="height:40px; width:160px; position:absolute; top:0; right:-12px;"></div>
 					</div>
 					<br>
+					<div class="mt-4" style="max-width:400px;">
+						{{form1.description(class="form-control", autocomplete=False, placeholder="Description about invoice")}}
+					</div>
 					<div class="form-group">
 						{{ form1.submit(class="btn", style="background-color: #75ff9b;")}}
 					</div>
@@ -258,7 +260,7 @@
 					<input class="form-control" id="items-`+ count + `-rate" name="items-` + count + `-rate" onchange="calculatetotal()" required="" type="text" value="">
 				</td>
 				<td class="col-1">
-					<input type="text" disabled="" id="product-`+ count + `-unit" class="form-control">
+					<input type="text" disabled="" id="items-`+ count + `-unit" class="form-control">
 				</td>
 					<td class="col-1" id="total-`+ count + `">-----</td>
 				</tr>`;
@@ -304,7 +306,7 @@
 				console.table(data.product);
 				localStorage.setItem("quantity-"+id,data.product.quantity);
 				$("#items-" + id + "-rate").val(data.product.rate);
-				$("#product-" + id + "-unit").val(data.product.unit);
+				$("#items-" + id + "-unit").val(data.product.unit);
 				let rate = $("#items-" + id + "-rate").val();
 				let quantity = $("#items-" + id + "-quantity").val();
 				$("#total-" + id + "").text(rate * quantity);

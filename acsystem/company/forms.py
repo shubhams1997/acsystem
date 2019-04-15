@@ -18,7 +18,7 @@ class CompanyForm(FlaskForm):
     website = StringField('Website', validators=[Optional(), URL()])
     financialyear = DateField('Financial year', validators=[Optional()])
     booksbegin = DateField('Books Begin From', validators=[Optional()])
-    gstno = IntegerField('GST NO', validators=[Optional()])
+    gstno = StringField('GST NO', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Save')
 
@@ -40,7 +40,7 @@ class UpdateCompanyForm(FlaskForm):
     website = StringField('Website', validators=[Optional(), URL()])
     financialyear = DateField('Financial year', validators=[Optional()])
     booksbegin = DateField('Books Begin From', validators=[Optional()])
-    gstno = IntegerField('GST NO', validators=[Optional()])
+    gstno = StringField('GST NO', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Save')
 

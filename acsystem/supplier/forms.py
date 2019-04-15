@@ -5,7 +5,7 @@ from acsystem.models import Supplier
 from flask_login import current_user
 
 class SupplierForm(FlaskForm):
-    name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
+    name = StringField('Supplier Name', validators=[DataRequired(), Length(min=3, max=40)])
     first = StringField('First Name', validators=[Optional(), Length(min=3, max=40)])
     last = StringField('Last Name', validators=[Optional(), Length(min=3, max=40)])
     mailingname = StringField('Mailing Name', validators=[Length(min=3, max=40), DataRequired()])
@@ -15,7 +15,7 @@ class SupplierForm(FlaskForm):
     pin = IntegerField('ZIP', validators=[Optional()])
     email = StringField('Email', validators=[Optional(), Email()])
     phone = IntegerField('Phone', validators=[Length(min=10, max=13), Optional()])
-    gstno = IntegerField('GST NO', validators=[Optional()])
+    gstno = StringField('GST NO', validators=[Optional()])
     openingbalance = IntegerField('Opening Balance', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Save')
@@ -29,7 +29,7 @@ class SupplierForm(FlaskForm):
 
 class SupplierUpdateForm(FlaskForm):
     vdname = StringField('Product Name', validators=[DataRequired()])
-    name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
+    name = StringField('Supplier Name', validators=[DataRequired(), Length(min=3, max=40)])
     first = StringField('First Name', validators=[Optional(), Length(min=3, max=40)])
     last = StringField('Last Name', validators=[Optional(), Length(min=3, max=40)])
     mailingname = StringField('Mailing Name', validators=[Length(min=3, max=40), DataRequired()])
@@ -39,7 +39,7 @@ class SupplierUpdateForm(FlaskForm):
     pin = IntegerField('ZIP', validators=[Optional()])
     email = StringField('Email', validators=[Optional(), Email()])
     phone = IntegerField('Phone', validators=[Length(min=10, max=13), Optional()])
-    gstno = IntegerField('GST NO', validators=[Optional()])
+    gstno = StringField('GST NO', validators=[Optional()])
     openingbalance = IntegerField('Opening Balance', validators=[Optional()])
     description = TextField('Description')
     submit = SubmitField('Save')

@@ -28,8 +28,8 @@
                 <tr>
                     <th scope="row">{{product.name }}</th>
                     <td>{{ product.quantity }}</td>
-                    <td>{{ product.categoryname }}</td>
-                    <td>{{ product.unitname }}</td>
+                    <td>{{ product.undercategory.name }}</td>
+                    <td>{{ product.underunit.symbol }}</td>
                     <td>
                         <a href="{{ url_for('products.productdetail', product_id = product.id) }}">
                         <img src="{{ url_for('static',filename='images/setting.png') }}" alt="Setting">

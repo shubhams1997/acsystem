@@ -43,7 +43,7 @@ class Company(db.Model):
     financialyear = db.Column(db.DateTime, nullable=False)
     booksbegin = db.Column(db.DateTime, nullable=False)
     invoiceno = db.Column(db.Integer, default=0)
-    gstno = db.Column(db.Integer)
+    gstno = db.Column(db.String(15))
     description = db.Column(db.Text)
     customers = db.relationship('Customer', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     suppliers = db.relationship('Supplier', backref='undercompany', lazy=True, cascade="all, delete-orphan")
@@ -79,7 +79,7 @@ class Customer(db.Model):
     pin = db.Column(db.Integer)
     email = db.Column(db.String(50))
     phoneno = db.Column(db.Integer)
-    gstno = db.Column(db.Integer)
+    gstno = db.Column(db.String(15))
     openingbalance = db.Column(db.Integer, default=0, nullable=False)
     currentbalance = db.Column(db.Integer, default=0, nullable=False)
     description = db.Column(db.Text)
@@ -100,7 +100,7 @@ class Supplier(db.Model):
     pin = db.Column(db.Integer)
     email = db.Column(db.String(50))
     phoneno = db.Column(db.Integer)
-    gstno = db.Column(db.Integer)
+    gstno = db.Column(db.String(15))
     openingbalance = db.Column(db.Integer, default=0, nullable=False)
     currentbalance = db.Column(db.Integer, default=0, nullable=False)
     description = db.Column(db.Text)
@@ -161,9 +161,7 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
     category = db.Column(db.Integer, db.ForeignKey('productcategory.id', ondelete="CASCADE"), nullable=False)
-    categoryname = db.Column(db.String(40))
     unit = db.Column(db.Integer, db.ForeignKey('unit.id'), nullable=False)
-    unitname = db.Column(db.String(10))
     quantity = db.Column(db.Integer, default=0)
     rate = db.Column(db.Integer)
     salesprice = db.Column(db.Integer)
@@ -175,10 +173,11 @@ class Product(db.Model):
 
 class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    customer = db.Column(db.String(40), nullable=False)
+    customer = db.Column(db.Integer,db.ForeignKey('customer.id'), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     invoiceno = db.Column(db.Integer, nullable=False)
     totalamount = db.Column(db.Integer)
+    description = db.Column(db.String(250))
     salesitems = db.relationship('SalesItem', lazy=True, cascade="all, delete-orphan")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
@@ -187,7 +186,7 @@ class Sales(db.Model):
 
 class SalesItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    product = db.Column(db.Integer, db.ForeignKey('product.id'))
+    product = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     rate = db.Column(db.Integer, nullable=False)
     undersales = db.Column(db.Integer, db.ForeignKey('sales.id', ondelete="CASCADE"), nullable=False)

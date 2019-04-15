@@ -27,8 +27,8 @@ def addproduct():
     if form.validate_on_submit():
         unit = Unit.query.get(int(form.unit.data))
         category = Productcategory.query.get(form.category.data)
-        newproduct = Product(name = form.name.data, category = category.id, categoryname = category.name
-                , unit = unit.id , unitname = unit.name, quantity = form.quantity.data, rate = form.rate.data
+        newproduct = Product(name = form.name.data, category = category.id
+                , unit = unit.id , quantity = form.quantity.data, rate = form.rate.data
                 , salesprice = form.salesprice.data, company_id = current_user.activecompany)
         db.session.add(newproduct)
         db.session.commit()
@@ -72,10 +72,8 @@ def updateproduct(product_id):
         category = Productcategory.query.get(form.category.data)
         prod.name = form.name.data
         prod.category = category.id
-        prod.categoryname = category.name
         prod.quantity = form.quantity.data
         prod.unit = unit.id
-        prod.unitname = unit.name
         prod.rate = form.rate.data
         prod.salesprice = form.salesprice.data
         db.session.commit()

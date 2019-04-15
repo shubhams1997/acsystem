@@ -90,7 +90,7 @@
 								</td>
 								<td class="col-2" id="items-{{loop.index-1}}-rate">
 									{{ l.rate }}</td>
-								<td class="col-1">{{l.productdetail.unitname}}
+								<td class="col-1">{{l.productdetail.underunit.symbol}}
 								</td>
 								<td class="col-1" id="total-{{ loop.index-1}}">---------</td>
 							</tr>
@@ -104,6 +104,9 @@
                         Total Amount : {{invoice.totalamount}}
                     </div>
                     <br>
+                    <div class="mt-4" style="max-width:400px;">
+                        <p>{{invoice.description}}</p>
+					</div>
                 </form>
             </div>
         </div>

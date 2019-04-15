@@ -1,6 +1,6 @@
 from flask import flash
 from flask_wtf import FlaskForm, Form
-from wtforms import StringField, SelectField, IntegerField, SubmitField, FormField, FieldList, HiddenField
+from wtforms import StringField, SelectField, IntegerField, SubmitField, FormField, FieldList, HiddenField, TextField
 from wtforms.fields.html5 import DateField,DateTimeField
 from wtforms.validators import DataRequired, ValidationError, Optional
 from acsystem.models import Sales, Product
@@ -8,9 +8,10 @@ from flask_login import current_user
 
 
 class SalesItemForm(Form):
-    product = SelectField("", choices=[("","Select Product")],validators=[Optional()])
+    product = SelectField("Product", choices=[("","Select Product")],validators=[DataRequired()])
     quantity = IntegerField("Quantity", validators=[DataRequired()])
     rate = IntegerField("Rate", validators=[DataRequired()])
+    unit = StringField("Unit", validators=[Optional()])
 
     def validate_quantity(self,quantity):
         prod = Product.query.get_or_404(self.product.data)
@@ -25,6 +26,7 @@ class SalesForm(FlaskForm):
     invoiceno = IntegerField('Invoice Number', validators=[DataRequired()])
     totalamount = IntegerField("Total", validators=[DataRequired()])
     items = FieldList(FormField(SalesItemForm), min_entries=1)
+    description = TextField("Description", validators=[Optional()])
     submit = SubmitField('Save')
 
     def validate_invoiceno(self, invoiceno):
