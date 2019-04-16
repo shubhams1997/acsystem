@@ -133,6 +133,43 @@
 	})
 	function autocomplete2(inp, arr) {
 		var currentFocus;
+		inp.addEventListener("focus",function(){
+			console.log('focused');
+			var a ,val= this.value;
+			a = document.createElement("DIV");
+			a.setAttribute("id", this.id + "autocomplete-list");
+			a.setAttribute("class", "autocomplete-items");
+			this.parentNode.appendChild(a);
+			for (i = 0; i < arr.length; i++) {
+				b = document.createElement("DIV");
+					/*make the matching letters bold:*/
+					b.innerHTML = "<strong>" + arr[i]["name"].substr(0, val.length) + "</strong>";
+					b.innerHTML += arr[i]["name"].substr(val.length);
+					/*insert a input field that will hold the current arr item's value:*/
+					b.innerHTML += "<input type='hidden' name='" + arr[i]["id"] + "' value='" + arr[i]["name"] + "'>";
+					b.addEventListener("click", function (e) {
+						/*insert the value for the autocomplete text field:*/
+						inp.value = this.getElementsByTagName("input")[0].value;
+						//console.log(this.getElementsByTagName("input")[0].name);
+						let customer_id = this.getElementsByTagName("input")[0].name;
+						fetch('/invoice/loadcustomerdetail/' + customer_id).then(function (response) {
+							response.json().then(function (data) {
+								console.table(data.customer);
+
+								$("#customer-detail").html(`<span id="customer-address">` + data.customer.address + `</span> <br>
+                        <span id="customer-state">`+ data.customer.state + `</span><br>
+                        <span id="customer-country">`+ data.customer.country + `</span><br>
+                        <span id="customer-phone">`+ data.customer.phone + `</span><br>`);
+
+							})
+						})
+						/*close the list of autocompleted values,
+						(or any other open lists of autocompleted values:*/
+						closeAllLists();
+					});
+					a.appendChild(b);
+			}
+		});
 		inp.addEventListener("input", function (e) {
 			var a, b, i, val = this.value;
 			/*close any already open lists of autocompleted values*/

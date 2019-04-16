@@ -1,9 +1,10 @@
-from flask import Blueprint, flash, redirect, url_for, render_template, request, jsonify, abort
+from flask import Blueprint, flash, redirect, url_for, render_template, request, jsonify, abort, make_response
 from datetime import datetime
 from acsystem import db
 from acsystem.models import Sales, SalesItem, Customer, Product, Company
 from acsystem.transactions.forms import SalesForm
 from flask_login import login_required, current_user
+import pdfkit
 
 transactions = Blueprint('transactions',__name__)
 
@@ -110,6 +111,14 @@ def invoice_detail(invoice_id):
     if invoice.company_id != current_user.activecompany:
         abort(403)
     return render_template('transactiontemplate/invoicedetail.html', title=invoice.customer, invoice = invoice)
+
+@transactions.route("/invoice/<int:invoice_id>/download")
+@login_required
+def invoice_download(invoice_id):
+    invoice = Sales.query.get_or_404(invoice_id)
+    if invoice.company_id != current_user.activecompany:
+        abort(403)
+    return render_template('transactiontemplate/invoicepdfdownload.html',title = invoice.invoiceno, invoice = invoice)
 
 @transactions.route("/invoice/<int:invoice_id>/delete", methods=['POST','GET'])
 @login_required

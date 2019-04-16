@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <title>Invoice_{{title}}</title>
+</head>
+<body>
+
+<div class="container mt-4">
+        <div class="container border mt-5">
+                <div class="invoice">
+                        <div class="row">
+                                <div class="col-md-6 col-lg-7">
+                                    <div id="customerarea">
+                                        <div class="form-group">
+                                            <div class="autocomplete" style="width:80%; font-size:40px;">
+                                                {{invoice.undercompany.companyname}}
+                                            </div>
+                                            
+                                            <div id="customer-detail">
+                                                <span id="customer-address">{{invoice.undercompany.address}}</span>, &nbsp;<br> 
+                                                <span id="customer-state">{{invoice.undercompany.state}}</span>, &nbsp;
+                                                <span id="customer-country">{{invoice.undercompany.country}}</span>-
+                                                <span id="customer-country">{{invoice.undercompany.pin}}</span><br>
+                                                <span id="customer-country">GSTIN - {{invoice.undercompany.gstno}}</span><br>
+                                                {% if invoice.undercompany.email %}
+                                                    <span id="customer-country">{{invoice.undercompany.email}}</span><br>
+                                                {%endif%}
+                                                {% if invoice.undercompany.website %}
+                                                    <span id="customer-country">{{invoice.undercompany.website}}</span><br>
+                                                {%endif%}
+                                                {% if invoice.undercompany.website %}
+                                                    <span id="customer-phone">{{invoice.undercompany.phoneno}}</span><br>
+                                                {%endif%}
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+            
+                                    <table class="table table-borderless">
+                                        <tbody>
+                                            <tr class="row">
+                                                <h1>INVOICE</h1>
+                                                <td class="col-sm-6 col-md-5">Invoice No. :</td>
+                                                <td class="col-sm-5 col-md-7">{{invoice.invoiceno}}</td>
+                                            </tr>
+                                            <tr class="row">
+                                                <td class="col-sm-6 col-md-5">Invoice Date :</td>
+                                                <td class="col-sm-5 col-md-7">{{invoice.date}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                        <div class="row">
+                            <div class="col-md-6 col-lg-7">
+                                <div id="customerarea">
+                                    <div class="form-group">
+                                        <div class="autocomplete" style="width:80%;">
+                                            To : {{invoice.customer}}
+                                        </div>
+                                        <br>
+                                        <div id="customer-detail">
+                                            <span id="customer-address">Address</span>, 
+                                            <span id="customer-state">State</span><br>
+                                            <span id="customer-country">India</span><br>
+                                            <span id="customer-phone">999999</span><br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+        
+                            </div>
+                        </div>
+        
+                        <table class="table mt-4">
+                            <thead>
+                                <tr id="producthead" class="row">
+                                    <th class="col-6">Product</th>
+                                    <th class="col-2">Quantity</th>
+                                    <th class="col-2">Rate</th>
+                                    <th class="col-1">Unit</th>
+                                    <th class="col-1">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemslist">
+                                
+                                {% for l in invoice.salesitems %}
+                                <tr class="row">
+                                    <th class="col-6" >
+                                        {{ l.productdetail.name }}
+                                    </th>
+                                    
+                                    <td class="col-2" id="items-{{loop.index-1}}-quantity">
+                                        {{l.quantity}}
+                                    </td>
+                                    <td class="col-2" id="items-{{loop.index-1}}-rate">
+                                        {{ l.rate }}</td>
+                                    <td class="col-1">{{l.productdetail.underunit.symbol}}
+                                    </td>
+                                    <td class="col-1" id="total-{{ loop.index-1}}">---------</td>
+                                </tr>
+                                {% endfor %}
+                               
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div style="margin-top:100px;"></div>
+                        <div class="float-right" style="position:relative; width:160px; top:0; right:80px; ">
+                            Total Amount : {{invoice.totalamount}}
+                        </div>
+                        <br>
+                        <div class="mt-4" style="max-width:400px;">
+                            <p>{{invoice.description}}</p>
+                        </div>
+                    
+                </div>
+            </div>
+            
+    
+    </div>
+
+    <script>
+            $("#setcountry").text(localStorage.getItem('companyname'));
+            count = 5;
+            function calculatetotal() {
+                for (let i = 0; i <= count; i++) {
+                    let rate = $("#items-" + i + "-rate").text();
+                    let quantity = $("#items-" + i + "-quantity").text();
+                    $("#total-" + i).text(rate * quantity);
+                }
+            }
+            calculatetotal();
+            window.onload = ()=>{
+                window.print();
+                window.history.back();
+            }
+        </script>
+
+</body>
+</html>
