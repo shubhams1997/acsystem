@@ -80,7 +80,7 @@
             <tbody>
                 {% for ledger in ledgers %}
                 <tr>
-                    <th scope="row">#</th>
+                    <th scope="row">{{loop.index}}</th>
                     <td>{{ ledger.name }}</td>
                     <td>{{ ledger.undername }}</td>
                     <td>{{ ledger.affectinventory }}</td>

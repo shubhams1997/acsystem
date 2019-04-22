@@ -6,13 +6,13 @@
     <div class="container-fluid">
         <h2 class="float-left">Companies</h2>
         <ul class="nav justify-content-end">
-            <li class="btn btn-success float-right">
+            <li data-step="1" data-intro="First add a Company" class="btn btn-success float-right">
                 <a class="nav-link" href="{{ url_for('company.addcompany') }}">Add Company</a>
             </li>
         </ul>
     </div>
 
-    <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+    <div data-step="3" data-intro="Click on Company name to Activate Company" class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -50,6 +50,15 @@
         </table>
 
     </div>
+
+    <a id="gettour" hidden href="javascript:introJs().setOption('showProgress', true).start();" >get tour</a>
 </div>
 
+    {%if activecomp %}
+    {%else%}
+    <script>
+        document.getElementById('gettour').click();
+    </script>
+    {%endif%}
+</script>
 {% endblock content %}

@@ -1,10 +1,9 @@
-from flask import Blueprint, flash, redirect, url_for, render_template, request, jsonify, abort, make_response
+from flask import Blueprint, flash, redirect, url_for, render_template, request, jsonify, abort
 from datetime import datetime
 from acsystem import db
 from acsystem.models import Sales, SalesItem, Customer, Product, Company
 from acsystem.transactions.forms import SalesForm
 from flask_login import login_required, current_user
-import pdfkit
 
 transactions = Blueprint('transactions',__name__)
 

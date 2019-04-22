@@ -81,7 +81,7 @@
                 {% endfor %}
                 {% for group in groups %}
                 <tr>
-                    <th scope="row">#</th>
+                    <th scope="row">{{loop.index+24}}</th>
                     <td>{{ group.name }}</td>
                     <td>{{ group.under }}</td>
                     <td  class="deletegrp" >

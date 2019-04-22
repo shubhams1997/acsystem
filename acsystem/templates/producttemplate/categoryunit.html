@@ -119,7 +119,7 @@
                     <tbody>
                         {% for pc in pcs %}
                         <tr>
-                            <th scope="row">#</th>
+                            <th scope="row">{{loop.index}}</th>
                             <td>{{ pc.name }}</td>
                             <td class="deletecategory">
                                 <span
@@ -161,7 +161,7 @@
                     <tbody>
                         {% for unit in units %}
                         <tr>
-                            <th scope="row">#</th>
+                            <th scope="row">{{loop.index}}</th>
                             <td>{{ unit.symbol }}</td>
                             <td>{{ unit.name }}</td>
                             <td class="deleteunit">
