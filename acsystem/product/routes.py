@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort, flash, redirect, url_for, request
 from flask_login import login_required, current_user
 from acsystem import db
-from acsystem.models import Productcategory, Unit, Product
+from acsystem.models import Productcategory, Unit, Product, SalesItem
 from acsystem.product.forms import ProductCategoryForm, UnitForm, ProductForm, ProductUpdateForm
 
 products = Blueprint("products",__name__)
@@ -52,9 +52,13 @@ def deleteproduct(product_id):
     prod = Product.query.get_or_404(product_id)
     if prod.company_id != current_user.activecompany:
         abort(403)
-    db.session.delete(prod)
-    db.session.commit()
-    flash(f"Product {prod.name} deleted Successfully","success")
+    salesitem = SalesItem.query.filter_by(product = prod.id).first()
+    if salesitem:
+        flash(f"You have some Invoices of this Product, First Delete the Inoices!","warning")
+    else:
+        db.session.delete(prod)
+        db.session.commit()
+        flash(f"Product {prod.name} deleted Successfully","success")
     return redirect(url_for('products.product'))
 
 
@@ -124,9 +128,17 @@ def deleteproductcategory(pc_id):
     pc = Productcategory.query.get_or_404(pc_id)
     if pc.company_id != current_user.activecompany:
         abort(403)
-    db.session.delete(pc)
-    db.session.commit()
-    flash(f"{pc.name} Deleted Successfully.","success")
+    _product = Product.query.filter_by(category=pc.id).first()
+    if _product:
+        salesitem = SalesItem.query.filter_by(product = _product.id).first()
+        if salesitem:
+            flash(f"You have some Invoices of this Product Category","warning")
+        else:    
+            flash(f"You have some products of this category ","warning")
+    else:
+        db.session.delete(pc)
+        db.session.commit()
+        flash(f"{pc.name} Deleted Successfully.","success")
     return redirect(url_for('products.categoryunit'))
 
 
@@ -136,7 +148,11 @@ def deleteunit(unit_id):
     unit = Unit.query.get_or_404(unit_id)
     if unit.company_id != current_user.activecompany:
         abort(403)
-    db.session.delete(unit)
-    db.session.commit()
-    flash(f"Unit {unit.symbol} Deleted Successfully.","success")
+    _product = Product.query.filter_by(unit=unit.id).first()
+    if _product:
+        flash(f"You have some products of this Unit ","warning")
+    else:
+        db.session.delete(unit)
+        db.session.commit()
+        flash(f"Unit {unit.symbol} Deleted Successfully.","success")
     return redirect(url_for('products.categoryunit'))

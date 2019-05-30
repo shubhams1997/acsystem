@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
+from flask import Blueprint, render_template, url_for, flash, redirect, request, session, jsonify
 from acsystem import bcrypt, db
 from acsystem.user.forms import LoginForm, RegisterForm, UpdateUserForm
 from acsystem.models import User, Company
