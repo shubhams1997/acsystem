@@ -13,7 +13,8 @@ def invoice():
     if current_user.activecompany == 0:
         flash(f"No Company is Activated! ","warning")
         return redirect(url_for('company.companies'))
-    sales = Sales.query.filter_by(company_id = current_user.activecompany).order_by(Sales.id.desc()).all()
+    page = request.args.get('page', 1, type=int)
+    sales = Sales.query.filter_by(company_id = current_user.activecompany).order_by(Sales.date.desc()).paginate(page=page, per_page=10)
     return render_template('transactiontemplate/invoice.html', title='Invoice', sales = sales)
 
 @transactions.route('/invoice/createinvoice', methods=['GET','POST'])

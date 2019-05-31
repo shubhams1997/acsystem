@@ -1,4 +1,4 @@
-{% macro render_field(field, ph="") %}
+{% macro render_field(field, ph="", autofocus=false) %}
 <div class="form-group">
     {{ field.label(class="form-control-label") }}
     {% if field.errors %}
@@ -9,13 +9,13 @@
         {% endfor %}
     </div>
     {% else %}
-    {{ field(class="form-control", placeholder=ph)}}
+    {{ field(class="form-control", placeholder=ph, autofocus=autofocus)}}
     {% endif %}
 </div>
 {% endmacro %}
 
 
-{% macro render_doublefield(field1, field2, ph1="", ph2="") %}
+{% macro render_doublefield(field1, field2, ph1="", ph2="", autofocus=false) %}
 <div class="form-row">
     <div class="form-group col">
         {{ field1.label(class="form-control-label") }}
@@ -27,7 +27,7 @@
             {% endfor %}
         </div>
         {% else %}
-        {{ field1(class="form-control", placeholder=ph1)}}
+        {{ field1(class="form-control", placeholder=ph1, autofocus=autofocus)}}
         {% endif %}
     </div>
     <div class="form-group col">

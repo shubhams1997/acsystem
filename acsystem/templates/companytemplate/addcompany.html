@@ -10,7 +10,7 @@
     <form style="max-width:600px; margin:0 auto;" action="", method="POST">
             {{form.hidden_tag()}}
             {{ form.csrf_token}}
-            {{ render_doublefield(form.name,form.mailingname,"Name","Mailing Name") }}
+            {{ render_doublefield(form.name,form.mailingname,"Name","Mailing Name", true) }}
 
             {{ render_field(form.address, "Address") }}
             
@@ -28,7 +28,7 @@
             {{ render_field(form.description) }}
 
             <div class="form-group">
-                {{ form.submit(class="btn", style="background-color: #75ff9b;")}}
+                {{ form.submit(class="btn color")}}
             </div>
         </div>
 

@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     image_file = db.Column(db.String(20), default='default.jpg', nullable=False)
     phone = db.Column(db.Integer, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    barcolor = db.Column(db.String(20), default="#75efff")
     companies = db.relationship('Company', backref ='owner', lazy = True, cascade="all, delete-orphan")
     activecompany = db.Column(db.Integer, default=0)
     

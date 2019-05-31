@@ -9,8 +9,30 @@
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='introjsstyle.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='sal.css')}}">
     <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <style>
+        
+        {% if current_user.is_authenticated %}
+            {% if current_user.barcolor[1:2] == '2' or current_user.barcolor[1:2] == 'a' %}
+            .color{
+                background-color: {{current_user.barcolor}};
+                color:white;
+            }
+                a{
+                    color:white !important;
+                }
+                .dropdown-item{
+                    color: black !important;
+                }
+            {% else %}
+            .color{
+                background-color: {{current_user.barcolor}};
+            }
+            {% endif %}
+        {% endif %}
+    </style>
     {% if title %}
         <title>Account Book | {{title}}</title>
     {%else%}
@@ -43,6 +65,6 @@
     {% endwith %}
     <script src="{{ url_for('static', filename='script.js')}}"></script>
     <script src="{{ url_for('static', filename='intro.js')}}"></script>
-    
+    <script src="{{url_for('static', filename='sal.js')}}"></script>
 </body>
 </html>

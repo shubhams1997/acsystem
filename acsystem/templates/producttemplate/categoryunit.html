@@ -16,7 +16,7 @@
                     {{form.hidden_tag()}}
                     {{ render_field(form.category_name, "Category Name") }}
                     <div class="form-group">
-                        {{ form.submit(class="btn mt-3", style="background-color: #75ff9b;")}}
+                        {{ form.submit(class="btn mt-3 color")}}
                     </div>
                 </form>
             </div>
@@ -63,7 +63,7 @@
                     {{ render_field(form2.symbol, "Symbol or leters of Unit") }}
                     {{ render_field(form2.name, "Category Name") }}
                     <div class="form-group">
-                        {{ form2.submit(class="btn mt-3", style="background-color: #75ff9b;")}}
+                        {{ form2.submit(class="btn mt-3 color")}}
                     </div>
                 </form>
             </div>
@@ -101,7 +101,7 @@
             <div class="container-fluid">
                 <h2 class="float-left">Product Categories</h2>
                 <ul class="nav justify-content-end">
-                    <li class="btn btn-success">
+                    <li class="btn color">
                         <a class="nav-link" data-toggle="modal" data-target="#createcategory">Add Category</a>
                     </li>
                 </ul>
@@ -142,7 +142,7 @@
             <div class="container-fluid">
                 <h2 class="float-left">Units</h2>
                 <ul class="nav justify-content-end">
-                    <li class="btn btn-success">
+                    <li class="btn color">
                         <a class="nav-link" data-toggle="modal" data-target="#createunit">Add Unit</a>
                     </li>
                 </ul>

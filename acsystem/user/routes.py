@@ -87,3 +87,10 @@ def deleteuser():
     db.session.commit()
     return redirect(url_for('users.register'))
     
+
+@users.route('/user/changecolor/<color>', methods=['GET','POST'])
+@login_required
+def changecolor(color):
+    current_user.barcolor = color
+    db.session.commit()
+    return redirect(url_for('users.dashboard'))

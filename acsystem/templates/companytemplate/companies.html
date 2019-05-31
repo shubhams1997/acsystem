@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <h2 class="float-left">Companies</h2>
         <ul class="nav justify-content-end">
-            <li data-step="1" data-intro="First add a Company" class="btn btn-success float-right">
+            <li data-step="1" data-intro="First add a Company" class="btn color float-right">
                 <a class="nav-link" href="{{ url_for('company.addcompany') }}">Add Company</a>
             </li>
         </ul>
@@ -28,7 +28,7 @@
                 <tr>
                     {% if company.id != activecomp.id %}
                     <th scope="row"> <a href="{{url_for('company.activatecompany', compid= company.id) }}"
-                            style="color:rgb(41, 41, 41); display:block;">{{company.companyname }}</a> </th>
+                            style="color:rgb(114, 114, 114) !important; display:block;">{{company.companyname }}</a> </th>
                     <td>{{ company.email }}</td>
                     <td>{{ company.address }}</td>
                     <td>{{ company.description }}</td>
