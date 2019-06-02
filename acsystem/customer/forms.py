@@ -6,7 +6,7 @@ from flask_login import current_user
 
 class CustomerForm(FlaskForm):
     name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
-    first = StringField('First Name', validators=[Optional(), Length(min=3, max=40)])
+    first = StringField('First Name', validators=[DataRequired(), Length(min=3, max=40)])
     last = StringField('Last Name', validators=[Optional(), Length(min=3, max=40)])
     mailingname = StringField('Mailing Name', validators=[Length(min=3, max=40), DataRequired()])
     address = StringField('Address', validators=[Length(min=5, max=100), Optional()])
@@ -29,7 +29,7 @@ class CustomerForm(FlaskForm):
 class CustomerUpdateForm(FlaskForm):
     vdname = StringField('Product Name', validators=[DataRequired()])
     name = StringField('Customer Name', validators=[DataRequired(), Length(min=3, max=40)])
-    first = StringField('First Name', validators=[Optional(), Length(min=3, max=40)])
+    first = StringField('First Name', validators=[DataRequired(), Length(min=3, max=40)])
     last = StringField('Last Name', validators=[Optional(), Length(min=3, max=40)])
     mailingname = StringField('Mailing Name', validators=[Length(min=3, max=40), DataRequired()])
     address = StringField('Address', validators=[Length(min=5, max=100), Optional()])

@@ -26,7 +26,7 @@
                 <tr>
                     <!-- <th scope="row">{{sale.date.day}} / {{sale.date.month}} / {{sale.date.year }}</th> -->
                     <th> {{sale.date}}</th>
-                    <td>{{ sale.customer }}</td>
+                    <td>{{ sale.customerdetail.name }}</td>
                     <td>{{ sale.totalamount }}</td>
                     <td>
                         <a href="{{url_for('transactions.invoice_detail', invoice_id = sale.id)}}">
@@ -39,9 +39,9 @@
             {% for page_num in sales.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                 {% if page_num %}
                     {% if sales.page == page_num %}
-                    <a class="btn btn-info mb-4" href="{{url_for('transactions.invoice', page=page_num)}}">{{ page_num }}</a>
+                    <a class="btn mb-4 color" href="{{url_for('transactions.invoice', page=page_num)}}">{{ page_num }}</a>
                     {% else %}
-                        <a class="btn btn-outline-info mb-4" href="{{url_for('transactions.invoice', page=page_num)}}">{{ page_num }}</a>
+                        <a class="btn mb-4" style="background-color: #c1c1c1;" href="{{url_for('transactions.invoice', page=page_num)}}">{{ page_num }}</a>
                     {% endif %}
                 {% else %}
                     ...

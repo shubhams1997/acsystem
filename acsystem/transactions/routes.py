@@ -30,7 +30,19 @@ def createinvoice():
     if form1.validate_on_submit():
         c = Company.query.get_or_404(current_user.activecompany)
         customer = Customer.query.filter(Customer.company_id == current_user.activecompany).filter(Customer.name == form1.customer.data).first()
-        sale = Sales(customer = form1.customer.data, date = form1.date.data, 
+        if not customer:
+            print("customer not found")
+            fullname = form1.customer.data
+            first_name = " ".join(fullname.split(' ')[:1])
+            last_name = " ".join(fullname.split(' ')[1:])
+            customer = Customer(name = fullname, first= first_name, last = last_name
+                    , mailingname = first_name, address = "", country = "", state = ""
+                    ,  email = "", gstno = "", description = "", company_id = current_user.activecompany)
+            db.session.add(customer)
+            db.session.commit()
+            flash(f"New Customer {fullname} Created Succefully!","info")
+
+        sale = Sales(customer = customer.id, date = form1.date.data, 
                     invoiceno = form1.invoiceno.data, totalamount = form1.totalamount.data,
                     description = form1.description.data, company_id = current_user.activecompany)
         db.session.add(sale)

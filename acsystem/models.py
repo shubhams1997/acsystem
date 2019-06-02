@@ -84,6 +84,7 @@ class Customer(db.Model):
     openingbalance = db.Column(db.Integer, default=0, nullable=False)
     currentbalance = db.Column(db.Integer, default=0, nullable=False)
     description = db.Column(db.Text)
+    sale = db.relationship('Sales', lazy=True, backref="customerdetail", cascade="all, delete-orphan")
     company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):

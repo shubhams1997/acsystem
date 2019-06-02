@@ -31,7 +31,7 @@
         </button> 
         <h2 class="float-left">Sales Invoice </h2>
         <ul class="nav justify-content-end">
-            <li class="btn btn-light float-right">
+            <li class="btn btn-light color float-right">
                 <a class="nav-link" href="{{ url_for('transactions.invoice_download', invoice_id=invoice.id) }}">
                     <img src="{{url_for('static', filename='images/download.png')}}" width="20px" alt=""> &nbsp; Download PDF</a>
             </li>
@@ -45,14 +45,14 @@
                             <div id="customerarea">
                                 <div class="form-group">
                                     <div class="autocomplete" style="width:80%;">
-                                        To : {{invoice.customer}}
+                                        To : {{invoice.customerdetail.name}}
                                     </div>
                                     <br>
                                     <div id="customer-detail">
-                                        <span id="customer-address">Address</span> <br>
-                                        <span id="customer-state">State</span><br>
-                                        <span id="customer-country">India</span><br>
-                                        <span id="customer-phone">999999</span><br>
+                                        <span id="customer-address">{{invoice.customerdetail.address}}</span> <br>
+                                        <span id="customer-state">{{invoice.customerdetail.state}}</span><br>
+                                        <span id="customer-country">{{invoice.customerdetail.country}}</span><br>
+                                        <span id="customer-phone">{{invoice.customerdetail.phoneno}}</span><br>
                                     </div>
                                 </div>
                             </div>
