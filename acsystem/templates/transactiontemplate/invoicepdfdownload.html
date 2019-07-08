@@ -72,7 +72,9 @@
                                             <span id="customer-address">{{invoice.customerdetail.address}}</span> <br>
                                             <span id="customer-state">{{invoice.customerdetail.state}}</span><br>
                                             <span id="customer-country">{{invoice.customerdetail.country}}</span><br>
-                                            <span id="customer-phone">{{invoice.customerdetail.phoneno}}</span><br>
+                                            {% if invoice.customerdetail.phoneno %}
+                                                <span id="customer-phone">{{invoice.customerdetail.phoneno}}</span><br>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>

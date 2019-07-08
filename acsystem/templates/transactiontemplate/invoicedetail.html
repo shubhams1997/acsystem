@@ -38,21 +38,24 @@
         </ul>
     </div>
     <div class="container border mt-5">
+        <a href="{{url_for('customers.updatecustomer',customer_id=invoice.customerdetail.id)}}" class="btn color">Update Customer info</a> <br> &nbsp;
             <div class="invoice">
-                
+
                     <div class="row">
                         <div class="col-md-6 col-lg-7">
                             <div id="customerarea">
                                 <div class="form-group">
                                     <div class="autocomplete" style="width:80%;">
-                                        To : {{invoice.customerdetail.name}}
+                                        To : {{invoice.customerdetail.name}}   
                                     </div>
                                     <br>
                                     <div id="customer-detail">
                                         <span id="customer-address">{{invoice.customerdetail.address}}</span> <br>
                                         <span id="customer-state">{{invoice.customerdetail.state}}</span><br>
                                         <span id="customer-country">{{invoice.customerdetail.country}}</span><br>
-                                        <span id="customer-phone">{{invoice.customerdetail.phoneno}}</span><br>
+                                        {% if invoice.customerdetail.phoneno %}
+                                            Phone <span id="customer-phone">{{invoice.customerdetail.phoneno}}</span><br>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

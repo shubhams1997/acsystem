@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request, session, jsonify
+from flask import Blueprint, render_template, url_for, flash, redirect, request, session, jsonify, current_app, json
 from acsystem import bcrypt, db
 from acsystem.user.forms import LoginForm, RegisterForm, UpdateUserForm
-from acsystem.models import User, Company
+from acsystem.models import User, Company, Customer
 from flask_login import login_user, current_user, login_required, logout_user
 
 users = Blueprint('users',__name__)
@@ -44,7 +44,14 @@ def register():
 @login_required
 def dashboard():
     activecomp = Company.query.get(current_user.activecompany)
-    return render_template("usertemplate/dashboard.html", title="Dashboard", activecomp=activecomp)
+    c = Customer.query.filter_by(company_id = current_user.activecompany).order_by(Customer.currentbalance.desc()).limit(5).all()
+    customernames =[]
+    customerbalance =[]
+    for customer in c:
+        customernames.append(customer.name)
+        customerbalance.append(customer.currentbalance)        
+
+    return render_template("usertemplate/dashboard.html", title="Dashboard", activecomp=activecomp, customerbalance=customerbalance, customernames=json.dumps(customernames))
 
 
 @users.route('/logout')
@@ -86,7 +93,7 @@ def deleteuser():
     db.session.delete(current_user)
     db.session.commit()
     return redirect(url_for('users.register'))
-    
+
 
 @users.route('/user/changecolor/<color>', methods=['GET','POST'])
 @login_required
