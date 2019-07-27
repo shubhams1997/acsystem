@@ -1,11 +1,16 @@
 {% from "renderfield.html" import render_field %}
 {% extends "loginregisterlayout.html"%}
 {% block content %}
+<p style=" margin: 20px auto; text-align:center;">
+        <a href="{{ url_for('main.home') }}" style="color:black;">Home</a> 
+        &nbsp; &nbsp; &nbsp; 
+        <a href="{{url_for('users.register')}}" class="signinup"><i class="fa fa-sign-in" aria-hidden="true"> </i> Register</a>
+     </p>
 <div class="container formcontainer">
         <div class="loginheading">
-                <h1>Login</h1>
-                <p>Please Enter your Account details</p>
-            </div>
+            <h3>Login</h3>
+            <p class="text-muted">Fill You Account Details</p>
+        </div>
     <form action="" method="POST">
         {{ form.hidden_tag() }}
         {{ render_field(form.email,"Enter Your Email", true) }}
@@ -17,10 +22,7 @@
             {{ form.remember.label(class="ml-2") }}
         </div>
         <div class="form-group">
-            {{ form.submit(class="btn", style="background-color: #75ff9b;")}}
-        </div>
-        <div class="form-group">
-            <p class="text-muted mt-3">I don't have an Account! <a href="{{url_for('users.register')}}">SignUp</a></p>
+            {{ form.submit(class="custom_btn")}}
         </div>
     </form>
 </div>

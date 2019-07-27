@@ -1,9 +1,28 @@
-#loginform{
-    background-image: url("images/loginback.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    
+.Taglines{
+    margin-top: 100px;
+    margin-bottom: 50px;
+    color: rgb(151, 251, 251);
+    font-size: 55px;
+    font-weight: 700;
+    word-spacing: 10px;
+    letter-spacing: 3px;
+
+}
+
+.signinup{
+    border: 1px solid rgb(0, 149, 152);
+    border-radius: 15px;
+    padding: 7px 15px;
+    color: rgb(0, 103, 106) !important;
+}
+
+.custom_btn{
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    background-image: linear-gradient(to right, rgb(0, 149, 152), rgb(0, 103, 106));
+    color: white;
 }
 
 #uprofilehead{
@@ -21,6 +40,14 @@ a{
 }
 a:hover{
     text-decoration: none !important;
+}
+
+.chartcard{
+    padding: 20px;
+    box-shadow: 1px 1px 18px rgb(189, 189, 189);
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 10px;
+    margin: 20px;
 }
 
 /* # sourceMappingURL=style.css.map */

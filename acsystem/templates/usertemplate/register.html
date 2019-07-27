@@ -1,25 +1,27 @@
 {% from "renderfield.html" import render_field, render_doublefield %}
 {% extends "loginregisterlayout.html"%}
 {% block content %}
-<div class=" container formcontainer">
-        <div class="loginheading">
-            <h1>Register</h1>
-            <p>Please Enter your New Account details</p>
-        </div>
+<p style=" margin: 20px auto; text-align:center;">
+        <a href="{{ url_for('main.home') }}">Home</a> 
+        &nbsp; &nbsp; &nbsp; 
+        <a href="{{url_for('users.login')}}" class="signinup"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign in</a>
+     </p>
+<div class="container formcontainer">
+    <div class="loginheading">
+        <h3>Registeration</h3>
+        <p class="text-muted">Create Your Free Account</p>
+    </div>
     <form action="" method="POST">
         {{form.hidden_tag()}}
         {{ render_doublefield(form.firstname,form.lastname,"First Name","Last Name") }}
         
-        {{ render_field(form.email, "Enter your Email") }}
+        {{ render_field(form.email, "xyz@mail.com") }}
         
-        {{ render_field(form.password, "Enter your Password") }}
+        {{ render_field(form.password, "8 characters or more") }}
 
         {{ render_field(form.confirm_password, "Confirm Password") }}
         <div class="form-group">
-            {{ form.submit(class="btn", style="background-color: #75ff9b;")}}
-        </div>
-        <div class="form-group">
-            <p class="text-muted mt-3">I have an Account! <a href="{{url_for('users.login')}}">SignIn</a></p>
+            {{ form.submit(class="custom_btn")}}
         </div>
     </form>
 </div>

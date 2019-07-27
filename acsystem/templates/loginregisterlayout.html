@@ -2,9 +2,20 @@
 {% block body %}
     <div id="loginform">
         <div class="row">
-            <div class="col-lg-5 mediumdisable"></div>
-            <div class="col-lg-7">
-                <p style="position: absolute;"><a href="{{ url_for('main.home') }}" style="color:black;">Home</a> </p>
+            <div class="col-lg-7 mediumdisable">
+                <div>
+                    <img width="200px" src="{{url_for('static', filename='logo/lightlogo.png')}}" alt="">
+                </div>
+
+                <h1 class="Taglines">
+                    If you want an accounting of your worth, count your friends                
+                </h1>
+                <p class="text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis non odio nobis dolore dolor ducimus tempora. Fugiat voluptas pariatur illo! Nostrum aspernatur laborum, veniam voluptatum odio dolores rem sapiente a laboriosam commodi assumenda, obcaecati accusantium eveniet quasi provident sit harum!
+                </p>
+
+            </div>
+            <div class="col-lg-5">
                 {% block content %}{% endblock %}
             </div>
         </div>

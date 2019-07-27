@@ -2,12 +2,18 @@
 {% block content %}
 <h1 class="display-4">Dashboard</h1>
 
-<div class="container row">
-    <div class="container col " >
-        <canvas id="myChart"></canvas>
-    </div>
-    <div class="container col" >
-        <canvas id="myChart2"></canvas>
+<div class="container">
+    <div class="row">
+        <div class="col chartcard" >
+            <div class="">
+                <p>Top 5 Custoners</p>
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <div class="col chartcard" >
+            <p>Sales amount</p>
+            <canvas id="myChart2"></canvas>
+        </div>
     </div>
 </div>
 
@@ -24,11 +30,11 @@
     customerbalance[0] = customerbalance[0].substring(1);
     customerbalance[length-1] = customerbalance[length-1].substring(0,customerbalance[length-1].length-1);
 
-    salarys = [];
+    sales = [];
     sum =0;
     for(sal of customerbalance){
         sal = Number.parseInt(sal);
-        salarys.push(sal+sum);
+        sales.push(sal+sum);
         sum += sal;
     }
 
@@ -39,7 +45,7 @@ var myChart = new Chart(ctx, {
         //labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         labels: customers,
         datasets: [{
-            label: '# Current balance on Customers',
+            label: 'Current balance on Customers',
             data: customerbalance,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -80,10 +86,10 @@ var chart = new Chart(ctx2, {
     data: {
         labels: ['January', 'February', 'March', 'April', 'May'],
         datasets: [{
-            label: 'My First dataset',
+            label: 'Sales',
             backgroundColor: 'rgb(255, 99, 132)',
             borderColor: 'rgb(255, 99, 132)',
-            data: salarys,
+            data: sales,
         }]
     },
 

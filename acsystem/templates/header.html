@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://use.fontawesome.com/ddc7e3c8a3.js"></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='images/favicon.png')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='customstyle.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='introjsstyle.css')}}">
@@ -24,7 +26,7 @@
                     color:white !important;
                 }
                 .dropdown-item{
-                    color: black !important;
+                    color: rgb(255, 255, 255) !important;
                 }
             {% else %}
             .color{

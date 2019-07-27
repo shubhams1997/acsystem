@@ -1,9 +1,17 @@
-#loginform {
+
+/* LOGIN REGISTER FORM STYLING */
+
+#loginform{
+  position: absolute;
+  overflow: hidden;
+  display: block;
     height: 100vh !important;
+    width: 100vw !important;
   }
   
-  #loginform .row .col-lg-4 {
-    background-color: #29bdff;
+#loginform .row .col-lg-7 {
+    background-color: rgb(0, 76, 77);
+    padding: 30px 150px;
   }
   
   .btn {
@@ -12,15 +20,15 @@
   }
   
   .formcontainer {
-    width: 50%;
-    height: 300px;
+    width: 60%;
+    height: 45vh;
     min-width: 400px;
     margin: 250px auto;
   }
   
   .loginheading {
     position: absolute;
-    top: 40px;
+    top: 140px;
   }
   
   @media only screen and (max-width: 990px) {
@@ -29,19 +37,25 @@
     }
   }
 
+/* LOGIN REGISTER FORM DESIGN ENDS HERE */
+
+
+
+
+/* DROPDOWN NAVIGATION STYLING  */
+
 .dropdown ::after {
   display: none !important;
 }
 
 .navbar-brand {
-  color: rgba(0, 0, 0, 0.822);
   border: 1px solid rgba(83, 83, 83, 0.8);
   border-radius: 30px;
   padding: 0 1.5rem;
+  font-size: 30px;
 }
 
 .navbar-brand:hover {
-  color: black;
   border: 1px solid rgba(0, 0, 0, 0.8);
 }
 
@@ -68,32 +82,27 @@
 
 .dropdown-item {
   padding: .5rem !important;
-  padding-left: 1.3rem !important;
-}
-
-.dropdown-item:active {
-  background-color: #1e6434 !important;
+  padding-left: 1rem !important;
 }
 
 .dropdown-item:hover {
-  background-color: #75ff9b !important;
+  background-color: #ffffff00 !important;
 }
 
 .dropdown-menu {
   position: absolute !important;
 }
 
-/* .navbar {
-  background-color: #75efff;
-}	 */
+
+/* DROPDOWN NAVIGATION STYLING ENDS HERE */
+
+
+
+
 
 
 .btn {
   margin: 0 .7rem;
-}
-
-.btn-success {
-  background-color: #75ff9b !important;
 }
 
 .container-fluid {
@@ -142,6 +151,11 @@
   margin: 15px;
 }
 
+
+
+
+/* HOME PAGE STYLING  */
+
 .tophead{
   background-image: url("./images/topheadback.jpg");
   background-position: 0 60%;
@@ -182,7 +196,5 @@
 .card-img-top {
   width: 150px !important;
 }
-.customerbal{
-  width: 500px;
-}
+
   /*# sourceMappingURL=style.css.map */
