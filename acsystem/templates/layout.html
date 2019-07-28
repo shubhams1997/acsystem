@@ -107,52 +107,16 @@
 
 </div>
 
-<nav id="dashnav" style="background-color: grey; color:white; ">
+<nav id="dashnav" style="background-color: rgb(248, 248, 248); ">
 
     <span id="toggler">
-        <img src="{{ url_for('static', filename='images/menu.svg') }}" alt="=">
+        <img width="40px" src="{{ url_for('static', filename='images/menu.svg') }}" alt="=">
     </span>
-    <ul class="nav justify-content-end">
-        <li class="nave-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropadd" data-toggle="dropdown"
-                style="display:block; margin:7px; width: 40px; height:40px; border-radius:100%;">
-                <img src="{{url_for('static',filename='images/colorball.png')}}" width="100%" alt="">
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropadd"
-                style="width:300px; height:240px; background-color:#fcfcfc;">
-                <div class="colorpalette" style="display:flex; width: 100%; height:100%; flex-wrap: wrap; ">
-                    <a href="{{ url_for('users.changecolor', color='#58fcfc') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#58fcfc;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#e48e6b') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#e48e6b;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#cccf00') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#cccf00;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#39b0ff') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#39b0ff;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#276f7c') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#5da8aa;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#a842ac') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#a842ac;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#ad375b') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#ad375b;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#d6e67d') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#d4e478;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#2c20cc') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#2c20cc;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#47b89b') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#47b89b;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#ad0c00') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#ad0c00;"></a>
-                    <a href="{{ url_for('users.changecolor', color='#35e625') }}"
-                        style="display:block; margin:7px; width: 60px; height:60px; border-radius:100%; background-color:#35e625;"></a>
-                </div>
-            </div>
-        </li>
+    <ul class="nav justify-content-end topnavitem">
         <li data-step="4" data-intro="Shortcut to Add new data" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropadd" data-toggle="dropdown">
                 <img src="{{url_for('static', filename='images/add.png')}}" alt="+" width="25px;"></a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropadd">
+            <div class="dropdown-menu dropdown-menu-right color" aria-labelledby="dropadd">
                 <a class="dropdown-item" href="{{url_for('transactions.createinvoice')}}">Invoice</a>
                 <a class="dropdown-item" href="#">Bill</a>
                 <a class="dropdown-item" href="{{ url_for('customers.addcustomer') }}">Customer</a>
@@ -162,15 +126,39 @@
                 <a class="dropdown-item" href="#">Journal</a>
             </div>
         </li>
-        <li data-step="5" data-intro="User Details" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropaccount" data-toggle="dropdown">
-                <img src="{{ url_for('static', filename='images/user.png')}}" alt="Account">
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark" href="#" id="dropnotification" data-toggle="dropdown">
+                <i class="fa fa-bell"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropaccount">
-                <p class="dropdown-item" href="#" id="uprofilehead">{{ current_user.first }}</p>
-                <a class="dropdown-item" href="{{ url_for('users.account') }}">Account Info</a>
-                <a class="dropdown-item" href="#">Settings</a>
-                <a class="dropdown-item" href="{{ url_for('users.logout') }}">Logout</a>
+            <div class="dropdown-menu dropdown-menu-right notificationbox " aria-labelledby="dropnotification">
+                <div class=" row notification">
+                    <div class="col col-9">
+                        <h5>
+                            Lorem ipsum dolor
+                        </h5>
+                        <span class="notidesc">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, expedita?
+                        </span>
+                    </div>
+                    <div class="col col-2 notidate">
+                        2:35&nbsp;pm,<br>Today &nbsp;
+                    </div>
+                </div>
+
+            </div>
+        </li>
+        <li id="userinfo" data-intro="User Details" class="nav-item dropdown ">
+            <a class="nav-link dropdown-toggle" href="#" id="dropaccount" data-toggle="dropdown">
+                <img src="{{ url_for('static', filename='images/user.png')}}" width="30px" alt="Account">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right color" aria-labelledby="dropaccount">
+                <p class="dropdown-item " href="#" id="uprofilehead">
+                    {{ current_user.first }}</p>
+                <a class="dropdown-item " href="{{ url_for('users.account') }}">Account
+                    Info</a>
+                <a class="dropdown-item " href="#">Settings</a>
+                <a class="dropdown-item " href="{{ url_for('users.logout') }}">Logout</a>
             </div>
         </li>
     </ul>
@@ -182,6 +170,11 @@
 
 <div class="row">
     <div class="col col-lg-2 colsml color">
+
+        <div>
+            <img width="200px" src="{{url_for('static', filename='logo/lightlogo.png')}}" alt="">
+        </div>
+
         <div class="compname">
             <span data-step="2" data-intro="Active Company Name visible here">
                 {% if activecomp %}
@@ -193,14 +186,14 @@
             </span>
         </div>
         <ul id="accordion" class="slider-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('users.dashboard')}}">Dashboard</a>
+            <li rel='1' class="nav-item">
+                <a class="nav-link" href="{{ url_for('users.dashboard')}}"> <i class="fa fa-home"></i> Dashboard</a>
             </li>
-            <li class="nav-item">
+            <li rel='2' class="nav-item">
 
                 <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
                     aria-controls="collapseOne">
-                    Masters
+                    <i class="fa fa-book"></i> Masters
                 </a>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
 
@@ -209,23 +202,24 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ url_for('customers.customerlist') }}">Customers</a>
                     <a class="dropdown-item" href="{{ url_for('suppliers.supplierlist') }}">Suppliers</a>
-
+                    <div class="dropdown-divider"></div>
                 </div>
             </li>
 
-            <li class="nav-item ">
+            <li rel='3' class="nav-item">
                 <a class="nav-link" href="#" data-target="#collapseTwo" aria-expanded="true" data-toggle="collapse">
-                    Inventory
+                    <i class="fa fa-shopping-cart"></i> Inventory
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="collapseTwo" data-parent="#accordion">
                     <a class="dropdown-item" href="{{ url_for('products.categoryunit') }}">Product Category and Unit</a>
                     <a class="dropdown-item" href="{{ url_for('products.product') }}">Products</a>
+                    <div class="dropdown-divider"></div>
                 </div>
             </li>
 
-            <li class="nav-item ">
+            <li rel='4' class="nav-item ">
                 <a class="nav-link" href="#" data-target="#collapseThree" aria-expanded="true" data-toggle="collapse">
-                    Transactions
+                    <i class="fa fa-credit-card"></i> Transactions
                 </a>
                 <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordion">
                     <a class="dropdown-item" href="{{ url_for('transactions.invoice') }}">Invoices (Sales)</a>
@@ -233,6 +227,7 @@
                     <a class="dropdown-item" href="#">Receipt</a>
                     <a class="dropdown-item" href="#">Payment</a>
                     <a class="dropdown-item" href="#">Journal</a>
+                    <div class="dropdown-divider"></div>
                 </div>
             </li>
         </ul>
@@ -260,6 +255,9 @@
     }
 
     var toggleopen = false;
+    var title = '{{title}}';
+    console.log(title);
+
     var width = $(window).width();
     $(window).resize(function () {
         width = $(window).width();
@@ -267,7 +265,7 @@
             $(".colsml").css("left", "0");
             $("#toggler").css("padding-left", "255px");
             toggleopen = true;
-            $('.shadowcover').css('display',"none");
+            $('.shadowcover').css('display', "none");
         }
         else {
             $(".colsml").css("left", "-300px");
@@ -277,22 +275,67 @@
     });
 
     $("#toggler").click(togglesidebar);
+    $(".shadowcover").click(togglesidebar);
 
     function togglesidebar() {
         if (width < 1000)
             if (toggleopen) {
                 $(".colsml").css("left", "-300px");
-                $(this).css("padding-left", "0");
+                $("#toggler").css("padding-left", "0");
                 toggleopen = false;
-                $('.shadowcover').css('display',"none");
+                $('.shadowcover').css('display', "none");
             }
             else {
                 $(".colsml").css("left", "0");
-                $(this).css("padding-left", "255px");
+                $("#toggler").css("padding-left", "255px");
                 toggleopen = true;
-                $('.shadowcover').css('display',"block");
+                $('.shadowcover').css('display', "block");
             }
     };
+
+    switch (title) {
+        case "Dashboard":
+            $("#accordion li:nth-child(1)").addClass('current');
+            break;
+
+
+        case "Groups":
+            masterStyle("One", 0);
+            break;
+        case "Ledgers":
+            masterStyle("One", 1);
+            break;
+        case "Customers":
+        case "Add Customer":
+            masterStyle("One", 2);
+            break;
+        case "suppliers":
+        case "Add Supplier":
+            masterStyle("One", 3);
+            break;
+
+        case "Product Categories and Units":
+            masterStyle("Two", 0);
+            break;
+        case "Products":
+            masterStyle("Two", 1);
+            break;
+
+        case "Invoice":
+            masterStyle("Three", 0);
+            break;
+
+    }
+
+    function masterStyle(position, i) {
+        $("#collapse" + position).prev().addClass('current');
+        $("#collapse" + position).addClass('show');
+        $("#collapse" + position + " a:eq(" + i + ")").addClass('itemselected');
+    }
+
+    //$('#notificationtoggle').click(function(){
+      //  $(".notificationbox").toggle("slow");
+    //})
 
 </script>
 
