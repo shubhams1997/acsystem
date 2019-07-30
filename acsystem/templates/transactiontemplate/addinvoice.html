@@ -1,13 +1,14 @@
 {% from "renderfield.html" import render_field, render_doublefield %}
 {% extends "layout.html"%}
 {% block content %}
-<div class="container">
+<!-- string.charAt(0).toUpperCase(); -->
+<div class="container-fluid">
 	<div class="container-fluid">
 		<button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
 			<img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
 		</button>
 		<h2 style="margin-bottom:30px;"> Invoice</h2>
-		<div class="container border mt-5">
+		<div class="container-fluid border mt-5">
 			<div class="invoice">
 				<form action="" method="POST" class="mt-4">
 					{{ form1.csrf_token }}
@@ -19,9 +20,9 @@
 									<label for="inputAddress">To: </label>
 
 									<div class="autocomplete" style="width:80%;">
-										
+
 										{% if form1.customer.errors %}
-										{{ form1.customer(class="form-control is-invalid", id="myInput", autocomplete="off") }}
+										{{ form1.customer(class="form-control is-invalid", id="myInput", autocomplete="off", onfocusout="focusoutfun") }}
 										<div class="invalid-feedback">
 											{% for error in form1.customer.errors %}
 											<span>{{error}}</span>
@@ -32,35 +33,51 @@
 										{% endif %}
 									</div>
 									<br>
-									<div id="customer-detail">
-									</div>
+										<table class="mt-3">
+											<tr>
+												<td>Address: &nbsp; </td>
+												<td> {{ form1.cust_address(class="form-control") }} </td>
+											</tr>
+											<tr>
+												<td>State: </td>
+												<td> {{ form1.cust_state(class="form-control") }}</td>
+											</tr>
+											<tr>
+												<td>Country: </td>
+												<td> {{ form1.cust_country(class="form-control") }} </td>
+											</tr>
+											<tr>
+												<td>Phone: </td>
+												<td> {{ form1.cust_phone(class="form-control") }} </td>
+											</tr>
+										</table>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6 col-lg-5">
-								<table class="table table-borderless">
-									<tbody>
-										<tr class="row">
-											<td class="col-sm-6 col-md-5">Invoice No </td>
-											<td class="col-sm-5 col-md-7">
-													{% if form1.invoiceno.errors %}
-													{{ form1.invoiceno(class="form-control is-invalid") }}
-													<div class="invalid-feedback">
-														{% for error in form1.invoiceno.errors %}
-														<span>{{error}}</span>
-														{% endfor %}
-													</div>
-													{% else %}
-													{{ form1.invoiceno(class="form-control") }}
-													{% endif %}
-											</td>
-										</tr>
-										<tr class="row">
-											<td class="col-sm-6 col-md-5">Invoice Date</td>
-											<td class="col-sm-5 col-md-7">{{ form1.date(class="form-control") }}</td>
-										</tr>
-									</tbody>
-								</table>
+							<table class="table table-borderless">
+								<tbody>
+									<tr class="row">
+										<td class="col-sm-6 col-md-5">Invoice No </td>
+										<td class="col-sm-5 col-md-7">
+											{% if form1.invoiceno.errors %}
+											{{ form1.invoiceno(class="form-control is-invalid") }}
+											<div class="invalid-feedback">
+												{% for error in form1.invoiceno.errors %}
+												<span>{{error}}</span>
+												{% endfor %}
+											</div>
+											{% else %}
+											{{ form1.invoiceno(class="form-control") }}
+											{% endif %}
+										</td>
+									</tr>
+									<tr class="row">
+										<td class="col-sm-6 col-md-5">Invoice Date</td>
+										<td class="col-sm-5 col-md-7">{{ form1.date(class="form-control") }}</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 
@@ -96,7 +113,7 @@
 								<td class="col-2">
 									{{ l.form.rate(class="form-control", onchange="calculatetotal()") }}</td>
 								<td class="col-1">
-										{{ l.form.unit(class="form-control", disabled=True) }}
+									{{ l.form.unit(class="form-control", disabled=True) }}
 								</td>
 								<td class="col-1" id="total-{{ loop.index-1}}">---------</td>
 							</tr>
@@ -104,14 +121,16 @@
 
 						</tbody>
 					</table>
-					<img id="additeminlist" src="{{url_for('static', filename='images/add.png')}}" style="cursor: pointer;"">
+					<img id="additeminlist" src="{{url_for('static', filename='images/add.png')}}"
+						style="cursor: pointer;"">
 					    &nbsp;
 					<img src=" {{url_for('static', filename='images/delete.png')}}" id="deleteiteminlist" style="cursor: pointer;">
 					<br>
-					
-					<div class="float-right" id="overtotalamount" style="position: relative;" >
+
+					<div class="float-right" id="overtotalamount" style="position: relative;">
 						{{ form1.totalamount(class="form-control", style="height:40px;position:absolute; width:160px; top:0; right:0;", tabindex=-1) }}
-						<div class="btn disabled"  style="height:40px; width:160px; position:absolute; top:0; right:-12px;"></div>
+						<div class="btn disabled"
+							style="height:40px; width:160px; position:absolute; top:0; right:-12px;"></div>
 					</div>
 					<br>
 					<div class="mt-4" style="max-width:400px;">
@@ -129,45 +148,50 @@
 	var prodata = $('#itemslist>tr>th>select').first().html();
 	var count = $("#rows").val();
 	$("#myInput").on("change", function () {
-		$("#customer-detail").html('');
-	})
+		$("#cust_address").val("");
+		$("#cust_state").val("");
+		$("#cust_country").val("");
+		$("#cust_phone").val("");
+	});
+
+
 	function autocomplete2(inp, arr) {
 		var currentFocus;
-		inp.addEventListener("focus",function(){
+		inp.addEventListener("focus", function () {
 			console.log('focused');
-			var a ,val= this.value;
+			var a, val = this.value;
 			a = document.createElement("DIV");
 			a.setAttribute("id", this.id + "autocomplete-list");
 			a.setAttribute("class", "autocomplete-items");
+			//a.appendChild(addcustomer);
 			this.parentNode.appendChild(a);
 			for (i = 0; i < arr.length; i++) {
 				b = document.createElement("DIV");
-					/*make the matching letters bold:*/
-					b.innerHTML = "<strong>" + arr[i]["name"].substr(0, val.length) + "</strong>";
-					b.innerHTML += arr[i]["name"].substr(val.length);
-					/*insert a input field that will hold the current arr item's value:*/
-					b.innerHTML += "<input type='hidden' name='" + arr[i]["id"] + "' value='" + arr[i]["name"] + "'>";
-					b.addEventListener("click", function (e) {
-						/*insert the value for the autocomplete text field:*/
-						inp.value = this.getElementsByTagName("input")[0].value;
-						//console.log(this.getElementsByTagName("input")[0].name);
-						let customer_id = this.getElementsByTagName("input")[0].name;
-						fetch('/invoice/loadcustomerdetail/' + customer_id).then(function (response) {
-							response.json().then(function (data) {
-								console.table(data.customer);
+				/*make the matching letters bold:*/
+				b.innerHTML = "<strong>" + arr[i]["name"].substr(0, val.length) + "</strong>";
+				b.innerHTML += arr[i]["name"].substr(val.length);
+				/*insert a input field that will hold the current arr item's value:*/
+				b.innerHTML += "<input type='hidden' name='" + arr[i]["id"] + "' value='" + arr[i]["name"] + "'>";
+				b.addEventListener("click", function (e) {
+					/*insert the value for the autocomplete text field:*/
+					inp.value = this.getElementsByTagName("input")[0].value;
+					//console.log(this.getElementsByTagName("input")[0].name);
+					let customer_name = this.getElementsByTagName("input")[0].value;
+					fetch('/invoice/loadcustomerdetail/' + customer_name).then(function (response) {
+						response.json().then(function (data) {
+							console.table(data.customer);
+							$("#cust_address").val(data.customer.address);
+							$("#cust_state").val(data.customer.state);
+							$("#cust_country").val(data.customer.country);
+							$("#cust_phone").val(data.customer.phone);
 
-								$("#customer-detail").html(`<span id="customer-address">` + data.customer.address + `</span> <br>
-                        <span id="customer-state">`+ data.customer.state + `</span><br>
-                        <span id="customer-country">`+ data.customer.country + `</span><br>
-                        <span id="customer-phone">`+ data.customer.phone + `</span><br>`);
-
-							})
 						})
-						/*close the list of autocompleted values,
-						(or any other open lists of autocompleted values:*/
-						closeAllLists();
-					});
-					a.appendChild(b);
+					})
+					/*close the list of autocompleted values,
+					(or any other open lists of autocompleted values:*/
+					closeAllLists();
+				});
+				a.appendChild(b);
 			}
 		});
 		inp.addEventListener("input", function (e) {
@@ -198,15 +222,15 @@
 						/*insert the value for the autocomplete text field:*/
 						inp.value = this.getElementsByTagName("input")[0].value;
 						//console.log(this.getElementsByTagName("input")[0].name);
-						let customer_id = this.getElementsByTagName("input")[0].name;
-						fetch('/invoice/loadcustomerdetail/' + customer_id).then(function (response) {
+						let customer_name = this.getElementsByTagName("input")[0].value;
+						fetch('/invoice/loadcustomerdetail/' + customer_name).then(function (response) {
 							response.json().then(function (data) {
 								console.table(data.customer);
 
-								$("#customer-detail").html(`<span id="customer-address">` + data.customer.address + `</span> <br>
-                        <span id="customer-state">`+ data.customer.state + `</span><br>
-                        <span id="customer-country">`+ data.customer.country + `</span><br>
-                        <span id="customer-phone">`+ data.customer.phone + `</span><br>`);
+								$("#cust_address").val(data.customer.address);
+								$("#cust_state").val(data.customer.state);
+								$("#cust_country").val(data.customer.country);
+								$("#cust_phone").val(data.customer.phone);
 
 							})
 						})
@@ -217,6 +241,7 @@
 					a.appendChild(b);
 				}
 			}
+
 		});
 		/*execute a function presses a key on the keyboard:*/
 		inp.addEventListener("keydown", function (e) {
@@ -273,6 +298,23 @@
 		document.addEventListener("click", function (e) {
 			closeAllLists(e.target);
 		});
+
+		inp.addEventListener('focusout', function(){
+			console.log("focus out");
+			let customer_name = this.value;
+			customer_name = customer_name.charAt(0).toUpperCase() + customer_name.slice(1);
+			console.log(customer_name);
+			fetch('/invoice/loadcustomerdetail/' + customer_name).then(function (response) {
+				response.json().then(function (data) {
+					console.table(data.customer);
+					$("#cust_address").val(data.customer.address);
+					$("#cust_state").val(data.customer.state);
+					$("#cust_country").val(data.customer.country);
+					$("#cust_phone").val(data.customer.phone);
+
+				})
+			})
+		});
 	}
 
 	$("#additeminlist").on("click", () => {
@@ -283,11 +325,11 @@
 		else {
 			count++;
 			console.log(count);
-			
+
 			let data = `<tr class="row">
 				<th class="col-5">
 					<select class="form-control" id="items-`+ count + `-product" name="items-` + count + `-product">	
-						`+prodata+`
+						`+ prodata + `
 					</select>
 				</th>
 				<td class="col-2">
@@ -319,7 +361,7 @@
 	});
 
 	window.onload = () => {
-		
+
 		var count = $("#rows").val();
 		fetch('/invoice/loadcustomer').then(function (response) {
 			response.json().then(function (data) {
@@ -329,8 +371,11 @@
 		calculatetotal();
 		$("#myInput").val("");
 
-		for(let i=0; i<=count;i++){
-			$('#quantity-'+i).text("Max Quantity "+localStorage.getItem("quantity-"+i));
+		for (let i = 0; i <= count; i++) {
+			$('#quantity-' + i).text("Max Quantity " + localStorage.getItem("quantity-" + i));
+		}
+		function focusoutfun(){
+			console.log("hello"+this);
 		}
 
 	}
@@ -341,7 +386,7 @@
 		fetch('/invoice/loadproductdetail/' + product).then(function (response) {
 			response.json().then(function (data) {
 				console.table(data.product);
-				localStorage.setItem("quantity-"+id,data.product.quantity);
+				localStorage.setItem("quantity-" + id, data.product.quantity);
 				$("#items-" + id + "-rate").val(data.product.rate);
 				$("#items-" + id + "-unit").val(data.product.unit);
 				let rate = $("#items-" + id + "-rate").val();

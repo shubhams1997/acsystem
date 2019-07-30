@@ -133,6 +133,15 @@
   right: 0;
 }
 
+/* .autocomplete-items::before{
+  display: block;
+  content: "+ Add New Customer";
+  background-color: rgb(231, 231, 231);
+  height: 40px;
+  text-align: center;
+  padding-top: 5px;
+} */
+
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;

@@ -24,7 +24,7 @@
 </div>
 
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="container-fluid">
         <button style="width:50px;" class=" btn btn-light float-left" onclick="window.history.back()">
             <img src="{{ url_for('static', filename='images/back.png') }}" alt="Back" />
@@ -37,10 +37,8 @@
             </li>
         </ul>
     </div>
-    <div class="container border mt-5">
-        <a href="{{url_for('customers.updatecustomer',customer_id=invoice.customerdetail.id)}}" class="btn color">Update Customer info</a> <br> &nbsp;
+    <div class="container-fluid border mt-5">
             <div class="invoice">
-
                     <div class="row">
                         <div class="col-md-6 col-lg-7">
                             <div id="customerarea">

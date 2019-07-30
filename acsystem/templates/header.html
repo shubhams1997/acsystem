@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https:/cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <style>
-        
+       
         {% if current_user.is_authenticated %}
             {% if current_user.barcolor[1:2] == '2' or current_user.barcolor[1:2] == 'a' %}
             .color{
@@ -34,6 +34,10 @@
             }
             {% endif %}
         {% endif %}
+        input:focus ,select:focus{
+            border: 2px solid green !important;
+        }
+        
     </style>
     {% if title %}
         <title>Account Book | {{title}}</title>

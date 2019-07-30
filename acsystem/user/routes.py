@@ -43,6 +43,9 @@ def register():
 @users.route("/dashboard")
 @login_required
 def dashboard():
+    if current_user.activecompany == 0:
+        flash(f"No Company is Activated! ","warning")
+        return redirect(url_for('company.companies'))
     activecomp = Company.query.get(current_user.activecompany)
     c = Customer.query.filter_by(company_id = current_user.activecompany).order_by(Customer.currentbalance.desc()).limit(5).all()
     customernames =[]
@@ -50,8 +53,11 @@ def dashboard():
     for customer in c:
         customernames.append(customer.name)
         customerbalance.append(customer.currentbalance)        
-
-    return render_template("usertemplate/dashboard.html", title="Dashboard", activecomp=activecomp, customerbalance=customerbalance, customernames=json.dumps(customernames))
+    context = {
+        'customerbalance': customerbalance, 
+        'customernames': json.dumps(customernames)
+    }
+    return render_template("usertemplate/dashboard.html", title="Dashboard", activecomp= activecomp, context=context)
 
 
 @users.route('/logout')

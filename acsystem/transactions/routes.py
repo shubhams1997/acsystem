@@ -35,13 +35,17 @@ def createinvoice():
             fullname = form1.customer.data
             first_name = " ".join(fullname.split(' ')[:1])
             last_name = " ".join(fullname.split(' ')[1:])
-            customer = Customer(name = fullname, first= first_name, last = last_name
-                    , mailingname = first_name, address = "", country = "", state = ""
+            customer = Customer(name = fullname, first= first_name, last = last_name, phoneno = form1.cust_phone.data
+                    , mailingname = first_name, address = form1.cust_address.data, country = form1.cust_country.data, state = form1.cust_state.data
                     ,  email = "", gstno = "", description = "", company_id = current_user.activecompany)
             db.session.add(customer)
             db.session.commit()
             flash(f"New Customer {fullname} Created Succefully!","info")
-
+        else:
+            customer.address = form1.cust_address.data
+            customer.state = form1.cust_state.data
+            customer.country = form1.cust_country.data
+            customer.phone = form1.cust_phone.data
         sale = Sales(customer = customer.id, date = form1.date.data, 
                     invoiceno = form1.invoiceno.data, totalamount = form1.totalamount.data,
                     description = form1.description.data, company_id = current_user.activecompany)
@@ -95,25 +99,28 @@ def loadproductdetail(product_id):
     }
     return jsonify({'product':productobj})
 
-@transactions.route('/invoice/loadcustomerdetail/<customer_id>')
+@transactions.route('/invoice/loadcustomerdetail/<customer_name>')
 @login_required
-def loadcustomerdetail(customer_id):
-    customer = Customer.query.get_or_404(customer_id)
-    if(customer.company_id != current_user.activecompany):
-        abort(403);
-    customerobj = {
-        "name":customer.name,
-        "mailingname" : customer.mailingname,
-        "address": customer.address,
-        "country": customer.country,
-        "state": customer.state,
-        "pin": customer.pin,
-        "email": customer.email,
-        "phone": customer.phoneno,
-        "gstno": customer.gstno,
-        "currentbalance": customer.currentbalance
-    }
-    return jsonify({'customer':customerobj})
+def loadcustomerdetail(customer_name):
+    # customer = Customer.query.get_or_404(customer_id)
+    customer = Customer.query.filter_by(name=customer_name).first()
+    if customer:
+        if(customer.company_id != current_user.activecompany):
+            abort(403);
+        customerobj = {
+            "name":customer.name,
+            "mailingname" : customer.mailingname,
+            "address": customer.address,
+            "country": customer.country,
+            "state": customer.state,
+            "pin": customer.pin,
+            "email": customer.email,
+            "phone": customer.phoneno,
+            "gstno": customer.gstno,
+            "currentbalance": customer.currentbalance
+        }
+        return jsonify({'customer':customerobj})
+    return jsonify({'customer':"nothing"})
 
 
 @transactions.route("/invoice/<int:invoice_id>")
