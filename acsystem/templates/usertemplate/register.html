@@ -13,6 +13,7 @@
     </div>
     <form action="" method="POST">
         {{form.hidden_tag()}}
+        {{ form.csrf_token }}
         {{ render_doublefield(form.firstname,form.lastname,"First Name","Last Name") }}
         
         {{ render_field(form.email, "xyz@mail.com") }}

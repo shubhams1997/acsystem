@@ -13,6 +13,7 @@
         </div>
     <form action="" method="POST">
         {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
         {{ render_field(form.email,"Enter Your Email", true) }}
         
         {{ render_field(form.password,"Enter your Password")}}

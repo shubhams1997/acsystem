@@ -54,6 +54,7 @@ class Company(db.Model):
     products = db.relationship('Product', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     units = db.relationship('Unit', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     sale = db.relationship('Sales', backref='undercompany', lazy=True, cascade="all, delete-orphan")
+    taxes = db.relationship('Tax', backref='undercompany', lazy=True, cascade="all, delete-orphan")
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete="CASCADE"), nullable=False)
 
     def __repr__(self):
@@ -195,3 +196,9 @@ class SalesItem(db.Model):
 
     def __repr__(self):
         return f"Sales Item('{self.product}', '{self.quantity}', '{self.rate}')"
+
+class Tax(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    percentage = db.Column(db.Integer, nullable = False)
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id', ondelete="CASCADE"), nullable=False)

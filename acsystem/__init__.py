@@ -28,12 +28,13 @@ def create_app(config_class=Config):
 
     from acsystem.user.routes import users
     from acsystem.company.routes import company
-    from acsystem. main.routes import main
+    from acsystem.main.routes import main
     from acsystem.customer.routes import customers
     from acsystem.supplier.routes import suppliers
     from acsystem.groupledger.routes import groupledgers
     from acsystem.product.routes import products
     from acsystem.transactions.routes import transactions
+    from acsystem.tax.routes import taxes
     app.register_blueprint(users)
     app.register_blueprint(company)
     app.register_blueprint(main)
@@ -42,6 +43,7 @@ def create_app(config_class=Config):
     app.register_blueprint(groupledgers)
     app.register_blueprint(products)
     app.register_blueprint(transactions)
+    app.register_blueprint(taxes)
 
     return app
 

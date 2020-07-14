@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for, current_app, flash, redirect, abort, request
+from flask import Blueprint, render_template, url_for, flash, redirect, abort, request
 from flask_login import login_required, current_user
 from acsystem import db
 from acsystem.models import Supplier, Countries
@@ -32,7 +32,7 @@ def addsupplier():
                     , gstno = form.gstno.data, description = form.description.data, company_id = current_user.activecompany)
         db.session.add(supplier)
         db.session.commit()
-        flash(f"Supplier Created Succefully!","success")
+        flash(f"Supplier Created Successfully!","success")
         return redirect(url_for('suppliers.supplierlist'))
     return render_template("suppliertemplate/addsupplier.html", title="Add Supplier", form=form)
 

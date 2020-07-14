@@ -1,0 +1,68 @@
+{% from "renderfield.html" import render_field, render_doublefield %}
+{% extends "layout.html"%}
+{% block content %}
+
+<div class="modal fade" id="createtax" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Tax</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {{ form.csrf_token}}
+                    {{ render_field(form.name, "xyz tax") }}
+                    {{ render_field(form.percentage, "") }}
+                    <div class="form-group">
+                        {{ form.submit(class="btn mt-3 color")}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="container-fluid">
+                <h2 class="float-left">Tax List</h2>
+                <ul class="nav justify-content-end">
+                    <li class="btn color">
+                        <a class="nav-link" data-toggle="modal" data-target="#createtax">Add Tax</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container-fluid" style="border:1px solid rgb(218, 218, 218); border-radius:10px;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Percentage</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tax in taxlist %}
+                        <tr>
+                            <th scope="row">{{loop.index}}</th>
+                            <td>{{ tax.name }}</td>
+                            <td>{{ tax.percentage }}</td>
+                            <td class="deletecategory">
+                                <img style="cursor:pointer;" data-toggle="modal" data-target="#deletecategory"
+                                    src="{{ url_for('static',filename='images/delete.png') }}" alt="Delete">
+                            </td>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
